@@ -12,9 +12,8 @@ import javax.naming.LimitExceededException;
 
 public class CarpetaFitxers {
     
-    int _max_size;
-
-    ArrayList<FitxerMultimedia> tauFitxers;
+    private int _max_size;
+    private ArrayList<FitxerMultimedia> tauFitxers;
     
     public CarpetaFitxers() {
         _max_size = 100;
