@@ -18,7 +18,7 @@ public class CarpetaFitxers {
     
     public CarpetaFitxers() {
         _max_size = 100;
-        tauFitxers = new ArrayList<FitxerMultimedia>(_max_size);
+        tauFitxers = new ArrayList<>(_max_size);
     }
     
     public int getSize() {

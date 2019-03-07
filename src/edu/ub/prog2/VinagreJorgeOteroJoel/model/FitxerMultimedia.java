@@ -15,6 +15,8 @@ public class FitxerMultimedia extends File {
     
     public FitxerMultimedia(String cami) {
         super(cami);
+        setUltimaModificacio();
+        setDescripcio("Sense descripció");
     }
     
     public Date getUltimaModificacio() { return ultima_modificacio; }
