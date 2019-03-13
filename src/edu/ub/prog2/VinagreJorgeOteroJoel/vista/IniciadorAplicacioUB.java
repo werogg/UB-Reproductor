@@ -13,9 +13,9 @@ public class IniciadorAplicacioUB {
     private static AplicacioUB1 app;
     
     /**
-   * This is the main method where we call and instance an AplicacioUB1 object.
-   * @param args Unused.
-   */
+    * This is the main method where we call and instance an AplicacioUB1 object.
+    * @param args Unused.
+    */
     public static void main(String [] args) {
         app = new AplicacioUB1();
         

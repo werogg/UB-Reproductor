@@ -24,17 +24,27 @@ public class FitxerMultimedia extends File {
     }
     
     /**
-     * Getter for last modification of the file
+     * Getter of last file modification
      * @return Last modification of the file
      */
     public Date getUltimaModificacio() { return ultima_modificacio; }
     
     /**
-     * Getter for last modification of the file
-     * @return Last modification of the file
+     * Getter of file name
+     * @return Filename
      */
     public String getNomFitxer() { return getName(); }
+    
+    /**
+     * Getter of file description
+     * @return File description
+     */
     public String getDescripcio() { return descripcio; }
+    
+    /**
+     * Getter of file extension
+     * @return File extension
+     */
     public String getExtensio() { 
         String fileName = getName();
         if(fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0)
@@ -42,19 +52,34 @@ public class FitxerMultimedia extends File {
         else return "";
     }
     
+    /**
+     * Getter of Absolute path
+     * @return Absolute filepath
+     */
     public String getCamiAbsolut() {
         String abs_path = getAbsolutePath().replace(getName(), "");
         return abs_path;
     }
     
+    /**
+     * Setter of last modification (to now)
+     */
     public void setUltimaModificacio() {
         ultima_modificacio = new Date();
     }
     
+    /**
+     * Setter of file description
+     */
     public void setDescripcio(String desc) {
         descripcio = desc;
     }
     
+    
+    /**
+     * Check if 2 fitxerMultimedia are the same object
+     * @return File is the same
+     */
     @Override
     public boolean equals(Object fitxerMultimedia) {
         if (fitxerMultimedia instanceof FitxerMultimedia) {
@@ -66,6 +91,10 @@ public class FitxerMultimedia extends File {
         return false;
     }
     
+    /**
+     * Get full info about a file.
+     * @return Full file info
+     */
     @Override
     public String toString() {
         String to_print = "";

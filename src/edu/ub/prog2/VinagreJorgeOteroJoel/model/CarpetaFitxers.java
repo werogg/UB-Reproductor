@@ -15,15 +15,27 @@ public class CarpetaFitxers {
     private int _max_size;
     private ArrayList<FitxerMultimedia> tauFitxers;
     
+    /**
+     * Constructor of CarpetaFitxer class
+     */
     public CarpetaFitxers() {
         _max_size = 100;
         tauFitxers = new ArrayList<>(_max_size);
     }
     
+    /**
+     * Getter of folder size
+     * @return Folder size
+     */
     public int getSize() {
         return tauFitxers.size();
     }
     
+    /**
+     * Add a file to the folder
+     * @param file File to be added to the folder
+     * @throws javax.naming.LimitExceededException
+     */
     public void addFitxer(File file) throws LimitExceededException {
         if (isFull())
             throw new LimitExceededException("Exception: The folder is full.");
@@ -31,6 +43,11 @@ public class CarpetaFitxers {
             tauFitxers.add((FitxerMultimedia) file);
     }
     
+    /**
+     * Remove a file from the folder
+     * @param file File to be removed from the folder
+     * @throws java.io.FileNotFoundException
+     */
     public void removeFitxer(File file) throws FileNotFoundException {
         if (file instanceof FitxerMultimedia) {
             FitxerMultimedia fm = (FitxerMultimedia) file;
@@ -41,6 +58,13 @@ public class CarpetaFitxers {
         }
     }
     
+    /**
+     * Get file at position
+     * @param position Index of the file
+     * @return File in the index
+     * @throws java.io.FileNotFoundException
+     * 
+     */
     public File getAt(int position) throws FileNotFoundException {
         if (tauFitxers.get(position) == null)
             throw new FileNotFoundException("File not found");
@@ -48,14 +72,25 @@ public class CarpetaFitxers {
             return tauFitxers.get(position);
     }
     
+    /**
+     * Clear the folder
+     */
     public void clear() {
         tauFitxers.clear();
     }
     
+    /**
+     * Check if the folder is full
+     * @return Folder is full
+     */
     public boolean isFull() {
         return getSize() == _max_size;
     }
     
+    /**
+     * Get full info about a folder.
+     * @return Full folder info
+     */
     @Override
     public String toString() {
         String to_print = "";
