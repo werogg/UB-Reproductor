@@ -31,10 +31,17 @@ public class AplicacioUB1 {
                                                "Eliminar arxiu",
                                                "Sortir"};
     
+    /**
+    * Constructor for class AplicacioUB1
+    */
     AplicacioUB1() {
         carpeta = new CarpetaFitxers();
     }
     
+    /**
+    * The app's menu manager
+    * @param sc A Scanner of System.in
+    */
     public void manager(Scanner sc) {
 
         // Creem l'objecte per al menÃº. Li passem com a primer parÃ metre el nom del menÃº
@@ -70,23 +77,38 @@ public class AplicacioUB1 {
         } while(opcio!=OpcionsMenuPrincipal.EXIT);
     }
     
+    /**
+    * Starts the manager
+    */
     public void gestioAplicacioUB() {
         Scanner input = new Scanner(System.in);
         
         manager(input);
     }
     
+    /**
+    * @return A CarpetaFitxers object (The folder)
+    */
     public CarpetaFitxers getCarpeta() {
         return carpeta;
     }
     
-    public void addFileOption() {
+    /**
+    * Option to add a new file to the folder
+    */
+    private void addFileOption() {
         
         Scanner sc = new Scanner(System.in);
         System.out.println("Introdueix el camí al teu fitxer:");
         String nou_cami = sc.next();
         
+        sc.nextLine();
+        
+        System.out.println("Introdueix la descripció del teu fitxer:");
+        String nou_desc = sc.nextLine();
+        
         fm = new FitxerMultimedia(nou_cami);
+        fm.setDescripcio(nou_desc);
         
         try {
             carpeta.addFitxer(fm);
@@ -95,7 +117,10 @@ public class AplicacioUB1 {
         } 
     }
     
-    public void removeFileOption() {
+    /**
+    * Option to remove a file by index
+    */
+    private void removeFileOption() {
         Scanner sc = new Scanner(System.in);
         int index_arxiu_sel = -1;
         

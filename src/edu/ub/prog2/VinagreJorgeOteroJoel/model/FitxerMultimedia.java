@@ -13,13 +13,26 @@ public class FitxerMultimedia extends File {
     private Date ultima_modificacio;
     private String descripcio;
     
+    /**
+     * The constructor of FitxerMultimedia's class
+     * @param cami The file path
+     */
     public FitxerMultimedia(String cami) {
         super(cami);
         setUltimaModificacio();
         setDescripcio("Sense descripció");
     }
     
+    /**
+     * Getter for last modification of the file
+     * @return Last modification of the file
+     */
     public Date getUltimaModificacio() { return ultima_modificacio; }
+    
+    /**
+     * Getter for last modification of the file
+     * @return Last modification of the file
+     */
     public String getNomFitxer() { return getName(); }
     public String getDescripcio() { return descripcio; }
     public String getExtensio() { 
