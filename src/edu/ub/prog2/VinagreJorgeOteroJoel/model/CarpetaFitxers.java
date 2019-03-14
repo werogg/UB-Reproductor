@@ -5,6 +5,7 @@
  */
 package edu.ub.prog2.VinagreJorgeOteroJoel.model;
 
+import edu.ub.prog2.utils.AplicacioException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -12,8 +13,8 @@ import javax.naming.LimitExceededException;
 
 public class CarpetaFitxers {
     
-    private int _max_size;
-    private ArrayList<FitxerMultimedia> tauFitxers;
+    protected int _max_size;
+    protected ArrayList<FitxerMultimedia> tauFitxers;
     
     /**
      * Constructor of CarpetaFitxer class
@@ -35,8 +36,9 @@ public class CarpetaFitxers {
      * Add a file to the folder
      * @param file File to be added to the folder
      * @throws javax.naming.LimitExceededException
+     * @throws edu.ub.prog2.utils.AplicacioException
      */
-    public void addFitxer(File file) throws LimitExceededException {
+    public void addFitxer(File file) throws LimitExceededException, AplicacioException {
         if (isFull())
             throw new LimitExceededException("Exception: The folder is full.");
         else
