@@ -11,20 +11,35 @@ import javax.naming.LimitExceededException;
  */
 public class BibliotecaFitxersMultimedia extends CarpetaFitxers {
     
+    /**
+     * The BibliotecaFitxersMultimeda class constructor
+     */
     public BibliotecaFitxersMultimedia(){
         tauFitxers= new ArrayList<>();
     }
     
+    /**
+     * Add file to BibliotecaFitxersMultimedia
+     * @param file File to be added
+     * @throws LimitExceededException
+     * @throws AplicacioException 
+     */
     @Override
-    public void	addFitxer(File fitxer) throws LimitExceededException, AplicacioException {
-        if (isFull())
-            throw new LimitExceededException("Exception: The folder is full.");
-        else if (!fitxer.exists()){
-            throw new AplicacioException("Exception: File not exists");
-        }
-        else if (fitxer.exists() && !tauFitxers.contains(fitxer)) {
-            tauFitxers.add((FitxerMultimedia) fitxer);
-        }             
+    public void	addFitxer(File file) throws LimitExceededException, AplicacioException {
+        
+        if (file.exists()) {
+            if (file instanceof FitxerMultimedia) {
+                FitxerMultimedia fm = (FitxerMultimedia) file;
+                if (isFull())
+                    throw new LimitExceededException("Exception: The folder is full.");
+                if (!tauFitxers.contains(fm))
+                    tauFitxers.add(fm);
+                else
+                    throw new AplicacioException("Exception: File already in the library");
+            } else
+                throw new AplicacioException("Exception: File is not a FitxerMultimedia");
+        } else
+            throw new AplicacioException("Exception: File not exists");   
         
     }
 }
