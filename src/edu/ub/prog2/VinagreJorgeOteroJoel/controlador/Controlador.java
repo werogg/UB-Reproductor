@@ -2,7 +2,10 @@ package edu.ub.prog2.VinagreJorgeOteroJoel.controlador;
 
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.CarpetaFitxers;
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.FitxerMultimedia;
+import edu.ub.prog2.utils.AplicacioException;
 import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.naming.LimitExceededException;
 
 public class Controlador {
@@ -49,6 +52,8 @@ public class Controlador {
         try {
             carpeta.addFitxer(fm);
         } catch (LimitExceededException e) {
+            System.err.println(e.getCause());
+        } catch (AplicacioException e) {
             System.err.println(e.getCause());
         } 
     }
