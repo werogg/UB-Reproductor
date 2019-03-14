@@ -19,8 +19,7 @@ public class FitxerMultimedia extends File {
      */
     public FitxerMultimedia(String cami) {
         super(cami);
-        setUltimaModificacio();
-        setDescripcio("Sense descripció");
+        ultima_modificacio = new Date();
     }
     
     /**
@@ -70,6 +69,7 @@ public class FitxerMultimedia extends File {
     
     /**
      * Setter of file description
+     * @param desc
      */
     public void setDescripcio(String desc) {
         descripcio = desc;
@@ -78,6 +78,7 @@ public class FitxerMultimedia extends File {
     
     /**
      * Check if 2 fitxerMultimedia are the same object
+     * @param fitxerMultimedia File to be compared
      * @return File is the same
      */
     @Override
