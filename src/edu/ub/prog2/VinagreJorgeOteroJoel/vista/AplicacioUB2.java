@@ -1,6 +1,7 @@
 package edu.ub.prog2.VinagreJorgeOteroJoel.vista;
 
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.CarpetaFitxers;
+import edu.ub.prog2.VinagreJorgeOteroJoel.model.Dades;
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.FitxerMultimedia;
 import edu.ub.prog2.utils.Menu;
 import java.io.FileNotFoundException;
@@ -10,6 +11,7 @@ import javax.naming.LimitExceededException;
 
 public class AplicacioUB2 {
     
+    private Dades data;
     private final CarpetaFitxers carpeta; 
     private FitxerMultimedia fm;
     
