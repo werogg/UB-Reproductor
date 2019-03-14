@@ -8,7 +8,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import javax.naming.LimitExceededException;
 
-public class AplicacioUB1 {
+public class AplicacioUB2 {
     
     private final CarpetaFitxers carpeta; 
     private FitxerMultimedia fm;
@@ -25,7 +25,7 @@ public class AplicacioUB1 {
     /**
     * Constructor for class AplicacioUB1
     */
-    AplicacioUB1() {
+    AplicacioUB2() {
         carpeta = new CarpetaFitxers();
     }
     
