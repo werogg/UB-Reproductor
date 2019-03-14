@@ -9,15 +9,29 @@ public class AplicacioUB2 {
     private final Controlador controlador;
     
     // Declarem les opcions per a referir-se a les opcions del menÃº.
-    static private enum OpcionsMenuPrincipal {PRINT_FOLDER,ADD_FILE,DEL_FILE,EXIT};
-    static private enum OpcionsSubmenu1 {MENU_S1_OPCIO1,MENU_S1_OPCIO2,MENU_S1_SORTIR};
+    static private enum OpcionsMenuPrincipal {LIBRARY_MANAGER,SAVE_DATA,RECOVER_DATA,EXIT};
+    static private enum OpcionsMenuBiblioteca {ADD_MEDIA,SHOW_LIBRARY,DEL_MEDIA, BACK};
+    static private enum OpcionsMenuAfegir {ADD_VIDEO,ADD_AUDIO,BACK};
     // Declarem descripcions personalitzades per a les opcions del menÃº principal
     
-    private static final String[] MENU_DESC = {
-        "Mostrar carpeta",
-        "Afegir arxiu",
-        "Eliminar arxiu",
+    private static final String[] MENU_PRINCIPAL_DESC = {
+        "Gestió Biblioteca",
+        "Guardar Dades",
+        "Recuperar Dades",
         "Sortir"
+    };
+    
+    private static final String[] MENU_LIBRARY_DESC = {
+        "Afegir fitxer multimèdia a la biblioteca",
+        "Mostrar biblioteca",
+        "Eliminar fitxer multimèdia",
+        "Menú anterior"
+    };
+    
+    private static final String[] MENU_ADD_MEDIA_DESC = {
+        "Afegir vídeo",
+        "Afegir àudio",
+        "Menú anterior"
     };
     
     /**
@@ -34,10 +48,14 @@ public class AplicacioUB2 {
     public void manager(Scanner sc) {
 
         // Creem l'objecte per al menÃº. Li passem com a primer parÃ metre el nom del menÃº
-        Menu<OpcionsMenuPrincipal> menu=new Menu<>("Menu Principal",OpcionsMenuPrincipal.values());
+        Menu<OpcionsMenuPrincipal> menu = new Menu<>("Menu Principal", OpcionsMenuPrincipal.values());
+        Menu<OpcionsMenuBiblioteca> library_menu = new Menu<>("Gestió de la Biblioteca", OpcionsMenuBiblioteca.values());
+        Menu<OpcionsMenuAfegir> add_menu = new Menu<>("Afegir media a la Biblioteca", OpcionsMenuAfegir.values());
 
         // Assignem la descripciÃ³ de les opcions
-        menu.setDescripcions(MENU_DESC);
+        menu.setDescripcions(MENU_PRINCIPAL_DESC);
+        library_menu.setDescripcions(MENU_LIBRARY_DESC);
+        add_menu.setDescripcions(MENU_ADD_MEDIA_DESC);
 
         // Obtenim una opciÃ³ des del menÃº i fem les accions pertinents
         OpcionsMenuPrincipal opcio;
@@ -50,14 +68,12 @@ public class AplicacioUB2 {
 
             // Fem les accions necessÃ ries
             switch(opcio) {
-                case PRINT_FOLDER:
-                    System.out.println(controlador.getFolder());
+                case LIBRARY_MANAGER:
+                    libManager(sc, library_menu, add_menu);
                     break;
-                case ADD_FILE:
-                    this.addFileOption();
+                case SAVE_DATA:
                     break;
-                case DEL_FILE:
-                    this.removeFileOption();
+                case RECOVER_DATA:
                     break;
                 case EXIT:
                     System.out.println("Fins aviat!");
@@ -65,6 +81,64 @@ public class AplicacioUB2 {
             }
 
         } while(opcio!=OpcionsMenuPrincipal.EXIT);
+    }
+    
+    /**
+     * Library Manager menu
+     * @param sc Scanner (input)
+     * @param library_menu The library Menu object
+     * @param add_menu The add media Menu object
+     */
+    private void libManager(Scanner sc, Menu<OpcionsMenuBiblioteca> library_menu, Menu<OpcionsMenuAfegir> add_menu) {
+        OpcionsMenuBiblioteca opcio;
+        
+        do {
+            // Prints the menu
+            library_menu.mostrarMenu();
+            
+            // Get the selected option
+            opcio = library_menu.getOpcio(sc);
+            
+            // Switch between options
+            switch (opcio) {
+                case ADD_MEDIA:
+                    addMediaManager(sc, add_menu);
+                    break;
+                case SHOW_LIBRARY:
+                    break;
+                case DEL_MEDIA:
+                    break;
+                case BACK:
+                    break;
+            }
+        } while (opcio != OpcionsMenuBiblioteca.BACK);
+    }
+    
+    /**
+     * Add media manager menu
+     * @param sc Scanner (input)
+     * @param add_menu The add media Menu object
+     */
+    private void addMediaManager(Scanner sc, Menu<OpcionsMenuAfegir> add_menu) {
+        OpcionsMenuAfegir opcio;
+        
+        do {
+            // Prints the menu
+            add_menu.mostrarMenu();
+            
+            // Get the selected option
+            opcio = add_menu.getOpcio(sc);
+            
+            // Switch between options
+            switch (opcio) {
+                case ADD_VIDEO:
+                    break;
+                case ADD_AUDIO:
+                    break;
+                case BACK:
+                    break;
+            }
+        } while (opcio != OpcionsMenuAfegir.BACK);
     }
     
     /**
