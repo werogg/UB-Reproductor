@@ -1,5 +1,6 @@
 package edu.ub.prog2.VinagreJorgeOteroJoel.vista;
 
+import edu.ub.prog2.VinagreJorgeOteroJoel.controlador.Controlador;
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.CarpetaFitxers;
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.Dades;
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.FitxerMultimedia;
@@ -12,6 +13,7 @@ import javax.naming.LimitExceededException;
 public class AplicacioUB2 {
     
     private Dades data;
+    private Controlador controlador;
     private final CarpetaFitxers carpeta; 
     private FitxerMultimedia fm;
     
@@ -29,6 +31,8 @@ public class AplicacioUB2 {
     */
     AplicacioUB2() {
         carpeta = new CarpetaFitxers();
+        data = new Dades();
+        controlador = new Controlador();
     }
     
     /**
