@@ -1,7 +1,13 @@
 package edu.ub.prog2.VinagreJorgeOteroJoel.model;
 
 import edu.ub.prog2.utils.AplicacioException;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,10 +51,19 @@ public class Dades {
        biblioteca.removeFitxer(fm);
     }
 
-    public void guardarDadesDisc(String camiDesti) throws AplicacioException {
+    public void guardarDadesDisc(String camiDesti) throws AplicacioException, FileNotFoundException, IOException {
         
+        File fitxer_disc = new File("pepe.dat");
         
+        if(fitxer_disc.canWrite()){
+            
+        }
         
+        FileInputStream	fin = new FileInputStream(fitxer_disc); //Leer de un fichero
+        FileOutputStream fout =	new FileOutputStream(fitxer_disc); //Escribir en un fichero
+        
+        ObjectOutputStream oos = new ObjectOutputStream(fout); //Para escribir un objeto.
+        ObjectInputStream ois =	new ObjectInputStream(fin); //Para leer un objeto.
 
     }
     

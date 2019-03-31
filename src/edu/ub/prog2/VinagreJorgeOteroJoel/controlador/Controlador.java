@@ -3,6 +3,7 @@ package edu.ub.prog2.VinagreJorgeOteroJoel.controlador;
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.Dades;
 import edu.ub.prog2.utils.AplicacioException;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 public class Controlador {
@@ -40,7 +41,7 @@ public class Controlador {
         
     }
     
-    public void guardarDadesDisc(String camiDesti) throws AplicacioException {
+    public void guardarDadesDisc(String camiDesti) throws AplicacioException, FileNotFoundException, IOException {
         
         dades.guardarDadesDisc(camiDesti);
         
