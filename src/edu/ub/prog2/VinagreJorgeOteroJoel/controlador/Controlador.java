@@ -6,8 +6,7 @@ import edu.ub.prog2.VinagreJorgeOteroJoel.model.FitxerMultimedia;
 import edu.ub.prog2.utils.AplicacioException;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
 import javax.naming.LimitExceededException;
 
 public class Controlador {
@@ -71,4 +70,17 @@ public class Controlador {
         
     }
     
+    public void afegirVideo(String path, String nomVideo, String codec,
+            float durada, int alcada, int amplada, float fps) throws AplicacioException {
+        
+    }
+    
+    public void afegirAudio(String cami, String camiImatge, String nomAudio,
+            String codec, float durada, int kbps) throws AplicacioException {
+        
+    }
+    
+    public List<String> mostrarBiblioteca() {
+        return null;
+    }
 }
