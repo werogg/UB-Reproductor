@@ -1,8 +1,12 @@
 package edu.ub.prog2.VinagreJorgeOteroJoel.vista;
 
 import edu.ub.prog2.VinagreJorgeOteroJoel.controlador.Controlador;
+import edu.ub.prog2.utils.AplicacioException;
 import edu.ub.prog2.utils.Menu;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AplicacioUB2 {
     
@@ -108,6 +112,7 @@ public class AplicacioUB2 {
                     
                     break;
                 case DEL_MEDIA:
+                    removeFileOption();
                     break;
                 case BACK:
                     break;
@@ -133,7 +138,7 @@ public class AplicacioUB2 {
             // Switch between options
             switch (opcio) {
                 case ADD_VIDEO:
-                    
+                    addVideoFileOption();
                     break;
                 case ADD_AUDIO:
                     break;
@@ -152,22 +157,36 @@ public class AplicacioUB2 {
         manager(input);
     }
     
-    /**
-    * Option to add a new file to the folder
-    */
-    private void addFileOption() {
-        
+    private void addVideoFileOption() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Introdueix el camí al teu fitxer:");
-        String nou_cami = sc.next();
+        System.out.println("Introdueix el camí al teu fitxer de video:");
+        String path = sc.next();
         
-        sc.nextLine();
+        System.out.println("Introdueix el nom del teu video:");
+        String nomVideo = sc.next();
         
-        System.out.println("Introdueix la descripció del teu fitxer:");
-        String nou_desc = sc.nextLine();
+        System.out.println("Introdueix el codec del teu video:");
+        String codec = sc.next();
         
-        //controlador.FolderAddFile(nou_cami, nou_desc);
+        System.out.println("Introdueix la durada del teu video:");
+        float durada = sc.nextFloat();
+        
+        System.out.println("Introdueix la alcada del teu video:");
+        int alcada = sc.nextInt();
+        
+        System.out.println("Introdueix la amplada del teu video:");
+        int amplada = sc.nextInt();
+        
+        System.out.println("Introdueix els fps del teu video:");
+        float fps = sc.nextFloat();
+        
+        try {
+            controlador.afegirVideo(path, nomVideo, codec, durada, alcada, amplada, fps);
+        } catch (AplicacioException | FileNotFoundException e) {
+            System.err.println(e.getCause());
+        }
     }
+    
     
     /**
     * Option to remove a file by index
@@ -178,6 +197,16 @@ public class AplicacioUB2 {
         System.out.println("Quin arxiu vols eliminar? [Index]");
         int index_arxiu_sel = sc.nextInt();
         
-        //controlador.FolderRemoveFile(index_arxiu_sel);
+        try {
+            controlador.esborrarFitxer(index_arxiu_sel);
+        } catch (AplicacioException | FileNotFoundException e) {
+            System.err.println(e.getCause());
+        }
+    }
+    
+    private void showLibraryOption() {
+        for (String info: controlador.mostrarBiblioteca()) {
+            System.out.println(info);
+        }
     }
 }

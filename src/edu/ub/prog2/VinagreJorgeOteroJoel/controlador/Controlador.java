@@ -24,7 +24,7 @@ public class Controlador {
     }
     
     public void afegirAudio(String cami, String camiImatge, String nomAudio,
-            String codec, float durada, int kbps) throws AplicacioException {
+            String codec, float durada, int kbps) throws AplicacioException, FileNotFoundException {
         
         dades.afegirAudio(cami, camiImatge, nomAudio, codec, durada, kbps);
         
