@@ -37,8 +37,9 @@ public class CarpetaFitxers {
      * @param file File to be added to the folder
      * @throws javax.naming.LimitExceededException
      * @throws edu.ub.prog2.utils.AplicacioException
+     * @throws java.io.FileNotFoundException
      */
-    public void addFitxer(File file) throws LimitExceededException, AplicacioException {
+    public void addFitxer(File file) throws LimitExceededException, AplicacioException, FileNotFoundException {
         if (isFull())
             throw new LimitExceededException("Exception: The folder is full.");
         else

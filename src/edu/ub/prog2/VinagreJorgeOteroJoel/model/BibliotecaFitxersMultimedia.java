@@ -1,8 +1,8 @@
 package edu.ub.prog2.VinagreJorgeOteroJoel.model;
 import edu.ub.prog2.utils.AplicacioException;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import javax.naming.LimitExceededException;
 
 
 /**
@@ -21,10 +21,11 @@ public class BibliotecaFitxersMultimedia extends CarpetaFitxers {
     /**
      * Add file to BibliotecaFitxersMultimedia
      * @param file File to be added
+     * @throws java.io.FileNotFoundException
      * @throws AplicacioException 
      */
     @Override
-    public void	addFitxer(File file) throws AplicacioException {
+    public void	addFitxer(File file) throws FileNotFoundException, AplicacioException {
         
         if (file.exists()) {
             if (file instanceof FitxerMultimedia) {
@@ -38,7 +39,7 @@ public class BibliotecaFitxersMultimedia extends CarpetaFitxers {
             } else
                 throw new AplicacioException("Exception: File is not a FitxerMultimedia");
         } else
-            throw new AplicacioException("Exception: File does not exists");   
+            throw new FileNotFoundException("Exception: File does not exists");   
         
     }
 }

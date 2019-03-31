@@ -2,6 +2,7 @@ package edu.ub.prog2.VinagreJorgeOteroJoel.controlador;
 
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.Dades;
 import edu.ub.prog2.utils.AplicacioException;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 public class Controlador {
@@ -16,7 +17,7 @@ public class Controlador {
     }
     
     public void afegirVideo(String path, String nomVideo, String codec,
-            float durada, int alcada, int amplada, float fps) throws AplicacioException {
+            float durada, int alcada, int amplada, float fps) throws AplicacioException, FileNotFoundException {
         
         dades.afegirVideo(path, nomVideo, codec, durada, alcada, amplada, fps);
         
@@ -30,13 +31,10 @@ public class Controlador {
     }
     
     public List<String> mostrarBiblioteca() {
-        
-        dades.mostrarBiblioteca();
-        
-        return null;
+        return dades.mostrarBiblioteca();
     }
     
-    public void esborrarFitxer(int id) throws AplicacioException {
+    public void esborrarFitxer(int id) throws AplicacioException, FileNotFoundException {
         
         dades.esborrarFitxer(id);
         
