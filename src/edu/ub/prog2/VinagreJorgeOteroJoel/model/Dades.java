@@ -22,9 +22,11 @@ public class Dades {
     }
     
     public void afegirAudio(String cami, String camiImatge ,String nomAudio, String codec, float durada, int kbps) throws AplicacioException, FileNotFoundException {
-        //Audio audio = new Audio (cami, camiImatge, nomAudio, codec, durada, kbps, reproductor);
+        FitxerMultimedia fm = new FitxerMultimedia(camiImatge);
         
-        //biblioteca.addFitxer(audio);
+        Audio audio = new Audio (cami, fm, nomAudio, codec, durada, kbps, reproductor);
+        
+        biblioteca.addFitxer(audio);
     }
 
     public List<String> mostrarBiblioteca() { 
