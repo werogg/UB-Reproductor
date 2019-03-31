@@ -105,6 +105,7 @@ public class AplicacioUB2 {
                     addMediaManager(sc, add_menu);
                     break;
                 case SHOW_LIBRARY:
+                    
                     break;
                 case DEL_MEDIA:
                     break;
@@ -132,6 +133,7 @@ public class AplicacioUB2 {
             // Switch between options
             switch (opcio) {
                 case ADD_VIDEO:
+                    
                     break;
                 case ADD_AUDIO:
                     break;

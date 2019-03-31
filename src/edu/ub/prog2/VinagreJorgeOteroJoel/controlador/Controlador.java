@@ -1,13 +1,18 @@
 package edu.ub.prog2.VinagreJorgeOteroJoel.controlador;
 
+import edu.ub.prog2.VinagreJorgeOteroJoel.model.BibliotecaFitxersMultimedia;
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.CarpetaFitxers;
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.FitxerMultimedia;
 import edu.ub.prog2.utils.AplicacioException;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.naming.LimitExceededException;
 
 public class Controlador {
     private final CarpetaFitxers carpeta;
+    private final BibliotecaFitxersMultimedia biblioteca; 
     private FitxerMultimedia fm;
     
     /**
@@ -15,6 +20,7 @@ public class Controlador {
      */
     public Controlador() {
         carpeta = new CarpetaFitxers();
+        biblioteca = new BibliotecaFitxersMultimedia();
     }
     
     /**
@@ -54,6 +60,15 @@ public class Controlador {
         } catch (AplicacioException e) {
             System.err.println(e.getCause());
         } 
+    }
+    
+    public void BibliotecaAddFile(File file) {
+        try {
+            biblioteca.addFitxer(file);
+        } catch (LimitExceededException | AplicacioException e) {
+            System.err.println(e.getCause());
+        }
+        
     }
     
 }

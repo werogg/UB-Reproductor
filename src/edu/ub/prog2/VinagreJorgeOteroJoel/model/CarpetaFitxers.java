@@ -56,7 +56,7 @@ public class CarpetaFitxers {
             if (tauFitxers.contains(fm))
             tauFitxers.remove(fm);
             else
-                throw new FileNotFoundException("File not found");
+                throw new FileNotFoundException("Exception: File not found");
         }
     }
     
@@ -69,7 +69,7 @@ public class CarpetaFitxers {
      */
     public File getAt(int position) throws FileNotFoundException {
         if (tauFitxers.get(position) == null)
-            throw new FileNotFoundException("File not found");
+            throw new FileNotFoundException("Exception: File not found");
         else
             return tauFitxers.get(position);
     }
