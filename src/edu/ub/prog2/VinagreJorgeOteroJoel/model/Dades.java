@@ -21,6 +21,9 @@ public class Dades {
     }
     
     public void afegirAudio(String cami, String camiImatge ,String nomAudio, String codec, float durada, int kbps) throws AplicacioException {
+        Audio audio = new Audio (cami, camiImatge., nomAudio, codec, durada, kbps, reproductor);
+        
+        biblioteca.addFitxer(audio);
 
     }
 
@@ -34,7 +37,9 @@ public class Dades {
     }
 
     public void guardarDadesDisc(String camiDesti) throws AplicacioException {
-
+        
+        
+        
 
     }
     
