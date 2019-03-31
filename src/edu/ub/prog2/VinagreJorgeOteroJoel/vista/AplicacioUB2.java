@@ -4,8 +4,11 @@ import edu.ub.prog2.VinagreJorgeOteroJoel.controlador.Controlador;
 import edu.ub.prog2.utils.AplicacioException;
 import edu.ub.prog2.utils.Menu;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AplicacioUB2 {
     
@@ -75,8 +78,10 @@ public class AplicacioUB2 {
                     libManager(sc, library_menu, add_menu);
                     break;
                 case SAVE_DATA:
+                    saveDataOption();
                     break;
                 case RECOVER_DATA:
+                    loadDataOption();
                     break;
                 case EXIT:
                     System.out.println("Fins aviat!");
@@ -283,5 +288,37 @@ public class AplicacioUB2 {
         for (String info: controlador.mostrarBiblioteca()) {
             System.out.println(info);
         }
+    }
+    
+    private void saveDataOption() {
+        Scanner sc = new Scanner(System.in);
+        String camiDesti;
+        
+        System.out.println("On vols guardar les dades?");
+        camiDesti = sc.next();
+        
+        try {
+            controlador.guardarDadesDisc(camiDesti);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        
+        System.out.println("Data saved!");
+    }
+    
+    private void loadDataOption() {
+        Scanner sc = new Scanner(System.in);
+        String camiOrigen;
+        
+        System.out.println("Cami de les dades a carregar?");
+        camiOrigen = sc.next();
+        
+        try {
+            controlador.carregarDadesDisc(camiOrigen);
+        } catch (AplicacioException | IOException | ClassNotFoundException e) {
+            System.out.println(e.getCause());
+        } 
+        
+        System.out.println("Data loaded!");
     }
 }

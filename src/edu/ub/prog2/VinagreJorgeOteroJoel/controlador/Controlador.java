@@ -2,8 +2,13 @@ package edu.ub.prog2.VinagreJorgeOteroJoel.controlador;
 
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.Dades;
 import edu.ub.prog2.utils.AplicacioException;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.List;
 
 public class Controlador {
@@ -41,15 +46,28 @@ public class Controlador {
         
     }
     
-    public void guardarDadesDisc(String camiDesti) throws AplicacioException, FileNotFoundException, IOException {
+     public void guardarDadesDisc(String camiDesti) throws FileNotFoundException, IOException {
+        File file = new File(camiDesti);
         
-        dades.guardarDadesDisc(camiDesti);
-        
+        FileOutputStream fout = new FileOutputStream(new File(camiDesti));
+        ObjectOutputStream oos = new ObjectOutputStream(fout);
+
+        oos.writeObject(dades);
+
+        oos.close();
+        fout.close();
     }
     
-    public void carregarDadesDisc(String camiOrigen) throws AplicacioException {
+    public void carregarDadesDisc(String camiOrigen) throws AplicacioException, IOException, ClassNotFoundException {
         
-        dades.carregarDadesDisc(camiOrigen);
+        try (FileInputStream fin = new FileInputStream(new File(camiOrigen))) {
+            ObjectInputStream ois = new ObjectInputStream(fin);
+            
+            dades = (Dades) ois.readObject();
+            
+            ois.close();
+            fin.close();
+        }
         
     } 
 }

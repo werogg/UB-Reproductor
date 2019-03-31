@@ -2,16 +2,15 @@ package edu.ub.prog2.VinagreJorgeOteroJoel.model;
 
 import edu.ub.prog2.utils.AplicacioException;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Dades {
+public class Dades implements Serializable {
     
     BibliotecaFitxersMultimedia biblioteca;
     Reproductor reproductor;
@@ -50,28 +49,5 @@ public class Dades {
        FitxerMultimedia fm = (FitxerMultimedia) biblioteca.getAt(id);
        
        biblioteca.removeFitxer(fm);
-    }
-
-    public void guardarDadesDisc(String camiDesti) throws AplicacioException, FileNotFoundException, IOException {
-        
-        File fitxer_disc = new File("p");
-        
-        if(fitxer_disc.canWrite()){
-            FileOutputStream obj_toWrite = new FileOutputStream(fitxer_disc); //Escribir en un fichero.
-            ObjectOutputStream aux_obj_toWrite = new ObjectOutputStream(obj_toWrite); //Para escribir un objeto.
-        }
-        
-        
-        
-        
-
-    }
-    
-    public void carregarDadesDisc(String camiOrigen) throws AplicacioException{
-        
-        FileInputStream	obj_llegir = new FileInputStream(); //Leer de un fichero.
-        
-        ObjectInputStream ois =	new ObjectInputStream(obj_llegir); //Para leer un objeto.
-
     }
 }
