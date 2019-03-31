@@ -22,7 +22,7 @@ public class Dades {
         
     }
     
-    public void afegirAudio(String cami, String camiImatge ,String nomAudio, String codec, float durada, int kbps) throws AplicacioException {
+    public void afegirAudio(String cami, String camiImatge ,String nomAudio, String codec, float durada, int kbps) throws AplicacioException, FileNotFoundException {
     }
 
     public List<String> mostrarBiblioteca() { 
@@ -42,7 +42,9 @@ public class Dades {
     }
 
     public void guardarDadesDisc(String camiDesti) throws AplicacioException {
-
+        
+        
+        
 
     }
     

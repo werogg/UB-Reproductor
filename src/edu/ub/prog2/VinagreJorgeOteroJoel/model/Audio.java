@@ -1,5 +1,7 @@
 package edu.ub.prog2.VinagreJorgeOteroJoel.model;
 
+import java.io.File;
+
 /**
  *
  * @author wero
@@ -7,7 +9,7 @@ package edu.ub.prog2.VinagreJorgeOteroJoel.model;
 public class Audio extends FitxerReproduible {
     private int kbps;
 
-    public Audio(String cami, String nom, String codec, float durada,
+    public Audio(String cami, File fitxerImatge, String nom, String codec, float durada,
             int kbps, Reproductor r) {
         super(cami, nom, codec, durada, r);
         this.kbps = kbps;
