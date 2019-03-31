@@ -8,8 +8,8 @@ import java.util.List;
 
 public class Dades implements Serializable {
     
-    BibliotecaFitxersMultimedia biblioteca;
-    Reproductor reproductor;
+    private BibliotecaFitxersMultimedia biblioteca;
+    private Reproductor reproductor;
     
     public Dades() {
         biblioteca = new BibliotecaFitxersMultimedia();

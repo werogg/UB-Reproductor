@@ -12,7 +12,7 @@ import java.io.ObjectOutputStream;
 import java.util.List;
 
 public class Controlador {
-    Dades dades;
+    private Dades dades;
     
     
     /**
