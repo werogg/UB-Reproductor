@@ -5,8 +5,6 @@ import edu.ub.prog2.utils.AplicacioException;
 import edu.ub.prog2.utils.Menu;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class AplicacioUB2 {
     
@@ -109,7 +107,7 @@ public class AplicacioUB2 {
                     addMediaManager(sc, add_menu);
                     break;
                 case SHOW_LIBRARY:
-                    
+                    showLibraryOption();
                     break;
                 case DEL_MEDIA:
                     removeFileOption();
@@ -141,6 +139,7 @@ public class AplicacioUB2 {
                     addVideoFileOption();
                     break;
                 case ADD_AUDIO:
+                    addAudioFileOption();
                     break;
                 case BACK:
                     break;
@@ -182,6 +181,33 @@ public class AplicacioUB2 {
         
         try {
             controlador.afegirVideo(path, nomVideo, codec, durada, alcada, amplada, fps);
+        } catch (AplicacioException | FileNotFoundException e) {
+            System.err.println(e.getCause());
+        }
+    }
+    
+    private void addAudioFileOption() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Introdueix el camí al teu fitxer de audio:");
+        String cami = sc.next();
+        
+        System.out.println("Introdueix el camí a la imatge del teu audio:");
+        String camiImatge = sc.next();
+        
+        System.out.println("Introdueix el nom del teu audio:");
+        String nomAudio = sc.next();
+        
+        System.out.println("Introdueix el codec del teu audio:");
+        String codec = sc.next();
+        
+        System.out.println("Introdueix la durada del teu audio:");
+        float durada = sc.nextFloat();
+        
+        System.out.println("Introdueix els kbps del teu audio:");
+        int kbps = sc.nextInt();
+        
+        try {
+            controlador.afegirAudio(cami, camiImatge, nomAudio, codec, durada, kbps);
         } catch (AplicacioException | FileNotFoundException e) {
             System.err.println(e.getCause());
         }
