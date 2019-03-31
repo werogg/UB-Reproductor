@@ -53,22 +53,24 @@ public class Dades {
 
     public void guardarDadesDisc(String camiDesti) throws AplicacioException, FileNotFoundException, IOException {
         
-        File fitxer_disc = new File("pepe.dat");
+        File fitxer_disc = new File("p");
         
         if(fitxer_disc.canWrite()){
-            
+            FileOutputStream obj_toWrite = new FileOutputStream(fitxer_disc); //Escribir en un fichero.
+            ObjectOutputStream aux_obj_toWrite = new ObjectOutputStream(obj_toWrite); //Para escribir un objeto.
         }
         
-        FileInputStream	fin = new FileInputStream(fitxer_disc); //Leer de un fichero
-        FileOutputStream fout =	new FileOutputStream(fitxer_disc); //Escribir en un fichero
         
-        ObjectOutputStream oos = new ObjectOutputStream(fout); //Para escribir un objeto.
-        ObjectInputStream ois =	new ObjectInputStream(fin); //Para leer un objeto.
+        
+        
 
     }
     
     public void carregarDadesDisc(String camiOrigen) throws AplicacioException{
-
+        
+        FileInputStream	obj_llegir = new FileInputStream(); //Leer de un fichero.
+        
+        ObjectInputStream ois =	new ObjectInputStream(obj_llegir); //Para leer un objeto.
 
     }
 }
