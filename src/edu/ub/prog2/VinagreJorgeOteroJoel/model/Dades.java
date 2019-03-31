@@ -5,49 +5,41 @@ import java.util.List;
 
 public class Dades {
     
+    BibliotecaFitxersMultimedia biblioteca;
+    Reproductor reproductor;
+    
     public Dades() {
+        biblioteca = new BibliotecaFitxersMultimedia();
+        reproductor = new Reproductor();
+    }
+    
+    public void afegirVideo(String path, String nomVideo, String codec, float durada, int alcada, int amplada, float fps) throws AplicacioException {
+        Video video = new Video(path, nomVideo, codec, durada, alcada, amplada, fps, reproductor);
+        
+        biblioteca.addFitxer(video);
         
     }
     
-    public	void	afegirVideo(String path,String nomVideo,String codec,float durada,int alcada, int amplada, float fps) throws AplicacioException {
-        
+    public void afegirAudio(String cami, String camiImatge ,String nomAudio, String codec, float durada, int kbps) throws AplicacioException {
+
+    }
+
+    public List<String> mostrarBiblioteca() { 
+        return null;
+    }
+
+    public void esborrarFitxer(int id) throws AplicacioException {
+
+
+    }
+
+    public void guardarDadesDisc(String camiDesti) throws AplicacioException {
+
+
     }
     
-    
-    
-public	 void	 afegirAudio(String cami,String camiImatge,String nomAudio,String codec,float durada,int kbps) throws	AplicacioException {
-    
-}
+    public void carregarDadesDisc(String camiOrigen) throws AplicacioException{
 
 
-
-public	List<String> mostrarBiblioteca(){ //llista dels retorns	de toString() dels fitxers.
-    return "tu raza";
-}
-
-
-
-
-public	void esborrarFitxer(int id) throws AplicacioException{ //id és la posició a llista de getBiblioteca().
-    
-
-}
-
-
-
-public	void guardarDadesDisc(String camiDesti) throws	AplicacioException {
-    
-    
-}
-
-
-
-public	void carregarDadesDisc(String camiOrigen) throws AplicacioException{
-    
-    
-}
-
-
-
-    
+    }
 }

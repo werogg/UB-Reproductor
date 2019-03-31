@@ -5,9 +5,9 @@ package edu.ub.prog2.VinagreJorgeOteroJoel.model;
  * @author wero
  */
 public abstract class FitxerReproduible extends FitxerMultimedia {
-    String codec;
-    float durada;
-    Reproductor reproductor;
+    private String codec;
+    private float durada;
+    private Reproductor reproductor;
 
     protected FitxerReproduible(String cami, String nom, String codec, float durada, Reproductor r) {
         super(cami);

@@ -1,86 +1,56 @@
 package edu.ub.prog2.VinagreJorgeOteroJoel.controlador;
 
-import edu.ub.prog2.VinagreJorgeOteroJoel.model.BibliotecaFitxersMultimedia;
-import edu.ub.prog2.VinagreJorgeOteroJoel.model.CarpetaFitxers;
-import edu.ub.prog2.VinagreJorgeOteroJoel.model.FitxerMultimedia;
+import edu.ub.prog2.VinagreJorgeOteroJoel.model.Dades;
 import edu.ub.prog2.utils.AplicacioException;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.List;
-import javax.naming.LimitExceededException;
 
 public class Controlador {
-    private final CarpetaFitxers carpeta;
-    private final BibliotecaFitxersMultimedia biblioteca; 
-    private FitxerMultimedia fm;
+    Dades dades;
+    
     
     /**
      * The Controlador class constructor
      */
     public Controlador() {
-        carpeta = new CarpetaFitxers();
-        biblioteca = new BibliotecaFitxersMultimedia();
-    }
-    
-    /**
-     * Get the folder
-     * @return The current folder
-     */
-    public CarpetaFitxers getFolder() {
-        return carpeta;
-    }
-    
-    /**
-     * Remove file from folder by index
-     * @param index Index of the file from the folder to be removed
-     */
-    public void FolderRemoveFile(int index) {
-        try {
-            fm = (FitxerMultimedia) carpeta.getAt(--index);
-            carpeta.removeFitxer(fm);
-        } catch (FileNotFoundException e) {
-            System.err.println(e.getMessage());
-        }
-    }
-    
-    /**
-     * Add a new file to the folder
-     * @param path Path to the file
-     * @param desc Description of the file
-     */
-    public void FolderAddFile(String path, String desc) {
-        fm = new FitxerMultimedia(path);
-        fm.setDescripcio(desc);
-        
-        try {
-            carpeta.addFitxer(fm);
-        } catch (LimitExceededException e) {
-            System.err.println(e.getCause());
-        } catch (AplicacioException e) {
-            System.err.println(e.getCause());
-        } 
-    }
-    
-    public void BibliotecaAddFile(File file) {
-        try {
-            biblioteca.addFitxer(file);
-        } catch (LimitExceededException | AplicacioException e) {
-            System.err.println(e.getCause());
-        }
-        
+        dades = new Dades();
     }
     
     public void afegirVideo(String path, String nomVideo, String codec,
             float durada, int alcada, int amplada, float fps) throws AplicacioException {
+        
+        dades.afegirVideo(path, nomVideo, codec, durada, alcada, amplada, fps);
         
     }
     
     public void afegirAudio(String cami, String camiImatge, String nomAudio,
             String codec, float durada, int kbps) throws AplicacioException {
         
+        dades.afegirAudio(cami, camiImatge, nomAudio, codec, durada, kbps);
+        
     }
     
     public List<String> mostrarBiblioteca() {
+        
+        dades.mostrarBiblioteca();
+        
         return null;
     }
+    
+    public void esborrarFitxer(int id) throws AplicacioException {
+        
+        dades.esborrarFitxer(id);
+        
+    }
+    
+    public void guardarDadesDisc(String camiDesti) throws AplicacioException {
+        
+        dades.guardarDadesDisc(camiDesti);
+        
+    }
+    
+    public void carregarDadesDisc(String camiOrigen) throws AplicacioException {
+        
+        dades.carregarDadesDisc(camiOrigen);
+        
+    } 
 }

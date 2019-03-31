@@ -21,17 +21,16 @@ public class BibliotecaFitxersMultimedia extends CarpetaFitxers {
     /**
      * Add file to BibliotecaFitxersMultimedia
      * @param file File to be added
-     * @throws LimitExceededException
      * @throws AplicacioException 
      */
     @Override
-    public void	addFitxer(File file) throws LimitExceededException, AplicacioException {
+    public void	addFitxer(File file) throws AplicacioException {
         
         if (file.exists()) {
             if (file instanceof FitxerMultimedia) {
                 FitxerMultimedia fm = (FitxerMultimedia) file;
                 if (isFull())
-                    throw new LimitExceededException("Exception: The folder is full.");
+                    throw new AplicacioException("Exception: The folder is full.");
                 if (!tauFitxers.contains(fm))
                     tauFitxers.add(fm);
                 else

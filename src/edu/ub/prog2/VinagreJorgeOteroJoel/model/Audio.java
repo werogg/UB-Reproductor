@@ -5,9 +5,12 @@ package edu.ub.prog2.VinagreJorgeOteroJoel.model;
  * @author wero
  */
 public class Audio extends FitxerReproduible {
+    private int kbps;
 
-    public Audio(String cami, String nom, String codec, float durada, Reproductor r) {
+    public Audio(String cami, String nom, String codec, float durada,
+            int kbps, Reproductor r) {
         super(cami, nom, codec, durada, r);
+        this.kbps = kbps;
     }
     
     @Override
