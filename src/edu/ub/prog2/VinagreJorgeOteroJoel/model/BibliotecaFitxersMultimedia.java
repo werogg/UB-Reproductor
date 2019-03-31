@@ -15,7 +15,7 @@ public class BibliotecaFitxersMultimedia extends CarpetaFitxers {
      * The BibliotecaFitxersMultimeda class constructor
      */
     public BibliotecaFitxersMultimedia(){
-        tauFitxers= new ArrayList<>();
+        tauFitxers = new ArrayList<>();
     }
     
     /**
