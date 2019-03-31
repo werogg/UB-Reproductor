@@ -166,7 +166,7 @@ public class AplicacioUB2 {
         System.out.println("Introdueix la descripció del teu fitxer:");
         String nou_desc = sc.nextLine();
         
-        controlador.FolderAddFile(nou_cami, nou_desc);
+        //controlador.FolderAddFile(nou_cami, nou_desc);
     }
     
     /**
@@ -178,6 +178,6 @@ public class AplicacioUB2 {
         System.out.println("Quin arxiu vols eliminar? [Index]");
         int index_arxiu_sel = sc.nextInt();
         
-        controlador.FolderRemoveFile(index_arxiu_sel);
+        //controlador.FolderRemoveFile(index_arxiu_sel);
     }
 }
