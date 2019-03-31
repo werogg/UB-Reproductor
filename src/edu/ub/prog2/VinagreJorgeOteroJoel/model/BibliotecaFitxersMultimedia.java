@@ -39,7 +39,6 @@ public class BibliotecaFitxersMultimedia extends CarpetaFitxers {
             } else
                 throw new AplicacioException("Exception: File is not a FitxerMultimedia");
         } else
-            throw new FileNotFoundException("Exception: File does not exists");   
-        
+            throw new FileNotFoundException("Exception: File does not exists");
     }
 }

@@ -4,6 +4,7 @@ import edu.ub.prog2.VinagreJorgeOteroJoel.controlador.Controlador;
 import edu.ub.prog2.utils.AplicacioException;
 import edu.ub.prog2.utils.Menu;
 import java.io.FileNotFoundException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class AplicacioUB2 {
@@ -157,32 +158,80 @@ public class AplicacioUB2 {
     }
     
     private void addVideoFileOption() {
+        String path = null, nomVideo = null, codec = null;
+        float durada = 0f, fps = 0f;
+        int alcada = 0, amplada = 0;
+        
         Scanner sc = new Scanner(System.in);
+        
+        
         System.out.println("Introdueix el camí al teu fitxer de video:");
-        String path = sc.next();
+        path = sc.next();
+        
         
         System.out.println("Introdueix el nom del teu video:");
-        String nomVideo = sc.next();
+        nomVideo = sc.next();
         
         System.out.println("Introdueix el codec del teu video:");
-        String codec = sc.next();
+        codec = sc.next();
         
-        System.out.println("Introdueix la durada del teu video:");
-        float durada = sc.nextFloat();
+        do {
+            System.out.println("Introdueix la durada del teu video:");
+            
+            try {
+                durada = sc.nextFloat();
+            } catch (InputMismatchException e) {
+                System.err.println(e.getMessage());
+            }
+            
+            sc.nextLine();
+            
+        } while (durada <= 0);
         
-        System.out.println("Introdueix la alcada del teu video:");
-        int alcada = sc.nextInt();
+        do {
+            System.out.println("Introdueix la alcada del teu video:");
+            
+            try {
+                alcada = sc.nextInt();
+            } catch (InputMismatchException e) {
+                System.err.println(e.getMessage());
+            }
+            
+            sc.nextLine();
+            
+        } while (alcada <= 0);
         
-        System.out.println("Introdueix la amplada del teu video:");
-        int amplada = sc.nextInt();
+        do {
+            System.out.println("Introdueix la amplada del teu video:");
+            
+            try {
+                amplada = sc.nextInt();
+            } catch (InputMismatchException e) {
+                System.err.println(e.getMessage());
+            }
+            
+            sc.nextLine();
+            
+        } while (amplada <= 0);
         
-        System.out.println("Introdueix els fps del teu video:");
-        float fps = sc.nextFloat();
+        do {
+            System.out.println("Introdueix els fps del teu video:");
+            
+            try {
+                fps = sc.nextFloat();
+            } catch (InputMismatchException e) {
+                System.err.println(e.getMessage());
+            }
+            
+            sc.nextLine();
+            
+        } while (fps <= 0);
+        
         
         try {
             controlador.afegirVideo(path, nomVideo, codec, durada, alcada, amplada, fps);
         } catch (AplicacioException | FileNotFoundException e) {
-            System.err.println(e.getCause());
+            System.err.println(e.getMessage());
         }
     }
     
@@ -209,7 +258,7 @@ public class AplicacioUB2 {
         try {
             controlador.afegirAudio(cami, camiImatge, nomAudio, codec, durada, kbps);
         } catch (AplicacioException | FileNotFoundException e) {
-            System.err.println(e.getCause());
+            System.err.println(e.getMessage());
         }
     }
     
@@ -226,7 +275,7 @@ public class AplicacioUB2 {
         try {
             controlador.esborrarFitxer(index_arxiu_sel);
         } catch (AplicacioException | FileNotFoundException e) {
-            System.err.println(e.getCause());
+            System.err.println(e.getMessage());
         }
     }
     

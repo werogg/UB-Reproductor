@@ -22,6 +22,7 @@ public class Dades {
     }
     
     public void afegirVideo(String path, String nomVideo, String codec, float durada, int alcada, int amplada, float fps) throws AplicacioException, FileNotFoundException {
+        
         Video video = new Video(path, nomVideo, codec, durada, alcada, amplada, fps, reproductor);
         
         biblioteca.addFitxer(video);
