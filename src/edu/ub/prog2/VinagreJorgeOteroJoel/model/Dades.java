@@ -19,7 +19,6 @@ public class Dades {
         Video video = new Video(path, nomVideo, codec, durada, alcada, amplada, fps, reproductor);
         
         biblioteca.addFitxer(video);
-        
     }
     
     public void afegirAudio(String cami, String camiImatge ,String nomAudio, String codec, float durada, int kbps) throws AplicacioException, FileNotFoundException {
