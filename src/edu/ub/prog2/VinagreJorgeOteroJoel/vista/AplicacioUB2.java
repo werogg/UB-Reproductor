@@ -164,7 +164,7 @@ public class AplicacioUB2 {
      * Option to add a video
      */
     private void addVideoFileOption() {
-        String path = null, nomVideo = null, codec = null;
+        String path, nomVideo, codec;
         float durada = 0f, fps = 0f;
         int alcada = 0, amplada = 0;
         
