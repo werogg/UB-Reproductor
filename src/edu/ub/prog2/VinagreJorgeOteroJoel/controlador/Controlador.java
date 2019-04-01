@@ -14,7 +14,6 @@ import java.util.List;
 public class Controlador {
     private Dades dades;
     
-    
     /**
      * The Controlador class constructor
      */
@@ -46,27 +45,15 @@ public class Controlador {
         
     }
     
-     public void guardarDadesDisc(String camiDesti) throws FileNotFoundException, IOException {
-        File file = new File(camiDesti);
-        
-        FileOutputStream fout = new FileOutputStream(new File(camiDesti));
-        ObjectOutputStream oos = new ObjectOutputStream(fout);
-
-        oos.writeObject(dades);
-
-        oos.close();
-        fout.close();
+     public void guardarDadesDisc(String camiDesti) throws FileNotFoundException, IOException { 
+        try (FileOutputStream fout = new FileOutputStream(new File(camiDesti)); ObjectOutputStream oos = new ObjectOutputStream(fout)) {
+            oos.writeObject(dades);
+        }
     }
     
     public void carregarDadesDisc(String camiOrigen) throws AplicacioException, IOException, ClassNotFoundException {
-        
-        try (FileInputStream fin = new FileInputStream(new File(camiOrigen))) {
-            ObjectInputStream ois = new ObjectInputStream(fin);
-            
+        try (FileInputStream fin = new FileInputStream(new File(camiOrigen)); ObjectInputStream ois = new ObjectInputStream(fin)) {
             dades = (Dades) ois.readObject();
-            
-            ois.close();
-            fin.close();
         }
         
     } 

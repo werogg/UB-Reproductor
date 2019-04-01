@@ -2,10 +2,6 @@
 
 import java.io.File;
 
-/**
- *
- * @author wero
- */
 public class Audio extends FitxerReproduible {
     private int kbps;
 

@@ -4,11 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-
-/**
- *
- * @author Jorge Vinagre and Joel Otero
- */
 public class BibliotecaFitxersMultimedia extends CarpetaFitxers {
     
     /**

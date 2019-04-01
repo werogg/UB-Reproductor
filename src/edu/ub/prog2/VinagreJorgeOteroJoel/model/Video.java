@@ -1,9 +1,5 @@
 package edu.ub.prog2.VinagreJorgeOteroJoel.model;
 
-/**
- *
- * @author wero
- */
 public class Video extends FitxerReproduible {
     private float fps;
     private int alcada, amplada;
