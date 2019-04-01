@@ -167,6 +167,7 @@ public class AplicacioUB2 {
         String path, nomVideo, codec;
         float durada = 0f, fps = 0f;
         int alcada = 0, amplada = 0;
+        boolean exception_caught = false;
         
         Scanner sc = new Scanner(System.in);
         
@@ -238,13 +239,18 @@ public class AplicacioUB2 {
             controlador.afegirVideo(path, nomVideo, codec, durada, alcada, amplada, fps);
         } catch (AplicacioException | FileNotFoundException e) {
             System.err.println(e.getMessage());
+            exception_caught = true;
         }
+        
+        if (!exception_caught) System.out.println("Video afegit a la biblioteca!");
     }
     
     /**
      * Option to add an audio
      */
     private void addAudioFileOption() {
+        boolean exception_caught = false;
+        
         Scanner sc = new Scanner(System.in);
         System.out.println("Introdueix el camí al teu fitxer de audio:");
         String cami = sc.next();
@@ -268,7 +274,10 @@ public class AplicacioUB2 {
             controlador.afegirAudio(cami, camiImatge, nomAudio, codec, durada, kbps);
         } catch (AplicacioException | FileNotFoundException e) {
             System.err.println(e.getMessage());
+            exception_caught = true;
         }
+        
+        if (!exception_caught) System.out.println("Audio afegit a la biblioteca!");
     }
     
     
@@ -276,6 +285,7 @@ public class AplicacioUB2 {
     * Option to remove a file by index
     */
     private void removeFileOption() {
+        boolean exception_caught = false;
         Scanner sc = new Scanner(System.in);
         
         System.out.println("Quin arxiu vols eliminar? [Index]");
@@ -285,7 +295,10 @@ public class AplicacioUB2 {
             controlador.esborrarFitxer(index_arxiu_sel);
         } catch (FileNotFoundException e) {
             System.err.println(e.getMessage());
+            exception_caught = true;
         }
+        
+        if (!exception_caught) System.out.println("Arxiu eliminat correctament!");
     }
     
     /**
@@ -301,6 +314,7 @@ public class AplicacioUB2 {
      * Option to save the data
      */
     private void saveDataOption() {
+        boolean exception_caught = false;
         Scanner sc = new Scanner(System.in);
         String camiDesti;
         
@@ -310,16 +324,18 @@ public class AplicacioUB2 {
         try {
             controlador.guardarDadesDisc(camiDesti);
         } catch (IOException ex) {
-            ex.printStackTrace();
+            System.err.println(ex.getMessage());
+            exception_caught = true;
         }
         
-        System.out.println("Data saved!");
+        if (!exception_caught) System.out.println("Dades guardades correctament!");
     }
     
     /**
      * Option to load the data
      */
     private void loadDataOption() {
+        boolean exception_caught = false;
         Scanner sc = new Scanner(System.in);
         String camiOrigen;
         
@@ -329,9 +345,10 @@ public class AplicacioUB2 {
         try {
             controlador.carregarDadesDisc(camiOrigen);
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println(e.getCause());
+            System.err.println(e.getCause());
+            exception_caught = true;
         } 
         
-        System.out.println("Data loaded!");
+        if (!exception_caught) System.out.println("Dades carregades correctament!");
     }
 }

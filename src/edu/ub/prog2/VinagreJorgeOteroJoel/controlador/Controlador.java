@@ -84,6 +84,8 @@ public class Controlador {
     public void guardarDadesDisc(String camiDesti) throws FileNotFoundException, IOException { 
         try (FileOutputStream fout = new FileOutputStream(new File(camiDesti)); ObjectOutputStream oos = new ObjectOutputStream(fout)) {
             oos.writeObject(dades);
+            fout.close();
+            oos.close();
         }
     }
     
@@ -96,6 +98,8 @@ public class Controlador {
     public void carregarDadesDisc(String camiOrigen) throws IOException, ClassNotFoundException {
         try (FileInputStream fin = new FileInputStream(new File(camiOrigen)); ObjectInputStream ois = new ObjectInputStream(fin)) {
             dades = (Dades) ois.readObject();
+            fin.close();
+            ois.close();
         }
         
     } 

@@ -32,5 +32,4 @@ public class Audio extends FitxerReproduible {
     protected void reproduir() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
 }
