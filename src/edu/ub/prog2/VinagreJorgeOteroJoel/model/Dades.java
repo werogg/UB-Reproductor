@@ -47,3 +47,6 @@ public class Dades implements Serializable {
        biblioteca.removeFitxer(fm);
     }
 }
+
+
+FALTA EL TO STRING
