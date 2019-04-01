@@ -9,7 +9,7 @@ import java.util.List;
 public class Dades implements Serializable {
     
     private BibliotecaFitxersMultimedia biblioteca;
-    private Reproductor reproductor;
+    private transient Reproductor reproductor;
     
     public Dades() {
         biblioteca = new BibliotecaFitxersMultimedia();

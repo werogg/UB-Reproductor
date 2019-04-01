@@ -1,4 +1,4 @@
-package edu.ub.prog2.VinagreJorgeOteroJoel.model;
+ package edu.ub.prog2.VinagreJorgeOteroJoel.model;
 
 import java.io.File;
 
