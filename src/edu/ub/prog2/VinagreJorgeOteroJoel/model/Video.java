@@ -11,13 +11,13 @@ public class Video extends FitxerReproduible {
     /**
      * Video class constructor
      * @param cami Path to the video
-     * @param nom Filename
-     * @param codec File codec
-     * @param durada File duration
-     * @param alcada File high
-     * @param amplada File width
-     * @param fps Frames per second of the file
-     * @param r File player
+     * @param nom Video name
+     * @param codec Video codec
+     * @param durada Video duration
+     * @param alcada Video high
+     * @param amplada Video width
+     * @param fps Video frames per second
+     * @param r Video player
      */
     public Video(String cami, String nom, String codec, float durada,
             int alcada, int amplada, float fps, Reproductor r) {

@@ -11,11 +11,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.List;
 
-/**
- * @author  Jorge Vinagre Triguero, Joel Otero Martín
- * @version 1.0
- * @since   2019-03-13 
- */
 public class Controlador {
     private Dades dades;
     
@@ -27,16 +22,16 @@ public class Controlador {
     }
     
     /**
-     *
-     * @param path
-     * @param nomVideo
-     * @param codec
-     * @param durada
-     * @param alcada
-     * @param amplada
-     * @param fps
-     * @throws AplicacioException
-     * @throws FileNotFoundException
+     * Add video to the library (Delegation)
+     * @param path Path to the video file
+     * @param nomVideo Video name
+     * @param codec Video codec
+     * @param durada Video duration
+     * @param alcada Video heigh
+     * @param amplada Video width
+     * @param fps Video frames per second
+     * @throws AplicacioException If the file is already in the library, library is full or file is not media
+     * @throws FileNotFoundException If the file can't be found
      */
     public void afegirVideo(String path, String nomVideo, String codec,
             float durada, int alcada, int amplada, float fps) throws AplicacioException, FileNotFoundException {
@@ -46,15 +41,15 @@ public class Controlador {
     }
     
     /**
-     *
-     * @param cami
-     * @param camiImatge
-     * @param nomAudio
-     * @param codec
-     * @param durada
-     * @param kbps
-     * @throws AplicacioException
-     * @throws FileNotFoundException
+     * Add audio to the library (Delegation)
+     * @param cami Path to the audio
+     * @param camiImatge Path to the Audio's image
+     * @param nomAudio Audio name
+     * @param codec Audio codec
+     * @param durada Audio duration
+     * @param kbps Audio kbps (Quality)
+     * @throws AplicacioException If the file is already in the library, library is full or file is not media
+     * @throws FileNotFoundException If the file can't be found
      */
     public void afegirAudio(String cami, String camiImatge, String nomAudio,
             String codec, float durada, int kbps) throws AplicacioException, FileNotFoundException {
@@ -64,28 +59,25 @@ public class Controlador {
     }
     
     /**
-     *
-     * @return
+     * Show the current library (Delegation)
+     * @return A string list with info of every file in library
      */
     public List<String> mostrarBiblioteca() {
         return dades.mostrarBiblioteca();
     }
     
     /**
-     *
-     * @param id
-     * @throws AplicacioException
-     * @throws FileNotFoundException
+     * Remove a file from the library (Delegation)
+     * @param id Id of the file to be removed
+     * @throws FileNotFoundException If the file can't be found
      */
-    public void esborrarFitxer(int id) throws AplicacioException, FileNotFoundException {
-        
+    public void esborrarFitxer(int id) throws FileNotFoundException {
         dades.esborrarFitxer(id);
-        
     }
     
     /**
-     *
-     * @param camiDesti
+     * Save data to the disk
+     * @param camiDesti Path to the data file
      * @throws FileNotFoundException
      * @throws IOException
      */
@@ -96,13 +88,12 @@ public class Controlador {
     }
     
     /**
-     *
-     * @param camiOrigen
-     * @throws AplicacioException
+     * Load tdata from disk
+     * @param camiOrigen Path to the data file
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    public void carregarDadesDisc(String camiOrigen) throws AplicacioException, IOException, ClassNotFoundException {
+    public void carregarDadesDisc(String camiOrigen) throws IOException, ClassNotFoundException {
         try (FileInputStream fin = new FileInputStream(new File(camiOrigen)); ObjectInputStream ois = new ObjectInputStream(fin)) {
             dades = (Dades) ois.readObject();
         }
