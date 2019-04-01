@@ -1,7 +1,11 @@
 package edu.ub.prog2.VinagreJorgeOteroJoel.vista;
 
 import edu.ub.prog2.VinagreJorgeOteroJoel.controlador.Controlador;
+import edu.ub.prog2.utils.AplicacioException;
 import edu.ub.prog2.utils.Menu;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class AplicacioUB2 {
@@ -72,8 +76,10 @@ public class AplicacioUB2 {
                     libManager(sc, library_menu, add_menu);
                     break;
                 case SAVE_DATA:
+                    saveDataOption();
                     break;
                 case RECOVER_DATA:
+                    loadDataOption();
                     break;
                 case EXIT:
                     System.out.println("Fins aviat!");
@@ -105,8 +111,10 @@ public class AplicacioUB2 {
                     addMediaManager(sc, add_menu);
                     break;
                 case SHOW_LIBRARY:
+                    showLibraryOption();
                     break;
                 case DEL_MEDIA:
+                    removeFileOption();
                     break;
                 case BACK:
                     break;
@@ -132,8 +140,10 @@ public class AplicacioUB2 {
             // Switch between options
             switch (opcio) {
                 case ADD_VIDEO:
+                    addVideoFileOption();
                     break;
                 case ADD_AUDIO:
+                    addAudioFileOption();
                     break;
                 case BACK:
                     break;
@@ -151,31 +161,194 @@ public class AplicacioUB2 {
     }
     
     /**
-    * Option to add a new file to the folder
-    */
-    private void addFileOption() {
+     * Option to add a video
+     */
+    private void addVideoFileOption() {
+        String path, nomVideo, codec;
+        float durada = 0f, fps = 0f;
+        int alcada = 0, amplada = 0;
+        boolean exception_caught = false;
         
         Scanner sc = new Scanner(System.in);
-        System.out.println("Introdueix el camí al teu fitxer:");
-        String nou_cami = sc.next();
         
-        sc.nextLine();
         
-        System.out.println("Introdueix la descripció del teu fitxer:");
-        String nou_desc = sc.nextLine();
+        System.out.println("Introdueix el camí al teu fitxer de video:");
+        path = sc.next();
         
-        controlador.FolderAddFile(nou_cami, nou_desc);
+        
+        System.out.println("Introdueix el nom del teu video:");
+        nomVideo = sc.next();
+        
+        System.out.println("Introdueix el codec del teu video:");
+        codec = sc.next();
+        
+        do {
+            System.out.println("Introdueix la durada del teu video:");
+            
+            try {
+                durada = sc.nextFloat();
+            } catch (InputMismatchException e) {
+                System.err.println(e.getMessage());
+            }
+            
+            sc.nextLine();
+            
+        } while (durada <= 0);
+        
+        do {
+            System.out.println("Introdueix la alcada del teu video:");
+            
+            try {
+                alcada = sc.nextInt();
+            } catch (InputMismatchException e) {
+                System.err.println(e.getMessage());
+            }
+            
+            sc.nextLine();
+            
+        } while (alcada <= 0);
+        
+        do {
+            System.out.println("Introdueix la amplada del teu video:");
+            
+            try {
+                amplada = sc.nextInt();
+            } catch (InputMismatchException e) {
+                System.err.println(e.getMessage());
+            }
+            
+            sc.nextLine();
+            
+        } while (amplada <= 0);
+        
+        do {
+            System.out.println("Introdueix els fps del teu video:");
+            
+            try {
+                fps = sc.nextFloat();
+            } catch (InputMismatchException e) {
+                System.err.println(e.getMessage());
+            }
+            
+            sc.nextLine();
+            
+        } while (fps <= 0);
+        
+        
+        try {
+            controlador.afegirVideo(path, nomVideo, codec, durada, alcada, amplada, fps);
+        } catch (AplicacioException | FileNotFoundException e) {
+            System.err.println(e.getMessage());
+            exception_caught = true;
+        }
+        
+        if (!exception_caught) System.out.println("Video afegit a la biblioteca!");
     }
+    
+    /**
+     * Option to add an audio
+     */
+    private void addAudioFileOption() {
+        boolean exception_caught = false;
+        
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Introdueix el camí al teu fitxer de audio:");
+        String cami = sc.next();
+        
+        System.out.println("Introdueix el camí a la imatge del teu audio:");
+        String camiImatge = sc.next();
+        
+        System.out.println("Introdueix el nom del teu audio:");
+        String nomAudio = sc.next();
+        
+        System.out.println("Introdueix el codec del teu audio:");
+        String codec = sc.next();
+        
+        System.out.println("Introdueix la durada del teu audio:");
+        float durada = sc.nextFloat();
+        
+        System.out.println("Introdueix els kbps del teu audio:");
+        int kbps = sc.nextInt();
+        
+        try {
+            controlador.afegirAudio(cami, camiImatge, nomAudio, codec, durada, kbps);
+        } catch (AplicacioException | FileNotFoundException e) {
+            System.err.println(e.getMessage());
+            exception_caught = true;
+        }
+        
+        if (!exception_caught) System.out.println("Audio afegit a la biblioteca!");
+    }
+    
     
     /**
     * Option to remove a file by index
     */
     private void removeFileOption() {
+        boolean exception_caught = false;
         Scanner sc = new Scanner(System.in);
         
         System.out.println("Quin arxiu vols eliminar? [Index]");
         int index_arxiu_sel = sc.nextInt();
         
-        controlador.FolderRemoveFile(index_arxiu_sel);
+        try {
+            controlador.esborrarFitxer(index_arxiu_sel);
+        } catch (FileNotFoundException e) {
+            System.err.println(e.getMessage());
+            exception_caught = true;
+        }
+        
+        if (!exception_caught) System.out.println("Arxiu eliminat correctament!");
+    }
+    
+    /**
+     * Option to show the current library
+     */
+    private void showLibraryOption() {
+        controlador.mostrarBiblioteca().forEach((info) -> {
+            System.out.println(info);
+        });
+    }
+    
+    /**
+     * Option to save the data
+     */
+    private void saveDataOption() {
+        boolean exception_caught = false;
+        Scanner sc = new Scanner(System.in);
+        String camiDesti;
+        
+        System.out.println("On vols guardar les dades?");
+        camiDesti = sc.next();
+        
+        try {
+            controlador.guardarDadesDisc(camiDesti);
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
+            exception_caught = true;
+        }
+        
+        if (!exception_caught) System.out.println("Dades guardades correctament!");
+    }
+    
+    /**
+     * Option to load the data
+     */
+    private void loadDataOption() {
+        boolean exception_caught = false;
+        Scanner sc = new Scanner(System.in);
+        String camiOrigen;
+        
+        System.out.println("Cami de les dades a carregar?");
+        camiOrigen = sc.next();
+        
+        try {
+            controlador.carregarDadesDisc(camiOrigen);
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println(e.getCause());
+            exception_caught = true;
+        } 
+        
+        if (!exception_caught) System.out.println("Dades carregades correctament!");
     }
 }

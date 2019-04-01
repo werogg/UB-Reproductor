@@ -3,7 +3,7 @@
 * that plays different type of media.
 *
 * @author  Jorge Vinagre Triguero, Joel Otero Martín
-* @version 1.0
+* @version 2.0
 * @since   2019-03-13 
 */
 package edu.ub.prog2.VinagreJorgeOteroJoel.vista;

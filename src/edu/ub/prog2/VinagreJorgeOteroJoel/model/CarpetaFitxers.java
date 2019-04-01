@@ -1,17 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.ub.prog2.VinagreJorgeOteroJoel.model;
 
 import edu.ub.prog2.utils.AplicacioException;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import javax.naming.LimitExceededException;
 
-public class CarpetaFitxers {
+public class CarpetaFitxers implements Serializable {
     
     protected int _max_size;
     protected ArrayList<FitxerMultimedia> tauFitxers;
@@ -37,8 +33,9 @@ public class CarpetaFitxers {
      * @param file File to be added to the folder
      * @throws javax.naming.LimitExceededException
      * @throws edu.ub.prog2.utils.AplicacioException
+     * @throws java.io.FileNotFoundException
      */
-    public void addFitxer(File file) throws LimitExceededException, AplicacioException {
+    public void addFitxer(File file) throws LimitExceededException, AplicacioException, FileNotFoundException {
         if (isFull())
             throw new LimitExceededException("Exception: The folder is full.");
         else
@@ -54,9 +51,9 @@ public class CarpetaFitxers {
         if (file instanceof FitxerMultimedia) {
             FitxerMultimedia fm = (FitxerMultimedia) file;
             if (tauFitxers.contains(fm))
-            tauFitxers.remove(fm);
+                tauFitxers.remove(fm);
             else
-                throw new FileNotFoundException("File not found");
+                throw new FileNotFoundException("Exception: File not found");
         }
     }
     
@@ -68,8 +65,8 @@ public class CarpetaFitxers {
      * 
      */
     public File getAt(int position) throws FileNotFoundException {
-        if (tauFitxers.get(position) == null)
-            throw new FileNotFoundException("File not found");
+        if (position >= tauFitxers.size())
+            throw new FileNotFoundException("Exception: File not found");
         else
             return tauFitxers.get(position);
     }
