@@ -5,6 +5,14 @@ public abstract class FitxerReproduible extends FitxerMultimedia {
     private float durada;
     private transient Reproductor reproductor;
 
+    /**
+     * FitxerReproduible class constructor
+     * @param cami Path to the file
+     * @param nom Filename
+     * @param codec File codec
+     * @param durada File duration
+     * @param r Player
+     */
     protected FitxerReproduible(String cami, String nom, String codec, float durada, Reproductor r) {
         super(cami);
         super.setDescripcio(nom);
@@ -14,7 +22,9 @@ public abstract class FitxerReproduible extends FitxerMultimedia {
     }
     
     
-    
+    /**
+     * Abstract method to play the file
+     */
     protected abstract void reproduir();
     
 }

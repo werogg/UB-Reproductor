@@ -7,17 +7,17 @@ import java.io.File;
  * @author JORGEC
  */
 public class Audio extends FitxerReproduible {
-    private int kbps;
+    private int kbps; // Audio kbps attribute
 
     /**
-     *
-     * @param cami
-     * @param fitxerImatge
-     * @param nom
-     * @param codec
-     * @param durada
-     * @param kbps
-     * @param r
+     * Audio class contructor
+     * @param cami Path to the audio file
+     * @param fitxerImatge Path to the audio's image file
+     * @param nom Audio name
+     * @param codec Audio codec
+     * @param durada Durada del audio
+     * @param kbps Kbps(Qualitat) del audio
+     * @param r Reproductor del audio
      */
     public Audio(String cami, File fitxerImatge, String nom, String codec, float durada,
             int kbps, Reproductor r) {
@@ -26,7 +26,7 @@ public class Audio extends FitxerReproduible {
     }
     
     /**
-     *
+     * Play audio method
      */
     @Override
     protected void reproduir() {

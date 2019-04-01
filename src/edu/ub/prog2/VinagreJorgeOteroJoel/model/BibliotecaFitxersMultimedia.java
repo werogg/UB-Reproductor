@@ -25,15 +25,14 @@ public class BibliotecaFitxersMultimedia extends CarpetaFitxers {
      */
     @Override
     public void	addFitxer(File file) throws FileNotFoundException, AplicacioException {
-        
-        if (file.exists()) {
-            if (file instanceof FitxerMultimedia) {
-                FitxerMultimedia fm = (FitxerMultimedia) file;
-                if (isFull())
+        if (file.exists()) { // Check if file exists
+            if (file instanceof FitxerMultimedia) { // Check if file is instance of FitxerMultimedia
+                FitxerMultimedia fm = (FitxerMultimedia) file; // Explicit conversion
+                if (isFull()) // Check if library is full
                     throw new AplicacioException("Exception: The folder is full.");
-                if (!tauFitxers.contains(fm))
+                if (!tauFitxers.contains(fm)) // Check if the file is already in the library
                     tauFitxers.add(fm);
-                else
+                else 
                     throw new AplicacioException("Exception: File already in the library");
             } else
                 throw new AplicacioException("Exception: File is not a FitxerMultimedia");

@@ -160,6 +160,9 @@ public class AplicacioUB2 {
         manager(input);
     }
     
+    /**
+     * Option to add a video
+     */
     private void addVideoFileOption() {
         String path = null, nomVideo = null, codec = null;
         float durada = 0f, fps = 0f;
@@ -238,6 +241,9 @@ public class AplicacioUB2 {
         }
     }
     
+    /**
+     * Option to add an audio
+     */
     private void addAudioFileOption() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Introdueix el camí al teu fitxer de audio:");
@@ -282,12 +288,18 @@ public class AplicacioUB2 {
         }
     }
     
+    /**
+     * Option to show the current library
+     */
     private void showLibraryOption() {
-        for (String info: controlador.mostrarBiblioteca()) {
+        controlador.mostrarBiblioteca().forEach((info) -> {
             System.out.println(info);
-        }
+        });
     }
     
+    /**
+     * Option to save the data
+     */
     private void saveDataOption() {
         Scanner sc = new Scanner(System.in);
         String camiDesti;
@@ -304,6 +316,9 @@ public class AplicacioUB2 {
         System.out.println("Data saved!");
     }
     
+    /**
+     * Option to load the data
+     */
     private void loadDataOption() {
         Scanner sc = new Scanner(System.in);
         String camiOrigen;
