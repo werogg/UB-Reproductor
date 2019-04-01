@@ -283,7 +283,7 @@ public class AplicacioUB2 {
         
         try {
             controlador.esborrarFitxer(index_arxiu_sel);
-        } catch (AplicacioException | FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             System.err.println(e.getMessage());
         }
     }
@@ -328,7 +328,7 @@ public class AplicacioUB2 {
         
         try {
             controlador.carregarDadesDisc(camiOrigen);
-        } catch (AplicacioException | IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             System.out.println(e.getCause());
         } 
         
