@@ -288,6 +288,8 @@ public class AplicacioUB2 {
         boolean exception_caught = false;
         Scanner sc = new Scanner(System.in);
         
+        System.out.println();
+        
         System.out.println("Quin arxiu vols eliminar? [Index]");
         int index_arxiu_sel = sc.nextInt();
         

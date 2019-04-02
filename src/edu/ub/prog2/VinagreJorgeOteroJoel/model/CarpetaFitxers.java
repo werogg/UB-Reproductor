@@ -9,7 +9,7 @@ import javax.naming.LimitExceededException;
 
 public class CarpetaFitxers implements Serializable {
     
-    protected int _max_size;
+    protected final int _max_size;
     protected ArrayList<FitxerMultimedia> tauFitxers;
     
     /**
@@ -95,17 +95,17 @@ public class CarpetaFitxers implements Serializable {
         String to_print = "";
         int cnt = 1;
         
-        to_print += "Carpeta fitxers:\n";
+        to_print += "File Folder:\n";
         to_print += "================\n";
         
         for (FitxerMultimedia fitxer : tauFitxers) {
             if (fitxer != null) {
-                to_print += "[" + cnt + "] Descripció = " 
+                to_print += "[" + cnt + "] Description = " 
                     + fitxer.getDescripcio() 
-                    + ", Data = " + fitxer.getUltimaModificacio() 
-                    + ", Nom = " + fitxer.getNomFitxer()
+                    + ", Date = " + fitxer.getUltimaModificacio() 
+                    + ", Name = " + fitxer.getNomFitxer()
                     + ", Ext = " + fitxer.getExtensio()
-                    + ", Cami Absolut = " + fitxer.getAbsolutePath()
+                    + ", Absolute Path = " + fitxer.getAbsolutePath()
                     + "\n";
                 cnt++;
             }

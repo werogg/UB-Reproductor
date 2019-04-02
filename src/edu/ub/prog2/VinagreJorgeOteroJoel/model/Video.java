@@ -5,8 +5,8 @@ package edu.ub.prog2.VinagreJorgeOteroJoel.model;
  * @author JORGEC
  */
 public class Video extends FitxerReproduible {
-    private float fps;
-    private int alcada, amplada;
+    private final float fps;
+    private final int alcada, amplada;
 
     /**
      * Video class constructor
