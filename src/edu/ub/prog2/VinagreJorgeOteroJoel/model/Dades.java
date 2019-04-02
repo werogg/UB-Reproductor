@@ -66,7 +66,8 @@ public class Dades implements Serializable {
         
         int cnt = 0;
         for (FitxerMultimedia fm : biblioteca.tauFitxers) {
-            info.add("[ " + cnt + " ]");
+            info.add("-----------------------------");
+            info.add("File Index: " + cnt);
             info.add(fm.toString());
             cnt++;
         }
