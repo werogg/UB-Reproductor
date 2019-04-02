@@ -7,7 +7,7 @@ import java.io.File;
  * @author JORGEC
  */
 public class Audio extends FitxerReproduible {
-    private int kbps; // Audio kbps attribute
+    private final int kbps; // Audio kbps attribute
 
     /**
      * Audio class contructor
