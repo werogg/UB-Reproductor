@@ -95,11 +95,11 @@ public class FitxerMultimedia extends File {
     public String toString() {
         String to_print = "";
         to_print += "-----------------------------\n";
-        to_print += "|Nom: " + getNomFitxer() + "\n";
-        to_print += "|Extensio: " + getExtensio() + "\n";
-        to_print += "|Loc: " + getCamiAbsolut() + "\n";
+        to_print += "|Name: " + getNomFitxer() + "\n";
+        to_print += "|Extension: " + getExtensio() + "\n";
+        to_print += "|Path: " + getCamiAbsolut() + "\n";
         to_print += "|Desc: " + getDescripcio() + "\n";
-        to_print += "|Última Mod: " + getUltimaModificacio() + "\n";
+        to_print += "|Last Mod: " + getUltimaModificacio() + "\n";
         to_print += "-----------------------------\n";
         return to_print;
     }

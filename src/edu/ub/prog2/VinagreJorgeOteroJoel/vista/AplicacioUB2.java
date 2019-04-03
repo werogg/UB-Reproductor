@@ -19,23 +19,23 @@ public class AplicacioUB2 {
     // Declarem descripcions personalitzades per a les opcions del menÃº principal
     
     private static final String[] MENU_PRINCIPAL_DESC = {
-        "Gestió Biblioteca",
-        "Guardar Dades",
-        "Recuperar Dades",
-        "Sortir"
+        "Library Management",
+        "Save Data",
+        "Recover Data",
+        "Exit"
     };
     
     private static final String[] MENU_LIBRARY_DESC = {
-        "Afegir fitxer multimèdia a la biblioteca",
-        "Mostrar biblioteca",
-        "Eliminar fitxer multimèdia",
-        "Menú anterior"
+        "Add media file to the library",
+        "Show library",
+        "Remove media file",
+        "Go back"
     };
     
     private static final String[] MENU_ADD_MEDIA_DESC = {
-        "Afegir vídeo",
-        "Afegir àudio",
-        "Menú anterior"
+        "Add video",
+        "Add audio",
+        "Go back"
     };
     
     /**
@@ -52,9 +52,9 @@ public class AplicacioUB2 {
     public void manager(Scanner sc) {
 
         // Creem l'objecte per al menÃº. Li passem com a primer parÃ metre el nom del menÃº
-        Menu<OpcionsMenuPrincipal> menu = new Menu<>("Menu Principal", OpcionsMenuPrincipal.values());
-        Menu<OpcionsMenuBiblioteca> library_menu = new Menu<>("Gestió de la Biblioteca", OpcionsMenuBiblioteca.values());
-        Menu<OpcionsMenuAfegir> add_menu = new Menu<>("Afegir media a la Biblioteca", OpcionsMenuAfegir.values());
+        Menu<OpcionsMenuPrincipal> menu = new Menu<>("Main Menu", OpcionsMenuPrincipal.values());
+        Menu<OpcionsMenuBiblioteca> library_menu = new Menu<>("Library Management", OpcionsMenuBiblioteca.values());
+        Menu<OpcionsMenuAfegir> add_menu = new Menu<>("Add media to the library", OpcionsMenuAfegir.values());
 
         // Assignem la descripciÃ³ de les opcions
         menu.setDescripcions(MENU_PRINCIPAL_DESC);
@@ -82,7 +82,7 @@ public class AplicacioUB2 {
                     loadDataOption();
                     break;
                 case EXIT:
-                    System.out.println("Fins aviat!");
+                    System.out.println("See you later!");
                     break;
             }
 
@@ -172,18 +172,18 @@ public class AplicacioUB2 {
         Scanner sc = new Scanner(System.in);
         
         
-        System.out.println("Introdueix el camí al teu fitxer de video:");
+        System.out.println("Introduce the path to the video file:");
         path = sc.next();
         
         
-        System.out.println("Introdueix el nom del teu video:");
+        System.out.println("Introduce the video name:");
         nomVideo = sc.next();
         
-        System.out.println("Introdueix el codec del teu video:");
+        System.out.println("Introduce the video codec:");
         codec = sc.next();
         
         do {
-            System.out.println("Introdueix la durada del teu video:");
+            System.out.println("Introduce the video duration:");
             
             try {
                 durada = sc.nextFloat();
@@ -196,7 +196,7 @@ public class AplicacioUB2 {
         } while (durada <= 0);
         
         do {
-            System.out.println("Introdueix la alcada del teu video:");
+            System.out.println("Introduce the video high:");
             
             try {
                 alcada = sc.nextInt();
@@ -209,7 +209,7 @@ public class AplicacioUB2 {
         } while (alcada <= 0);
         
         do {
-            System.out.println("Introdueix la amplada del teu video:");
+            System.out.println("Introduce the video width:");
             
             try {
                 amplada = sc.nextInt();
@@ -222,7 +222,7 @@ public class AplicacioUB2 {
         } while (amplada <= 0);
         
         do {
-            System.out.println("Introdueix els fps del teu video:");
+            System.out.println("Introduce the video FPS:");
             
             try {
                 fps = sc.nextFloat();
@@ -242,7 +242,7 @@ public class AplicacioUB2 {
             exception_caught = true;
         }
         
-        if (!exception_caught) System.out.println("Video afegit a la biblioteca!");
+        if (!exception_caught) System.out.println("Video added to the library!");
     }
     
     /**
@@ -250,25 +250,48 @@ public class AplicacioUB2 {
      */
     private void addAudioFileOption() {
         boolean exception_caught = false;
+        float durada = 0f;
+        int kbps = 0;
         
         Scanner sc = new Scanner(System.in);
-        System.out.println("Introdueix el camí al teu fitxer de audio:");
+        System.out.println("Introduce the path to the audio file:");
         String cami = sc.next();
         
-        System.out.println("Introdueix el camí a la imatge del teu audio:");
+        System.out.println("Itroduce the path to the audio's image:");
         String camiImatge = sc.next();
         
-        System.out.println("Introdueix el nom del teu audio:");
+        System.out.println("Introduce the audio name:");
         String nomAudio = sc.next();
         
-        System.out.println("Introdueix el codec del teu audio:");
+        System.out.println("Introduce the codec:");
         String codec = sc.next();
         
-        System.out.println("Introdueix la durada del teu audio:");
-        float durada = sc.nextFloat();
         
-        System.out.println("Introdueix els kbps del teu audio:");
-        int kbps = sc.nextInt();
+        do {
+            System.out.println("Introduce the audio duration:");
+            
+            try {
+                durada = sc.nextFloat();
+            } catch (InputMismatchException e) {
+                System.err.println(e.getMessage());
+            }
+            
+            sc.nextLine(); // Clean the buffer
+            
+        } while (durada <= 0);
+        
+        do {
+            System.out.println("Introduce the audio kbps:");
+            
+            try {
+                kbps = sc.nextInt();
+            } catch (InputMismatchException e) {
+                System.err.println(e.getMessage());
+            }
+            
+            sc.nextLine(); // Clean the buffer
+            
+        } while (kbps <= 0);
         
         try {
             controlador.afegirAudio(cami, camiImatge, nomAudio, codec, durada, kbps);
@@ -277,7 +300,7 @@ public class AplicacioUB2 {
             exception_caught = true;
         }
         
-        if (!exception_caught) System.out.println("Audio afegit a la biblioteca!");
+        if (!exception_caught) System.out.println("Audio file added to the library!");
     }
     
     
@@ -288,7 +311,9 @@ public class AplicacioUB2 {
         boolean exception_caught = false;
         Scanner sc = new Scanner(System.in);
         
-        System.out.println("Quin arxiu vols eliminar? [Index]");
+        showLibraryOption();
+        
+        System.out.println("Which file do you want to remove? [Index]");
         int index_arxiu_sel = sc.nextInt();
         
         try {
@@ -298,7 +323,7 @@ public class AplicacioUB2 {
             exception_caught = true;
         }
         
-        if (!exception_caught) System.out.println("Arxiu eliminat correctament!");
+        if (!exception_caught) System.out.println("The file was succefully removed!");
     }
     
     /**
@@ -318,7 +343,7 @@ public class AplicacioUB2 {
         Scanner sc = new Scanner(System.in);
         String camiDesti;
         
-        System.out.println("On vols guardar les dades?");
+        System.out.println("Path to the Data File to be saved?");
         camiDesti = sc.next();
         
         try {
@@ -328,7 +353,7 @@ public class AplicacioUB2 {
             exception_caught = true;
         }
         
-        if (!exception_caught) System.out.println("Dades guardades correctament!");
+        if (!exception_caught) System.out.println("Data succefully saved!");
     }
     
     /**
@@ -339,7 +364,7 @@ public class AplicacioUB2 {
         Scanner sc = new Scanner(System.in);
         String camiOrigen;
         
-        System.out.println("Cami de les dades a carregar?");
+        System.out.println("Path to the Data File to be loaded?");
         camiOrigen = sc.next();
         
         try {
@@ -349,6 +374,6 @@ public class AplicacioUB2 {
             exception_caught = true;
         } 
         
-        if (!exception_caught) System.out.println("Dades carregades correctament!");
+        if (!exception_caught) System.out.println("Data succefully loaded!");
     }
 }

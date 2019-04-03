@@ -64,9 +64,13 @@ public class Dades implements Serializable {
     public List<String> mostrarBiblioteca() { 
         List<String> info = new ArrayList<>();
         
-        biblioteca.tauFitxers.forEach((fm) -> {
+        int cnt = 0;
+        for (FitxerMultimedia fm : biblioteca.tauFitxers) {
+            info.add("-----------------------------");
+            info.add("File Index: " + cnt);
             info.add(fm.toString());
-        });
+            cnt++;
+        }
         
         return info;
     }
@@ -91,20 +95,20 @@ public class Dades implements Serializable {
         String to_print = "";
         int cnt = 0;
         
-        to_print += "Dades: \n";
+        to_print += "Data: \n";
         for (FitxerMultimedia fitxer : biblioteca.tauFitxers) {
             if (fitxer != null) {
-                to_print += "[" + cnt + "] Descripció = " 
+                to_print += "[" + cnt + "] Description = " 
                     + fitxer.getDescripcio() 
-                    + ", Data = " + fitxer.getUltimaModificacio() 
-                    + ", Nom = " + fitxer.getNomFitxer()
+                    + ", Date = " + fitxer.getUltimaModificacio() 
+                    + ", Name = " + fitxer.getNomFitxer()
                     + ", Ext = " + fitxer.getExtensio()
-                    + ", Cami Absolut = " + fitxer.getAbsolutePath()
+                    + ", Absolute Path = " + fitxer.getAbsolutePath()
                     + "\n";
                 cnt++;
             }
         }
-        to_print += "\n Reproductor: " + reproductor;
+        to_print += "\n Player: " + reproductor;
         
         return to_print;
     }
