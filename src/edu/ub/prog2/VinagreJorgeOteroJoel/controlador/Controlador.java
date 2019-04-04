@@ -66,6 +66,10 @@ public class Controlador {
         return dades.mostrarBiblioteca();
     }
     
+    public List<String> mostrarBibliotecaSimplified() {
+        return dades.mostrarBibliotecaSimplified();
+    }
+    
     /**
      * Remove a file from the library (Delegation)
      * @param id Id of the file to be removed
