@@ -349,7 +349,7 @@ public class AplicacioUB2 {
         boolean exception_caught = false;
         Scanner sc = new Scanner(System.in);
         
-        showLibraryOption();
+        showLibrarySimplified();
         
         System.out.println("Which file do you want to remove?");
         int index_arxiu_sel = sc.nextInt();
@@ -370,6 +370,12 @@ public class AplicacioUB2 {
      */
     private void showLibraryOption() {
         controlador.mostrarBiblioteca().forEach((info) -> {
+            System.out.println(info);
+        });
+    }
+    
+    private void showLibrarySimplified() {
+        controlador.mostrarBibliotecaSimplified().forEach((info) -> {
             System.out.println(info);
         });
     }
