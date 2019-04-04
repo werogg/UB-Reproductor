@@ -238,7 +238,7 @@ public class AplicacioUB2 {
         try {
             controlador.afegirVideo(path, nomVideo, codec, durada, alcada, amplada, fps);
         } catch (AplicacioException | FileNotFoundException e) {
-            System.err.println(e.getMessage());
+            if (e instanceof FileNotFoundException) System.err.println(e.getMessage());
             exception_caught = true;
         }
         
@@ -296,7 +296,7 @@ public class AplicacioUB2 {
         try {
             controlador.afegirAudio(cami, camiImatge, nomAudio, codec, durada, kbps);
         } catch (AplicacioException | FileNotFoundException e) {
-            System.err.println(e.getMessage());
+            if (e instanceof FileNotFoundException) System.err.println(e.getMessage());
             exception_caught = true;
         }
         
