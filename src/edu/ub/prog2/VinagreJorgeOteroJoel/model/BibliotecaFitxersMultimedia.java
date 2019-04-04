@@ -20,7 +20,7 @@ public class BibliotecaFitxersMultimedia extends CarpetaFitxers {
      * @throws AplicacioException 
      */
     @Override
-    public void	addFitxer(File file) throws FileNotFoundException, AplicacioException {
+    public void addFitxer(File file) throws FileNotFoundException, AplicacioException {
         if (file.exists()) { // Check if file exists
             if (file instanceof FitxerMultimedia) { // Check if file is instance of FitxerMultimedia
                 FitxerMultimedia fm = (FitxerMultimedia) file; // Explicit conversion
