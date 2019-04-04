@@ -13,11 +13,17 @@ public class AplicacioUB2 {
     private final Controlador controlador;
     
     // Declarem les opcions per a referir-se a les opcions del menÃº.
-    static private enum OpcionsMenuPrincipal {LIBRARY_MANAGER,SAVE_DATA,RECOVER_DATA,EXIT};
-    static private enum OpcionsMenuBiblioteca {ADD_MEDIA,SHOW_LIBRARY,DEL_MEDIA, BACK};
-    static private enum OpcionsMenuAfegir {ADD_VIDEO,ADD_AUDIO,BACK};
-    // Declarem descripcions personalitzades per a les opcions del menÃº principal
+    static private enum OpcionsMenuPrincipal {LIBRARY_MANAGER, SAVE_DATA, RECOVER_DATA, EXIT};
     
+    static private enum OpcionsMenuBiblioteca {ADD_MEDIA, SHOW_LIBRARY, DEL_MEDIA, BACK};
+    static private enum OpcionsMenuAfegir {ADD_VIDEO, ADD_AUDIO, BACK};
+    
+    static private enum OpcionsMenuAlbum {ADD_ALBUM, SHOW_ALBUMS, DEL_ALBUM, MANAGE_ALBUM, BACK};
+    static private enum OpcionsMenuAlbumManager {ADD_MEDIA, SHOW_ALBUM, DEL_MEDIA, BACK};
+    static private enum OpcionsMenuPlayerManager {PLAY_MEDIA, PLAY_LIBRARY, CONTINUE_PLAY, RANDOM_PLAY, PLAYING_MANAGER , BACK};
+    static private enum OpcionsMenuPlayingManager {RESUME, PAUSE, STOP, JUMP, BACK}
+    
+    // Declarem descripcions personalitzades per a les opcions del menÃº principal
     private static final String[] MENU_PRINCIPAL_DESC = {
         "Library Management",
         "Save Data",
@@ -35,6 +41,38 @@ public class AplicacioUB2 {
     private static final String[] MENU_ADD_MEDIA_DESC = {
         "Add video",
         "Add audio",
+        "Go back"
+    };
+    
+    private static final String[] MENU_ALBUM_DESC = {
+        "Add new album",
+        "Show albums",
+        "Remove album",
+        "Manage album",
+        "Go back"
+    };
+    
+    private static final String[] MENU_ALBUM_MANAGER_DESC = {
+        "Add media to the album",
+        "Show album",
+        "Remove media from the album",
+        "Go back"
+    };
+    
+    private static final String[] MENU_PLAYER_DESC = {
+        "Play media",
+        "Play full library",
+        "Activate/Deactivate continue play",
+        "Activate/Deactivate random play",
+        "Playing now manager",
+        "Go back"
+    };
+    
+    private static final String[] MENU_PLAYING_DESC = {
+        "Resume",
+        "Pause",
+        "Stop",
+        "Jump",
         "Go back"
     };
     
@@ -313,8 +351,9 @@ public class AplicacioUB2 {
         
         showLibraryOption();
         
-        System.out.println("Which file do you want to remove? [Index]");
+        System.out.println("Which file do you want to remove?");
         int index_arxiu_sel = sc.nextInt();
+        --index_arxiu_sel;
         
         try {
             controlador.esborrarFitxer(index_arxiu_sel);
