@@ -13,12 +13,12 @@ public class AlbumFitxersMultimedia extends BibliotecaFitxersMultimedia {
     
     protected int n = 10;
     private final String titol;
-    protected ArrayList<FitxerMultimedia> alb_fitxers;
+    protected ArrayList<FitxerMultimedia> album_fixters;
 
-    public AlbumFitxersMultimedia(int n, String titol, ArrayList<FitxerMultimedia> alb_fitxers) {
+    public AlbumFitxersMultimedia(int n, String titol) {
         this.n = n;
         this.titol = titol;
-        this.alb_fitxers = alb_fitxers;
+        album_fitxers = new ArrayList<>();
     }
     
     AlbumFitxersMultimedia album = new AlbumFitxersMultimedia(10,"a", ArrayList<FitxerMultimedia> pep);
