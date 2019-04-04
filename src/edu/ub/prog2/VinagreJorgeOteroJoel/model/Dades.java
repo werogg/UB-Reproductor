@@ -64,13 +64,28 @@ public class Dades implements Serializable {
     public List<String> mostrarBiblioteca() { 
         List<String> info = new ArrayList<>();
         
-        int cnt = 0;
+        int cnt = 1;
         for (FitxerMultimedia fm : biblioteca.tauFitxers) {
             info.add("-----------------------------");
             info.add("File Index: " + cnt);
             info.add(fm.toString());
             cnt++;
         }
+        
+        return info;
+    }
+    
+    public List<String> mostrarBibliotecaSimplified() {
+        List<String> info = new ArrayList<>();
+        
+        int cnt = 1;
+        
+        info.add("-----------------------------");
+        for (FitxerMultimedia fm : biblioteca.tauFitxers) {
+            info.add("[" + cnt + "] " + fm.getNomFitxer());
+            cnt++;
+        }
+        info.add("-----------------------------");
         
         return info;
     }
