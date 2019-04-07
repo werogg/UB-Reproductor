@@ -8,12 +8,12 @@ import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class AplicacioUB2 {
+public class AplicacioUB3 {
     
     private final Controlador controlador;
     
     // Declarem les opcions per a referir-se a les opcions del menÃº.
-    static private enum OpcionsMenuPrincipal {LIBRARY_MANAGER, SAVE_DATA, RECOVER_DATA, EXIT};
+    static private enum OpcionsMenuPrincipal {LIBRARY_MANAGER, ALBUM_MANAGER, PLAYER_MANAGER, SAVE_DATA, RECOVER_DATA, EXIT};
     
     static private enum OpcionsMenuBiblioteca {ADD_MEDIA, SHOW_LIBRARY, DEL_MEDIA, BACK};
     static private enum OpcionsMenuAfegir {ADD_VIDEO, ADD_AUDIO, BACK};
@@ -26,6 +26,8 @@ public class AplicacioUB2 {
     // Declarem descripcions personalitzades per a les opcions del menÃº principal
     private static final String[] MENU_PRINCIPAL_DESC = {
         "Library Management",
+        "Album Management",
+        "Player Management",
         "Save Data",
         "Recover Data",
         "Exit"
@@ -79,7 +81,7 @@ public class AplicacioUB2 {
     /**
     * Constructor for class AplicacioUB1
     */
-    AplicacioUB2() {
+    AplicacioUB3() {
         controlador = new Controlador();
     }
     
@@ -93,11 +95,22 @@ public class AplicacioUB2 {
         Menu<OpcionsMenuPrincipal> menu = new Menu<>("Main Menu", OpcionsMenuPrincipal.values());
         Menu<OpcionsMenuBiblioteca> library_menu = new Menu<>("Library Management", OpcionsMenuBiblioteca.values());
         Menu<OpcionsMenuAfegir> add_menu = new Menu<>("Add media to the library", OpcionsMenuAfegir.values());
+        
+        Menu<OpcionsMenuAlbum> album_menu = new Menu<>("Album menu", OpcionsMenuAlbum.values());
+        Menu<OpcionsMenuAlbumManager> album_manager_menu = new Menu<>("Album manager menu", OpcionsMenuAlbumManager.values());
+        Menu<OpcionsMenuPlayerManager> album_player_manager_menu = new Menu<>("Album player manager menu", OpcionsMenuPlayerManager.values());
+        Menu<OpcionsMenuPlayingManager> album_playing_manager_menu = new Menu<>("Album playing manager menu", OpcionsMenuPlayingManager.values());
+        
 
-        // Assignem la descripciÃ³ de les opcions
         menu.setDescripcions(MENU_PRINCIPAL_DESC);
         library_menu.setDescripcions(MENU_LIBRARY_DESC);
         add_menu.setDescripcions(MENU_ADD_MEDIA_DESC);
+        
+        album_menu.setDescripcions(MENU_ALBUM_DESC);
+        album_manager_menu.setDescripcions(MENU_ALBUM_MANAGER_DESC);
+        album_player_manager_menu.setDescripcions(MENU_PLAYER_DESC);
+        album_playing_manager_menu.setDescripcions(MENU_PLAYING_DESC);
+        
 
         // Obtenim una opciÃ³ des del menÃº i fem les accions pertinents
         OpcionsMenuPrincipal opcio;
@@ -113,6 +126,11 @@ public class AplicacioUB2 {
                 case LIBRARY_MANAGER:
                     libManager(sc, library_menu, add_menu);
                     break;
+                case ALBUM_MANAGER:
+                    albumManager(sc, album_menu);
+                    break;
+                case PLAYER_MANAGER:
+                    break;
                 case SAVE_DATA:
                     saveDataOption();
                     break;
@@ -125,6 +143,33 @@ public class AplicacioUB2 {
             }
 
         } while(opcio!=OpcionsMenuPrincipal.EXIT);
+    }
+    
+    private void albumManager(Scanner sc, Menu<OpcionsMenuAlbum> album_menu) {
+        OpcionsMenuAlbum opcio;
+        
+        do {
+            // Prints the menu
+            album_menu.mostrarMenu();
+            
+            // Get the selected option
+            opcio = album_menu.getOpcio(sc);
+            
+            // Switch between options
+            switch (opcio) {
+                case ADD_ALBUM:
+                    createAlbumOpt();
+                    break;
+                case SHOW_ALBUMS:
+                    break;
+                case DEL_ALBUM:
+                    break;
+                case MANAGE_ALBUM:
+                    break;
+                case BACK:
+                    break;
+            }
+        } while (opcio != OpcionsMenuAlbum.BACK);
     }
     
     /**
@@ -420,5 +465,38 @@ public class AplicacioUB2 {
         } 
         
         if (!exception_caught) System.out.println("Data succefully loaded!");
+    }
+    
+    private void createAlbumOpt() {
+        boolean exception_caught = false;
+        Scanner sc = new Scanner(System.in);
+        String titol;
+        int tamany = 0;
+        
+        System.out.println("Introduce the album name");
+        titol = sc.nextLine();
+        
+        do {
+            System.out.println("Introduce the album size");
+            
+            try {
+                tamany = sc.nextInt();
+            } catch (InputMismatchException e) {
+                System.err.println(e.getMessage());
+            }
+            
+            sc.nextLine(); // Clean the buffer
+            
+        } while (tamany <= 0);
+        
+        try {
+            controlador.crearAlbum(tamany, titol);
+        } catch (AplicacioException e) {
+            exception_caught = true;
+        }
+        
+        if (!exception_caught) {
+            System.out.println("The album was created succesfully!");
+        }
     }
 }

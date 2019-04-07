@@ -1,6 +1,8 @@
 package edu.ub.prog2.VinagreJorgeOteroJoel.controlador;
 
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.Dades;
+import edu.ub.prog2.VinagreJorgeOteroJoel.model.EscoltadorReproduccio;
+import edu.ub.prog2.VinagreJorgeOteroJoel.model.Reproductor;
 import edu.ub.prog2.utils.AplicacioException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,6 +15,8 @@ import java.util.List;
 
 public class Controlador {
     private Dades dades;
+    EscoltadorReproduccio eplayer = new EscoltadorReproduccio();
+    private final Reproductor player = new Reproductor(eplayer);
     
     /**
      * The Controlador class constructor
@@ -105,6 +109,21 @@ public class Controlador {
             fin.close();
             ois.close();
         }
-        
-    } 
+    }
+    
+    public void crearAlbum(int i, String titol) throws AplicacioException {
+        dades.crearAlbum(i, titol);
+    }
+    public void crearAlbum(String titol) throws AplicacioException {
+        dades.crearAlbum(titol);
+    }
+    
+    public List<String> mostrarAlbums() {
+        return dades.mostrarAlbum();
+    }
+    
+    public void eliminarAlbum(int i) throws AplicacioException {
+        dades.eliminarAlbum(i);
+    }
+    
 }

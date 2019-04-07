@@ -1,8 +1,5 @@
 package edu.ub.prog2.VinagreJorgeOteroJoel.model;
 
-import edu.ub.prog2.utils.AplicacioException;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /**
@@ -11,20 +8,27 @@ import java.util.ArrayList;
  */
 public class AlbumFitxersMultimedia extends BibliotecaFitxersMultimedia {
     
-    protected int n = 10;
+    private final int max;
     private final String titol;
-    protected ArrayList<FitxerMultimedia> album_fixters;
+    private ArrayList<FitxerMultimedia> album_fitxers;
 
-    public AlbumFitxersMultimedia(int n, String titol) {
-        this.n = n;
+    public AlbumFitxersMultimedia(int max, String titol) {
+        this.max = max;
         this.titol = titol;
-        album_fitxers = new ArrayList<>();
+        this.album_fitxers = new ArrayList<>(max);
     }
     
-    AlbumFitxersMultimedia album = new AlbumFitxersMultimedia(10,"a", ArrayList<FitxerMultimedia> pep);
+    public AlbumFitxersMultimedia(String titol) {
+        this.max = 10;
+        this.titol = titol;
+        this.album_fitxers = new ArrayList<>(max);
+    }
     
+    public String getTitol() {
+        return titol;
+    }
     
-    public void addFixter(){
+    public void addFitxer(){
         
     }
     

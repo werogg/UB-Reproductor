@@ -4,24 +4,30 @@ import edu.ub.prog2.utils.AplicacioException;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Dades implements Serializable {
     
-    private BibliotecaFitxersMultimedia biblioteca;
-    private transient Reproductor reproductor;
+    private final BibliotecaFitxersMultimedia biblioteca;
+    private final ArrayList<AlbumFitxersMultimedia> album_list;
+    private final transient Reproductor reproductor;
+    private final transient EscoltadorReproduccio eplayer;
     
     /**
      * Dades class constructor
      */
     public Dades() {
         biblioteca = new BibliotecaFitxersMultimedia();
-        reproductor = new Reproductor();
+        eplayer = new EscoltadorReproduccio();
+        reproductor = new Reproductor(eplayer);
+        album_list = new ArrayList<>();
     }
     
     /**
      * Add video to the library
      * @param path Path to the video
+    public void eliminarAlbum(int i) {
      * @param nomVideo Video name
      * @param codec Video codec
      * @param durada Video duration
@@ -126,5 +132,82 @@ public class Dades implements Serializable {
         to_print += "\n Player: " + reproductor;
         
         return to_print;
+    }
+    
+    public void crearAlbum(int i, String titol) throws AplicacioException {
+        AlbumFitxersMultimedia afm = new AlbumFitxersMultimedia(i, titol);
+        AlbumFitxersMultimedia next_afm;
+        boolean same_titol_existing = false;
+        
+        Iterator it = album_list.iterator();
+        
+        while (it.hasNext()) {
+            next_afm = (AlbumFitxersMultimedia) it.next();
+            if (afm.getTitol().equals(next_afm.getTitol())) {
+                same_titol_existing = true;
+                break;
+            }
+        }
+        
+        if (!same_titol_existing) {
+            album_list.add(afm);
+        } else
+            throw new AplicacioException("Album already existing!");
+    }
+    
+    public void crearAlbum(String titol) throws AplicacioException {
+        AlbumFitxersMultimedia afm = new AlbumFitxersMultimedia(titol);
+        AlbumFitxersMultimedia next_afm;
+        boolean same_titol_existing = false;
+        
+        Iterator it = album_list.iterator();
+        
+        while (it.hasNext()) {
+            next_afm = (AlbumFitxersMultimedia) it.next();
+            if (afm.getTitol().equals(next_afm.getTitol())) {
+                same_titol_existing = true;
+                break;
+            }
+        }
+        
+        if (!same_titol_existing) {
+            album_list.add(afm);
+        } else
+            throw new AplicacioException("Album already existing!");
+    }
+    
+    public List<String> mostrarAlbums() {
+        List<String> info = new ArrayList<>();
+        
+        int cnt = 1;
+        info.add("-----------------------------");
+        for (AlbumFitxersMultimedia afm : album_list) {
+            info.add("[" + cnt + "] " + afm.getTitol());
+            cnt++;
+        }
+        info.add("-----------------------------");
+        
+        return info;
+    }
+    
+    public void eliminarAlbum(int i) throws AplicacioException {
+        if ((album_list.size() - 1) < i) {
+            throw new AplicacioException("This album doesn't exists!");
+        } else {
+            album_list.remove(i);
+        }
+    }
+    
+    public List<String> mostrarAlbum() {
+        List<String> info = new ArrayList<>();
+        
+        int cnt = 1;
+        info.add("-----------------------------");
+        album_list.forEach((afm) -> {
+            info.add(afm.toString());
+        });
+        info.add("-----------------------------");
+        
+        return info;
     }
 }
