@@ -100,6 +100,7 @@ public class Controlador {
      */
     public void carregarDadesDisc(String camiOrigen) throws IOException, ClassNotFoundException {
         dades.carregarDadesDisc(camiOrigen);
+        // TODO static method
     }
     
     public void crearAlbum(int i, String titol) throws AplicacioException {
