@@ -128,4 +128,12 @@ public class Controlador {
     public boolean albumIndexExists(int index) {
         return dades.albumIndexExists(index);
     }
+    
+    public boolean albumMediaIndexExists(int selected_album, int index) {
+        return dades.albumMediaIndexExists(selected_album, index);
+    }
+    
+    public void removeMediaFromAlbum(int selected_album, int selected_file) throws AplicacioException {
+        dades.removeMediaFromAlbum(selected_album, selected_file);
+    }
 }

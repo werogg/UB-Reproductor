@@ -172,7 +172,7 @@ public class Dades implements Serializable {
     }
     
     public void eliminarAlbum(int i) throws AplicacioException {
-        if ((album_list.size() - 1) < i) {
+        if (i >= album_list.size() || i < 0) {
             throw new AplicacioException("This album doesn't exists!");
         } else {
             album_list.remove(i);
@@ -228,6 +228,17 @@ public class Dades implements Serializable {
     
     public boolean albumIndexExists(int index) {
         return (index < album_list.size() && index >= 0);
+    }
+    
+    public boolean albumMediaIndexExists(int selected_album, int index) {
+        AlbumFitxersMultimedia afm = album_list.get(selected_album);
+        return (index < afm.getSize() && index >= 0);
+    }
+    
+    public void removeMediaFromAlbum(int selected_album, int selected_file) throws AplicacioException {
+        AlbumFitxersMultimedia afm = album_list.get(selected_album);
+        
+        afm.removeFitxer(selected_file);
     }
     
     

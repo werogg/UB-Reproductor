@@ -37,12 +37,14 @@ public class AlbumFitxersMultimedia extends BibliotecaFitxersMultimedia {
         return album_fitxers.size() == max;
     }
     
-    public void addFitxer(FitxerMultimedia fm) throws FileNotFoundException, AplicacioException {
+    public void addFitxer(FitxerMultimedia fm) throws AplicacioException {
+        if (isFull()) throw new AplicacioException("The album is full!");
         album_fitxers.add(fm);
     }
     
-    public void removeFitxer(int pos) {
-        album_fitxers.remove(pos);
+    public void removeFitxer(int index) throws AplicacioException {
+        if (index < 0 || index >= album_fitxers.size()) throw new AplicacioException("Index out of bounds!");
+        album_fitxers.remove(index);
     }
     
     public void removeAllFitxers(FitxerMultimedia fm) {
