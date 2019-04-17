@@ -2,14 +2,10 @@ package edu.ub.prog2.VinagreJorgeOteroJoel.controlador;
 
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.Dades;
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.EscoltadorReproduccio;
+import edu.ub.prog2.VinagreJorgeOteroJoel.model.FitxerMultimedia;
 import edu.ub.prog2.utils.AplicacioException;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.List;
 
 public class Controlador {
@@ -111,11 +107,18 @@ public class Controlador {
     }
     
     public List<String> mostrarAlbums() {
-        return dades.mostrarAlbum();
+        return dades.mostrarAlbums();
+    }
+    
+    public List<String> mostrarAlbumsSimplified() {
+        return dades.mostrarAlbumsSimplified();
     }
     
     public void eliminarAlbum(int i) throws AplicacioException {
         dades.eliminarAlbum(i);
     }
     
+    public void afegirMediaAlbum(int i, int j) throws FileNotFoundException, AplicacioException {
+        dades.afegirMediaAlbum(i, j);
+    }
 }

@@ -9,7 +9,7 @@ import javax.naming.LimitExceededException;
 
 public class CarpetaFitxers implements Serializable {
     
-    protected final int _max_size;
+    private final int _max_size;
     protected ArrayList<FitxerMultimedia> tauFitxers;
     
     /**

@@ -1,5 +1,7 @@
 package edu.ub.prog2.VinagreJorgeOteroJoel.model;
 
+import edu.ub.prog2.utils.AplicacioException;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /**
@@ -28,10 +30,15 @@ public class AlbumFitxersMultimedia extends BibliotecaFitxersMultimedia {
         return titol;
     }
     
-    public void addFitxer(){
-        
+    @Override
+    public boolean isFull() {
+        return album_fitxers.size() == max;
     }
     
-    
-    
+    public void addFitxer(FitxerMultimedia fm) throws FileNotFoundException, AplicacioException {
+        if (tauFitxers.contains(fm)) // Check if the file is in the library
+            tauFitxers.add(fm);
+        else 
+            throw new AplicacioException("File not in the library");
+    }
 }

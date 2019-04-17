@@ -179,7 +179,7 @@ public class Dades implements Serializable {
             throw new AplicacioException("Album already existing!");
     }
     
-    public List<String> mostrarAlbums() {
+    public List<String> mostrarAlbumsSimplified() {
         List<String> info = new ArrayList<>();
         
         int cnt = 1;
@@ -201,7 +201,7 @@ public class Dades implements Serializable {
         }
     }
     
-    public List<String> mostrarAlbum() {
+    public List<String> mostrarAlbums() {
         List<String> info = new ArrayList<>();
         
         int cnt = 1;
@@ -231,5 +231,16 @@ public class Dades implements Serializable {
             fin.close();
             ois.close();
         }
+    }
+    
+    public void afegirMediaAlbum(int i, int j) throws AplicacioException, FileNotFoundException {
+        
+        AlbumFitxersMultimedia afm = album_list.get(i);
+        FitxerMultimedia fm = (FitxerMultimedia) biblioteca.getAt(j);
+        
+        if (!afm.isFull())
+            afm.addFitxer(fm);
+        else
+            throw new AplicacioException("The album is full!");
     }
 }

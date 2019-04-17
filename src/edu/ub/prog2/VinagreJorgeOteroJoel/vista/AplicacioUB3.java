@@ -7,6 +7,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AplicacioUB3 {
     
@@ -161,10 +163,12 @@ public class AplicacioUB3 {
                     createAlbumOpt();
                     break;
                 case SHOW_ALBUMS:
+                    showAlbumsSimplified();
                     break;
                 case DEL_ALBUM:
                     break;
                 case MANAGE_ALBUM:
+                    showAlbumsSimplified();
                     break;
                 case BACK:
                     break;
@@ -425,6 +429,12 @@ public class AplicacioUB3 {
         });
     }
     
+    private void showAlbumsSimplified() {
+        controlador.mostrarAlbumsSimplified().forEach((info) -> {
+            System.out.println(info);
+        });
+    }
+    
     /**
      * Option to save the data
      */
@@ -498,5 +508,34 @@ public class AplicacioUB3 {
         if (!exception_caught) {
             System.out.println("The album was created succesfully!");
         }
+    }
+    
+    private void addMediaToAlbumOpt() {
+        boolean exception_caught = false;
+        Scanner sc = new Scanner(System.in);
+        int selected_album, selected_file;
+        
+        showAlbumsSimplified();
+        System.out.println("Select an album:");
+        selected_album = sc.nextInt();
+        selected_album--;
+        
+        showLibrarySimplified();
+        System.out.println("Select a file:");
+        selected_file = sc.nextInt();
+        selected_file--;
+        
+        
+        
+        try {
+            controlador.afegirMediaAlbum(selected_album, selected_file);
+        } catch (FileNotFoundException | AplicacioException ex) {
+            System.err.println(ex.getMessage());
+        }
+        
+        if (!exception_caught) {
+            System.out.println("The file was added succesfully!");
+        }
+        
     }
 }
