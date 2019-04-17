@@ -2,7 +2,6 @@ package edu.ub.prog2.VinagreJorgeOteroJoel.controlador;
 
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.Dades;
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.EscoltadorReproduccio;
-import edu.ub.prog2.VinagreJorgeOteroJoel.model.FitxerMultimedia;
 import edu.ub.prog2.utils.AplicacioException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -58,6 +57,15 @@ public class Controlador {
     }
     
     /**
+     * Remove a file from the library (Delegation)
+     * @param id Id of the file to be removed
+     * @throws FileNotFoundException If the file can't be found
+     */
+    public void esborrarFitxer(int id) throws FileNotFoundException {
+        dades.esborrarFitxer(id);
+    }
+    
+    /**
      * Show the current library (Delegation)
      * @return A string list with info of every file in library
      */
@@ -67,15 +75,6 @@ public class Controlador {
     
     public List<String> mostrarBibliotecaSimplified() {
         return dades.mostrarBibliotecaSimplified();
-    }
-    
-    /**
-     * Remove a file from the library (Delegation)
-     * @param id Id of the file to be removed
-     * @throws FileNotFoundException If the file can't be found
-     */
-    public void esborrarFitxer(int id) throws FileNotFoundException {
-        dades.esborrarFitxer(id);
     }
     
     /**
@@ -118,7 +117,15 @@ public class Controlador {
         dades.eliminarAlbum(i);
     }
     
-    public void afegirMediaAlbum(int i, int j) throws FileNotFoundException, AplicacioException {
-        dades.afegirMediaAlbum(i, j);
+    public void afegirMediaAlbum(int selected_album, int selected_file) throws FileNotFoundException, AplicacioException {
+        dades.afegirMediaAlbum(selected_album, selected_file);
+    }
+    
+    public String mostrarAlbum(int album_index) {
+        return dades.mostrarAlbum(album_index);
+    }
+    
+    public boolean albumIndexExists(int index) {
+        return dades.albumIndexExists(index);
     }
 }

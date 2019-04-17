@@ -26,6 +26,8 @@ public class AlbumFitxersMultimedia extends BibliotecaFitxersMultimedia {
         this.album_fitxers = new ArrayList<>(max);
     }
     
+    
+    
     public String getTitol() {
         return titol;
     }
@@ -36,9 +38,27 @@ public class AlbumFitxersMultimedia extends BibliotecaFitxersMultimedia {
     }
     
     public void addFitxer(FitxerMultimedia fm) throws FileNotFoundException, AplicacioException {
-        if (tauFitxers.contains(fm)) // Check if the file is in the library
-            tauFitxers.add(fm);
-        else 
-            throw new AplicacioException("File not in the library");
+        album_fitxers.add(fm);
     }
+    
+    public void removeFitxer(int pos) {
+        album_fitxers.remove(pos);
+    }
+    
+    public void removeAllFitxers(FitxerMultimedia fm) {
+        FitxerMultimedia temp_fm;
+        
+        for (int i = 0; i < album_fitxers.size(); i++) {
+            temp_fm = (FitxerMultimedia) album_fitxers.get(i);
+            if (temp_fm.equals(fm)) {
+                album_fitxers.remove(i);
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "AlbumFitxersMultimedia{" + "max=" + max + ", titol=" + titol + ", album_fitxers=" + album_fitxers + '}';
+    }
+    
 }

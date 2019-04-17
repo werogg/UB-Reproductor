@@ -108,33 +108,11 @@ public class Dades implements Serializable {
     public void esborrarFitxer(int id) throws FileNotFoundException {
        FitxerMultimedia fm = (FitxerMultimedia) biblioteca.getAt(id);
        
+       for (AlbumFitxersMultimedia afm : album_list) {
+           afm.removeAllFitxers(fm);
+       }
+       
        biblioteca.removeFitxer(fm);
-    }
-    
-    /**
-     * Class toString()
-     * @return Info about the current object
-     */
-    @Override
-    public String toString() {
-        String to_print = "";
-        int cnt = 0;
-        
-        to_print += "Data: \n";
-        for (FitxerMultimedia fitxer : biblioteca.tauFitxers) {
-            if (fitxer != null) {
-                to_print += "[" + cnt + "] Description = " 
-                    + fitxer.getDescripcio() 
-                    + ", Date = " + fitxer.getUltimaModificacio() 
-                    + ", Name = " + fitxer.getNomFitxer()
-                    + ", Ext = " + fitxer.getExtensio()
-                    + ", Absolute Path = " + fitxer.getAbsolutePath()
-                    + "\n";
-                cnt++;
-            }
-        }
-        
-        return to_print;
     }
     
     public void crearAlbum(int i, String titol) throws AplicacioException {
@@ -214,6 +192,10 @@ public class Dades implements Serializable {
         return info;
     }
     
+    public String mostrarAlbum(int album_index) {
+        return album_list.get(album_index).toString();
+    }
+    
     public void guardarDadesDisc(String camiDesti) throws FileNotFoundException, IOException { 
         try (FileOutputStream fout = new FileOutputStream(new File(camiDesti)); ObjectOutputStream oos = new ObjectOutputStream(fout)) {
             oos.writeObject(this);
@@ -233,14 +215,45 @@ public class Dades implements Serializable {
         }
     }
     
-    public void afegirMediaAlbum(int i, int j) throws AplicacioException, FileNotFoundException {
+    public void afegirMediaAlbum(int selected_album, int selected_file) throws AplicacioException, FileNotFoundException {
         
-        AlbumFitxersMultimedia afm = album_list.get(i);
-        FitxerMultimedia fm = (FitxerMultimedia) biblioteca.getAt(j);
+        AlbumFitxersMultimedia afm = album_list.get(selected_album);
+        FitxerMultimedia fm = (FitxerMultimedia) biblioteca.getAt(selected_file);
         
         if (!afm.isFull())
             afm.addFitxer(fm);
         else
             throw new AplicacioException("The album is full!");
+    }
+    
+    public boolean albumIndexExists(int index) {
+        return (index < album_list.size() && index >= 0);
+    }
+    
+    
+    /**
+     * Class toString()
+     * @return Info about the current object
+     */
+    @Override
+    public String toString() {
+        String to_print = "";
+        int cnt = 0;
+        
+        to_print += "Data: \n";
+        for (FitxerMultimedia fitxer : biblioteca.tauFitxers) {
+            if (fitxer != null) {
+                to_print += "[" + cnt + "] Description = " 
+                    + fitxer.getDescripcio() 
+                    + ", Date = " + fitxer.getUltimaModificacio() 
+                    + ", Name = " + fitxer.getNomFitxer()
+                    + ", Ext = " + fitxer.getExtensio()
+                    + ", Absolute Path = " + fitxer.getAbsolutePath()
+                    + "\n";
+                cnt++;
+            }
+        }
+        
+        return to_print;
     }
 }

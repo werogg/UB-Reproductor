@@ -129,7 +129,7 @@ public class AplicacioUB3 {
                     libManager(sc, library_menu, add_menu);
                     break;
                 case ALBUM_MANAGER:
-                    albumManager(sc, album_menu);
+                    albumManager(sc, album_menu, album_manager_menu);
                     break;
                 case PLAYER_MANAGER:
                     break;
@@ -147,7 +147,7 @@ public class AplicacioUB3 {
         } while(opcio!=OpcionsMenuPrincipal.EXIT);
     }
     
-    private void albumManager(Scanner sc, Menu<OpcionsMenuAlbum> album_menu) {
+    private void albumManager(Scanner sc, Menu<OpcionsMenuAlbum> album_menu, Menu<OpcionsMenuAlbumManager> album_menu_manager) {
         OpcionsMenuAlbum opcio;
         
         do {
@@ -168,12 +168,38 @@ public class AplicacioUB3 {
                 case DEL_ALBUM:
                     break;
                 case MANAGE_ALBUM:
-                    showAlbumsSimplified();
+                    manageAlbumOpt(sc, album_menu_manager);
                     break;
                 case BACK:
                     break;
             }
         } while (opcio != OpcionsMenuAlbum.BACK);
+    }
+    
+    private void manageAlbumManager(Scanner sc, Menu<OpcionsMenuAlbumManager> album_menu, int album_index) {
+        OpcionsMenuAlbumManager opcio;
+        
+        do {
+            // Prints the menu
+            album_menu.mostrarMenu();
+            
+            // Get the selected option
+            opcio = album_menu.getOpcio(sc);
+            
+            // Switch between options
+            switch (opcio) {
+                case ADD_MEDIA:
+                    addMediaToAlbumOpt(album_index);
+                    break;
+                case SHOW_ALBUM:
+                    showAlbumOpt(album_index);
+                    break;
+                case DEL_MEDIA:
+                    break;
+                case BACK:
+                    break;
+            }
+        } while (opcio != OpcionsMenuAlbumManager.BACK);
     }
     
     /**
@@ -236,6 +262,19 @@ public class AplicacioUB3 {
                     break;
             }
         } while (opcio != OpcionsMenuAfegir.BACK);
+    }
+
+    private void manageAlbumOpt(Scanner sc, Menu<OpcionsMenuAlbumManager> album_menu) {
+        int selected_album;
+        
+        do {
+            showAlbumsSimplified();
+            System.out.println("Select an album: ");
+            selected_album = sc.nextInt();
+            selected_album--;
+        } while (!controlador.albumIndexExists(selected_album));
+        
+        manageAlbumManager(sc, album_menu, selected_album);
     }
     
     /**
@@ -510,22 +549,15 @@ public class AplicacioUB3 {
         }
     }
     
-    private void addMediaToAlbumOpt() {
+    private void addMediaToAlbumOpt(int selected_album) {
         boolean exception_caught = false;
         Scanner sc = new Scanner(System.in);
-        int selected_album, selected_file;
-        
-        showAlbumsSimplified();
-        System.out.println("Select an album:");
-        selected_album = sc.nextInt();
-        selected_album--;
+        int selected_file;
         
         showLibrarySimplified();
         System.out.println("Select a file:");
         selected_file = sc.nextInt();
         selected_file--;
-        
-        
         
         try {
             controlador.afegirMediaAlbum(selected_album, selected_file);
@@ -537,5 +569,9 @@ public class AplicacioUB3 {
             System.out.println("The file was added succesfully!");
         }
         
+    }
+    
+    private void showAlbumOpt(int album_index) {
+        System.out.println(controlador.mostrarAlbum(album_index));
     }
 }
