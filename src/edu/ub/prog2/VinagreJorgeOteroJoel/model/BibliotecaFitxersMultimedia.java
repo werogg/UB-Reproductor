@@ -24,8 +24,6 @@ public class BibliotecaFitxersMultimedia extends CarpetaFitxers {
         if (file.exists()) { // Check if file exists
             if (file instanceof FitxerMultimedia) { // Check if file is instance of FitxerMultimedia
                 FitxerMultimedia fm = (FitxerMultimedia) file; // Explicit conversion
-                if (isFull()) // Check if library is full
-                    throw new AplicacioException("The folder is full.");
                 if (!tauFitxers.contains(fm)) // Check if the file is already in the library
                     tauFitxers.add(fm);
                 else 

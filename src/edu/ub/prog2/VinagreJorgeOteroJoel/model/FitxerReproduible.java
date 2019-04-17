@@ -1,5 +1,7 @@
 package edu.ub.prog2.VinagreJorgeOteroJoel.model;
 
+import edu.ub.prog2.VinagreJorgeOteroJoel.controlador.Reproductor;
+
 public abstract class FitxerReproduible extends FitxerMultimedia {
     private final String codec;
     private final float durada;

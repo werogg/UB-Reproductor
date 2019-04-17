@@ -1,5 +1,7 @@
 package edu.ub.prog2.VinagreJorgeOteroJoel.model;
 
+import edu.ub.prog2.VinagreJorgeOteroJoel.controlador.Reproductor;
+
 public class Video extends FitxerReproduible {
     private final float fps;
     private final int alcada, amplada;

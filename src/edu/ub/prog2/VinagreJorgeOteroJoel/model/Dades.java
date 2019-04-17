@@ -1,7 +1,14 @@
 package edu.ub.prog2.VinagreJorgeOteroJoel.model;
 
+import edu.ub.prog2.VinagreJorgeOteroJoel.controlador.Reproductor;
 import edu.ub.prog2.utils.AplicacioException;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -9,18 +16,14 @@ import java.util.List;
 
 public class Dades implements Serializable {
     
-    private final BibliotecaFitxersMultimedia biblioteca;
-    private final ArrayList<AlbumFitxersMultimedia> album_list;
-    private final transient Reproductor reproductor;
-    private final transient EscoltadorReproduccio eplayer;
+    private BibliotecaFitxersMultimedia biblioteca;
+    private ArrayList<AlbumFitxersMultimedia> album_list;
     
     /**
      * Dades class constructor
      */
     public Dades() {
         biblioteca = new BibliotecaFitxersMultimedia();
-        eplayer = new EscoltadorReproduccio();
-        reproductor = new Reproductor(eplayer);
         album_list = new ArrayList<>();
     }
     
@@ -37,7 +40,7 @@ public class Dades implements Serializable {
      * @throws AplicacioException If the file is already in the library, library is full or file is not media
      * @throws FileNotFoundException If the file can't be found
      */
-    public void afegirVideo(String path, String nomVideo, String codec, float durada, int alcada, int amplada, float fps) throws AplicacioException, FileNotFoundException {
+    public void afegirVideo(String path, String nomVideo, String codec, float durada, int alcada, int amplada, float fps, Reproductor reproductor) throws AplicacioException, FileNotFoundException {
         
         Video video = new Video(path, nomVideo, codec, durada, alcada, amplada, fps, reproductor);
         
@@ -52,13 +55,14 @@ public class Dades implements Serializable {
      * @param codec Audio codec
      * @param durada Audio duration
      * @param kbps Audio kbps (Quality)
+     * @param reproductor
      * @throws AplicacioException If the file is already in the library, library is full or file is not media
      * @throws FileNotFoundException If the file can't be found
      */
-    public void afegirAudio(String cami, String camiImatge ,String nomAudio, String codec, float durada, int kbps) throws AplicacioException, FileNotFoundException {
+    public void afegirAudio(String cami, String camiImatge ,String nomAudio, String codec, float durada, int kbps, Reproductor reproductor) throws AplicacioException, FileNotFoundException {
         FitxerMultimedia fm = new FitxerMultimedia(camiImatge);
         
-        Audio audio = new Audio (cami, fm, nomAudio, codec, durada, kbps, reproductor);
+        Audio audio = new Audio(cami, fm, nomAudio, codec, durada, kbps, reproductor);
         
         biblioteca.addFitxer(audio);
     }
@@ -129,7 +133,6 @@ public class Dades implements Serializable {
                 cnt++;
             }
         }
-        to_print += "\n Player: " + reproductor;
         
         return to_print;
     }
@@ -209,5 +212,24 @@ public class Dades implements Serializable {
         info.add("-----------------------------");
         
         return info;
+    }
+    
+    public void guardarDadesDisc(String camiDesti) throws FileNotFoundException, IOException { 
+        try (FileOutputStream fout = new FileOutputStream(new File(camiDesti)); ObjectOutputStream oos = new ObjectOutputStream(fout)) {
+            oos.writeObject(this);
+            fout.close();
+            oos.close();
+        }
+    }
+    
+    public void carregarDadesDisc(String camiOrigen) throws IOException, ClassNotFoundException {
+        try (FileInputStream fin = new FileInputStream(new File(camiOrigen)); ObjectInputStream ois = new ObjectInputStream(fin)) {
+            Dades dades_temp = (Dades) ois.readObject();
+            this.biblioteca = dades_temp.biblioteca;
+            this.album_list = dades_temp.album_list;
+            
+            fin.close();
+            ois.close();
+        }
     }
 }

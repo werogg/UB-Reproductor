@@ -2,7 +2,6 @@ package edu.ub.prog2.VinagreJorgeOteroJoel.controlador;
 
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.Dades;
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.EscoltadorReproduccio;
-import edu.ub.prog2.VinagreJorgeOteroJoel.model.Reproductor;
 import edu.ub.prog2.utils.AplicacioException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,7 +39,7 @@ public class Controlador {
     public void afegirVideo(String path, String nomVideo, String codec,
             float durada, int alcada, int amplada, float fps) throws AplicacioException, FileNotFoundException {
         
-        dades.afegirVideo(path, nomVideo, codec, durada, alcada, amplada, fps);
+        dades.afegirVideo(path, nomVideo, codec, durada, alcada, amplada, fps, player);
         
     }
     
@@ -58,7 +57,7 @@ public class Controlador {
     public void afegirAudio(String cami, String camiImatge, String nomAudio,
             String codec, float durada, int kbps) throws AplicacioException, FileNotFoundException {
         
-        dades.afegirAudio(cami, camiImatge, nomAudio, codec, durada, kbps);
+        dades.afegirAudio(cami, camiImatge, nomAudio, codec, durada, kbps, player);
         
     }
     
@@ -90,11 +89,7 @@ public class Controlador {
      * @throws IOException
      */
     public void guardarDadesDisc(String camiDesti) throws FileNotFoundException, IOException { 
-        try (FileOutputStream fout = new FileOutputStream(new File(camiDesti)); ObjectOutputStream oos = new ObjectOutputStream(fout)) {
-            oos.writeObject(dades);
-            fout.close();
-            oos.close();
-        }
+        dades.guardarDadesDisc(camiDesti);
     }
     
     /**
@@ -104,11 +99,7 @@ public class Controlador {
      * @throws ClassNotFoundException
      */
     public void carregarDadesDisc(String camiOrigen) throws IOException, ClassNotFoundException {
-        try (FileInputStream fin = new FileInputStream(new File(camiOrigen)); ObjectInputStream ois = new ObjectInputStream(fin)) {
-            dades = (Dades) ois.readObject();
-            fin.close();
-            ois.close();
-        }
+        dades.carregarDadesDisc(camiOrigen);
     }
     
     public void crearAlbum(int i, String titol) throws AplicacioException {

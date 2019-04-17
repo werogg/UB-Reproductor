@@ -1,5 +1,6 @@
  package edu.ub.prog2.VinagreJorgeOteroJoel.model;
 
+import edu.ub.prog2.VinagreJorgeOteroJoel.controlador.Reproductor;
 import java.io.File;
 
 public class Audio extends FitxerReproduible {

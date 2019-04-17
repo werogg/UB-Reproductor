@@ -256,7 +256,7 @@ public class AplicacioUB3 {
         
         
         System.out.println("Introduce the path to the video file:");
-        path = sc.next();
+        path = sc.nextLine();
         
         
         System.out.println("Introduce the video name:");
@@ -338,7 +338,7 @@ public class AplicacioUB3 {
         
         Scanner sc = new Scanner(System.in);
         System.out.println("Introduce the path to the audio file:");
-        String cami = sc.next();
+        String cami = sc.nextLine();
         
         System.out.println("Itroduce the path to the audio's image:");
         String camiImatge = sc.next();

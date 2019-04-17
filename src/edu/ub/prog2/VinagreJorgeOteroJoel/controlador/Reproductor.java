@@ -1,4 +1,4 @@
-package edu.ub.prog2.VinagreJorgeOteroJoel.model;
+package edu.ub.prog2.VinagreJorgeOteroJoel.controlador;
 
 import edu.ub.prog2.utils.EscoltadorReproduccioBasic;
 import edu.ub.prog2.utils.ReproductorBasic;
