@@ -16,11 +16,10 @@ public class BibliotecaFitxersMultimedia extends CarpetaFitxers {
     /**
      * Add file to BibliotecaFitxersMultimedia
      * @param file File to be added
-     * @throws java.io.FileNotFoundException
      * @throws AplicacioException 
      */
     @Override
-    public void addFitxer(File file) throws FileNotFoundException, AplicacioException {
+    public void addFitxer(File file) throws AplicacioException {
         if (file.exists()) { // Check if file exists
             if (file instanceof FitxerMultimedia) { // Check if file is instance of FitxerMultimedia
                 FitxerMultimedia fm = (FitxerMultimedia) file; // Explicit conversion
@@ -31,6 +30,6 @@ public class BibliotecaFitxersMultimedia extends CarpetaFitxers {
             } else
                 throw new AplicacioException("File is not a FitxerMultimedia");
         } else
-            throw new FileNotFoundException("Exception: File does not exists");
+            throw new AplicacioException("File does not exists");
     }
 }

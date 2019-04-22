@@ -368,8 +368,8 @@ public class AplicacioUB3 {
         
         try {
             controlador.afegirVideo(path, nomVideo, codec, durada, alcada, amplada, fps);
-        } catch (AplicacioException | FileNotFoundException e) {
-            if (e instanceof FileNotFoundException) System.err.println(e.getMessage());
+        } catch (AplicacioException e) {
+            System.err.println(e.getMessage());
             exception_caught = true;
         }
         
@@ -426,8 +426,8 @@ public class AplicacioUB3 {
         
         try {
             controlador.afegirAudio(cami, camiImatge, nomAudio, codec, durada, kbps);
-        } catch (AplicacioException | FileNotFoundException e) {
-            if (e instanceof FileNotFoundException) System.err.println(e.getMessage());
+        } catch (AplicacioException e) {
+            System.err.println(e.getMessage());
             exception_caught = true;
         }
         
@@ -450,7 +450,7 @@ public class AplicacioUB3 {
         
         try {
             controlador.esborrarFitxer(index_arxiu_sel);
-        } catch (FileNotFoundException e) {
+        } catch (AplicacioException e) {
             System.err.println(e.getMessage());
             exception_caught = true;
         }
@@ -492,7 +492,7 @@ public class AplicacioUB3 {
         
         try {
             controlador.guardarDadesDisc(camiDesti);
-        } catch (IOException ex) {
+        } catch (AplicacioException ex) {
             System.err.println(ex.getMessage());
             exception_caught = true;
         }
@@ -513,7 +513,7 @@ public class AplicacioUB3 {
         
         try {
             controlador.carregarDadesDisc(camiOrigen);
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (AplicacioException e) {
             System.err.println(e.getCause());
             exception_caught = true;
         } 
@@ -566,7 +566,7 @@ public class AplicacioUB3 {
         
         try {
             controlador.afegirMediaAlbum(selected_album, selected_file);
-        } catch (FileNotFoundException | AplicacioException ex) {
+        } catch (AplicacioException ex) {
             System.err.println(ex.getMessage());
         }
         

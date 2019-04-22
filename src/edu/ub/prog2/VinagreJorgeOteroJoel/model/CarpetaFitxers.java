@@ -45,15 +45,15 @@ public class CarpetaFitxers implements Serializable {
     /**
      * Remove a file from the folder
      * @param file File to be removed from the folder
-     * @throws java.io.FileNotFoundException
+     * @throws edu.ub.prog2.utils.AplicacioException
      */
-    public void removeFitxer(File file) throws FileNotFoundException {
+    public void removeFitxer(File file) throws AplicacioException {
         if (file instanceof FitxerMultimedia) {
             FitxerMultimedia fm = (FitxerMultimedia) file;
             if (tauFitxers.contains(fm))
                 tauFitxers.remove(fm);
             else
-                throw new FileNotFoundException("Exception: File not found");
+                throw new AplicacioException("File not found");
         }
     }
     
@@ -61,12 +61,12 @@ public class CarpetaFitxers implements Serializable {
      * Get file at position
      * @param position Index of the file
      * @return File in the index
-     * @throws java.io.FileNotFoundException
+     * @throws edu.ub.prog2.utils.AplicacioException
      * 
      */
-    public File getAt(int position) throws FileNotFoundException {
+    public File getAt(int position) throws AplicacioException {
         if (position >= tauFitxers.size())
-            throw new FileNotFoundException("Exception: File not found");
+            throw new AplicacioException("File not found");
         else
             return tauFitxers.get(position);
     }

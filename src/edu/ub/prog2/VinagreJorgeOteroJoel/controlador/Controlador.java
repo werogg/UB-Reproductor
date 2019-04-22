@@ -3,11 +3,10 @@ package edu.ub.prog2.VinagreJorgeOteroJoel.controlador;
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.Dades;
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.EscoltadorReproduccio;
 import edu.ub.prog2.utils.AplicacioException;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import edu.ub.prog2.utils.InControlador;
 import java.util.List;
 
-public class Controlador {
+public class Controlador implements InControlador {
     private Dades dades;
     EscoltadorReproduccio eplayer = new EscoltadorReproduccio();
     private final Reproductor player = new Reproductor(eplayer);
@@ -29,10 +28,10 @@ public class Controlador {
      * @param amplada Video width
      * @param fps Video frames per second
      * @throws AplicacioException If the file is already in the library, library is full or file is not media
-     * @throws FileNotFoundException If the file can't be found
      */
+    @Override
     public void afegirVideo(String path, String nomVideo, String codec,
-            float durada, int alcada, int amplada, float fps) throws AplicacioException, FileNotFoundException {
+            float durada, int alcada, int amplada, float fps) throws AplicacioException {
         
         dades.afegirVideo(path, nomVideo, codec, durada, alcada, amplada, fps, player);
         
@@ -47,10 +46,10 @@ public class Controlador {
      * @param durada Audio duration
      * @param kbps Audio kbps (Quality)
      * @throws AplicacioException If the file is already in the library, library is full or file is not media
-     * @throws FileNotFoundException If the file can't be found
      */
+    @Override
     public void afegirAudio(String cami, String camiImatge, String nomAudio,
-            String codec, float durada, int kbps) throws AplicacioException, FileNotFoundException {
+            String codec, float durada, int kbps) throws AplicacioException {
         
         dades.afegirAudio(cami, camiImatge, nomAudio, codec, durada, kbps, player);
         
@@ -59,9 +58,10 @@ public class Controlador {
     /**
      * Remove a file from the library (Delegation)
      * @param id Id of the file to be removed
-     * @throws FileNotFoundException If the file can't be found
+     * @throws edu.ub.prog2.utils.AplicacioException
      */
-    public void esborrarFitxer(int id) throws FileNotFoundException {
+    @Override
+    public void esborrarFitxer(int id) throws AplicacioException {
         dades.esborrarFitxer(id);
     }
     
@@ -80,20 +80,20 @@ public class Controlador {
     /**
      * Save data to the disk
      * @param camiDesti Path to the data file
-     * @throws FileNotFoundException
-     * @throws IOException
+     * @throws edu.ub.prog2.utils.AplicacioException
      */
-    public void guardarDadesDisc(String camiDesti) throws FileNotFoundException, IOException { 
+    @Override
+    public void guardarDadesDisc(String camiDesti) throws AplicacioException { 
         dades.guardarDadesDisc(camiDesti);
     }
     
     /**
      * Load tdata from disk
      * @param camiOrigen Path to the data file
-     * @throws IOException
-     * @throws ClassNotFoundException
+     * @throws edu.ub.prog2.utils.AplicacioException
      */
-    public void carregarDadesDisc(String camiOrigen) throws IOException, ClassNotFoundException {
+    @Override
+    public void carregarDadesDisc(String camiOrigen) throws AplicacioException {
         dades.carregarDadesDisc(camiOrigen);
         // TODO static method
     }
@@ -117,7 +117,7 @@ public class Controlador {
         dades.eliminarAlbum(i);
     }
     
-    public void afegirMediaAlbum(int selected_album, int selected_file) throws FileNotFoundException, AplicacioException {
+    public void afegirMediaAlbum(int selected_album, int selected_file) throws AplicacioException {
         dades.afegirMediaAlbum(selected_album, selected_file);
     }
     
@@ -135,5 +135,85 @@ public class Controlador {
     
     public void removeMediaFromAlbum(int selected_album, int selected_file) throws AplicacioException {
         dades.removeMediaFromAlbum(selected_album, selected_file);
+    }
+
+    @Override
+    public void reproduirFitxer(int i) throws AplicacioException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void afegirAlbum(String string) throws AplicacioException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<String> mostrarLlistatAlbums() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void esborrarAlbum(String string) throws AplicacioException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean existeixAlbum(String string) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void afegirFitxer(String string, int i) throws AplicacioException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<String> mostrarAlbum(String string) throws AplicacioException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void esborrarFitxer(String string, int i) throws AplicacioException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void obrirFinestraReproductor() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void tancarFinestraReproductor() throws AplicacioException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void reproduirCarpeta() throws AplicacioException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void reproduirCarpeta(String string) throws AplicacioException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void reemprenReproduccio() throws AplicacioException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void pausaReproduccio() throws AplicacioException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void aturaReproduccio() throws AplicacioException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void saltaReproduccio() throws AplicacioException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

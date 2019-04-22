@@ -13,6 +13,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Dades implements Serializable {
     
@@ -37,10 +39,10 @@ public class Dades implements Serializable {
      * @param alcada Video high
      * @param amplada Video width
      * @param fps Video frames per second
+     * @param reproductor
      * @throws AplicacioException If the file is already in the library, library is full or file is not media
-     * @throws FileNotFoundException If the file can't be found
      */
-    public void afegirVideo(String path, String nomVideo, String codec, float durada, int alcada, int amplada, float fps, Reproductor reproductor) throws AplicacioException, FileNotFoundException {
+    public void afegirVideo(String path, String nomVideo, String codec, float durada, int alcada, int amplada, float fps, Reproductor reproductor) throws AplicacioException {
         
         Video video = new Video(path, nomVideo, codec, durada, alcada, amplada, fps, reproductor);
         
@@ -57,9 +59,8 @@ public class Dades implements Serializable {
      * @param kbps Audio kbps (Quality)
      * @param reproductor
      * @throws AplicacioException If the file is already in the library, library is full or file is not media
-     * @throws FileNotFoundException If the file can't be found
      */
-    public void afegirAudio(String cami, String camiImatge ,String nomAudio, String codec, float durada, int kbps, Reproductor reproductor) throws AplicacioException, FileNotFoundException {
+    public void afegirAudio(String cami, String camiImatge ,String nomAudio, String codec, float durada, int kbps, Reproductor reproductor) throws AplicacioException {
         FitxerMultimedia fm = new FitxerMultimedia(camiImatge);
         
         Audio audio = new Audio(cami, fm, nomAudio, codec, durada, kbps, reproductor);
@@ -103,9 +104,9 @@ public class Dades implements Serializable {
     /**
      * Remove a file from the library
      * @param id Id of the file to be removed
-     * @throws FileNotFoundException If the file can't be found
+     * @throws edu.ub.prog2.utils.AplicacioException
      */
-    public void esborrarFitxer(int id) throws FileNotFoundException {
+    public void esborrarFitxer(int id) throws AplicacioException {
        FitxerMultimedia fm = (FitxerMultimedia) biblioteca.getAt(id);
        
        for (AlbumFitxersMultimedia afm : album_list) {
@@ -196,15 +197,19 @@ public class Dades implements Serializable {
         return album_list.get(album_index).toString();
     }
     
-    public void guardarDadesDisc(String camiDesti) throws FileNotFoundException, IOException { 
+    public void guardarDadesDisc(String camiDesti) throws AplicacioException { 
         try (FileOutputStream fout = new FileOutputStream(new File(camiDesti)); ObjectOutputStream oos = new ObjectOutputStream(fout)) {
             oos.writeObject(this);
             fout.close();
             oos.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Dades.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Dades.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public void carregarDadesDisc(String camiOrigen) throws IOException, ClassNotFoundException {
+    public void carregarDadesDisc(String camiOrigen) throws AplicacioException {
         try (FileInputStream fin = new FileInputStream(new File(camiOrigen)); ObjectInputStream ois = new ObjectInputStream(fin)) {
             Dades dades_temp = (Dades) ois.readObject();
             this.biblioteca = dades_temp.biblioteca;
@@ -212,10 +217,16 @@ public class Dades implements Serializable {
             
             fin.close();
             ois.close();
+        } catch (FileNotFoundException ex) {
+            throw new AplicacioException("Data file not found!");
+        } catch (IOException ex) {
+            throw new AplicacioException("IOException caught!");
+        } catch (ClassNotFoundException ex) {
+            throw new AplicacioException("Class not found in data file!");
         }
     }
     
-    public void afegirMediaAlbum(int selected_album, int selected_file) throws AplicacioException, FileNotFoundException {
+    public void afegirMediaAlbum(int selected_album, int selected_file) throws AplicacioException {
         
         AlbumFitxersMultimedia afm = album_list.get(selected_album);
         FitxerMultimedia fm = (FitxerMultimedia) biblioteca.getAt(selected_file);
