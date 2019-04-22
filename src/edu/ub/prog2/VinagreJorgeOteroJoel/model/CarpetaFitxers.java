@@ -65,7 +65,7 @@ public class CarpetaFitxers implements Serializable {
      * 
      */
     public File getAt(int position) throws AplicacioException {
-        if (position >= tauFitxers.size())
+        if (position >= tauFitxers.size() || position < 0)
             throw new AplicacioException("File not found");
         else
             return tauFitxers.get(position);

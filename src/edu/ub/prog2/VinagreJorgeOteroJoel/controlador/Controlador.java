@@ -48,11 +48,8 @@ public class Controlador implements InControlador {
      * @throws AplicacioException If the file is already in the library, library is full or file is not media
      */
     @Override
-    public void afegirAudio(String cami, String camiImatge, String nomAudio,
-            String codec, float durada, int kbps) throws AplicacioException {
-        
+    public void afegirAudio(String cami, String camiImatge, String nomAudio, String codec, float durada, int kbps) throws AplicacioException {
         dades.afegirAudio(cami, camiImatge, nomAudio, codec, durada, kbps, player);
-        
     }
     
     /**
@@ -69,6 +66,7 @@ public class Controlador implements InControlador {
      * Show the current library (Delegation)
      * @return A string list with info of every file in library
      */
+    @Override
     public List<String> mostrarBiblioteca() {
         return dades.mostrarBiblioteca();
     }
@@ -98,83 +96,55 @@ public class Controlador implements InControlador {
         // TODO static method
     }
     
-    public void crearAlbum(int i, String titol) throws AplicacioException {
-        dades.crearAlbum(i, titol);
-    }
-    public void crearAlbum(String titol) throws AplicacioException {
-        dades.crearAlbum(titol);
-    }
-    
     public List<String> mostrarAlbums() {
         return dades.mostrarAlbums();
     }
-    
-    public List<String> mostrarAlbumsSimplified() {
-        return dades.mostrarAlbumsSimplified();
-    }
-    
-    public void eliminarAlbum(int i) throws AplicacioException {
-        dades.eliminarAlbum(i);
-    }
-    
-    public void afegirMediaAlbum(int selected_album, int selected_file) throws AplicacioException {
-        dades.afegirMediaAlbum(selected_album, selected_file);
-    }
-    
-    public String mostrarAlbum(int album_index) {
-        return dades.mostrarAlbum(album_index);
-    }
-    
-    public boolean albumIndexExists(int index) {
-        return dades.albumIndexExists(index);
-    }
-    
-    public boolean albumMediaIndexExists(int selected_album, int index) {
-        return dades.albumMediaIndexExists(selected_album, index);
-    }
-    
-    public void removeMediaFromAlbum(int selected_album, int selected_file) throws AplicacioException {
-        dades.removeMediaFromAlbum(selected_album, selected_file);
-    }
 
+    // TODO
     @Override
     public void reproduirFitxer(int i) throws AplicacioException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    // DONE
     @Override
     public void afegirAlbum(String string) throws AplicacioException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        dades.afegirAlbum(string);
     }
 
+    // DONE
     @Override
     public List<String> mostrarLlistatAlbums() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return dades.mostrarLlistatAlbums();
     }
 
     @Override
     public void esborrarAlbum(String string) throws AplicacioException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        dades.esborrarAlbum(string);
     }
 
+    // DONE
     @Override
     public boolean existeixAlbum(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return dades.existeixAlbum(string);
     }
 
+    // DONE
     @Override
-    public void afegirFitxer(String string, int i) throws AplicacioException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void afegirFitxer(String album_name, int selected_file) throws AplicacioException {
+        dades.afegirFitxer(album_name, selected_file);
     }
-
-    @Override
-    public List<String> mostrarAlbum(String string) throws AplicacioException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    
+    // DONE
     @Override
     public void esborrarFitxer(String string, int i) throws AplicacioException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        dades.esborrarFitxer(string, i);
+    }
+
+    // DONE
+    @Override
+    public List<String> mostrarAlbum(String string) throws AplicacioException {
+        return dades.mostrarAlbum(string);
     }
 
     @Override
@@ -214,6 +184,7 @@ public class Controlador implements InControlador {
 
     @Override
     public void saltaReproduccio() throws AplicacioException {
+        System.out.println("no implementado");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

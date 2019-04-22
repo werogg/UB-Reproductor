@@ -116,28 +116,51 @@ public class Dades implements Serializable {
        biblioteca.removeFitxer(fm);
     }
     
-    public void crearAlbum(int i, String titol) throws AplicacioException {
-        AlbumFitxersMultimedia afm = new AlbumFitxersMultimedia(i, titol);
-        AlbumFitxersMultimedia next_afm;
-        boolean same_titol_existing = false;
-        
+    public void esborrarFitxer(String album_name, int id) throws AplicacioException {
+        boolean trobat = false;
         Iterator it = album_list.iterator();
+        AlbumFitxersMultimedia afm;
+        int i = 0;
         
-        while (it.hasNext()) {
-            next_afm = (AlbumFitxersMultimedia) it.next();
-            if (afm.getTitol().equals(next_afm.getTitol())) {
-                same_titol_existing = true;
+        while(it.hasNext()) {
+            afm = (AlbumFitxersMultimedia) it.next();
+            
+            if(afm.getTitol().equals(album_name)) {
+                trobat = true;
                 break;
             }
+            i++;
         }
         
-        if (!same_titol_existing) {
-            album_list.add(afm);
-        } else
-            throw new AplicacioException("Album already existing!");
+        if (trobat) afm = album_list.get(i);
+        else throw new AplicacioException("The album doesn't exists!");
+        
+        FitxerMultimedia fm = (FitxerMultimedia) biblioteca.getAt(id);
+        
+        afm.removeFitxer(fm);
     }
     
-    public void crearAlbum(String titol) throws AplicacioException {
+    public void esborrarAlbum(String titol) throws AplicacioException {
+        boolean trobat = false;
+        AlbumFitxersMultimedia afm;
+        Iterator it = album_list.iterator();
+        
+        int i = 0;
+        while (it.hasNext()) {
+            afm = (AlbumFitxersMultimedia) it.next();
+            
+            if(afm.getTitol().equals(titol)) {
+                trobat = true;
+                break;
+            }
+            i++;
+        }
+        
+        if(trobat) album_list.remove(i);
+        else throw new AplicacioException("Album not found!");
+    }
+    
+    public void afegirAlbum(String titol) throws AplicacioException {
         AlbumFitxersMultimedia afm = new AlbumFitxersMultimedia(titol);
         AlbumFitxersMultimedia next_afm;
         boolean same_titol_existing = false;
@@ -158,7 +181,7 @@ public class Dades implements Serializable {
             throw new AplicacioException("Album already existing!");
     }
     
-    public List<String> mostrarAlbumsSimplified() {
+    public List<String> mostrarLlistatAlbums() {
         List<String> info = new ArrayList<>();
         
         int cnt = 1;
@@ -170,14 +193,6 @@ public class Dades implements Serializable {
         info.add("-----------------------------");
         
         return info;
-    }
-    
-    public void eliminarAlbum(int i) throws AplicacioException {
-        if (i >= album_list.size() || i < 0) {
-            throw new AplicacioException("This album doesn't exists!");
-        } else {
-            album_list.remove(i);
-        }
     }
     
     public List<String> mostrarAlbums() {
@@ -193,8 +208,41 @@ public class Dades implements Serializable {
         return info;
     }
     
-    public String mostrarAlbum(int album_index) {
-        return album_list.get(album_index).toString();
+    public List<String> mostrarAlbum(String album_name) throws AplicacioException {
+        List<String> info = new ArrayList<>();
+        boolean trobat = false;
+        
+        
+        Iterator it = album_list.iterator();
+        AlbumFitxersMultimedia afm;
+        
+        while(it.hasNext()) {
+            afm = (AlbumFitxersMultimedia) it.next();
+            
+            if(afm.getTitol().equals(album_name)) {
+                info.add(afm.toString());
+                trobat = true;
+                break;
+            }
+        }
+        
+        if (!trobat) throw new AplicacioException("The album doesn't exists!");
+        
+        return info;
+    }
+    
+    public boolean existeixAlbum(String album_titol) {
+        
+        Iterator it = album_list.iterator();
+        AlbumFitxersMultimedia afm;
+        
+        while(it.hasNext()) {
+            afm = (AlbumFitxersMultimedia) it.next();
+            
+            if(afm.getTitol().equals(album_titol)) return true;
+        }
+        
+        return false;
     }
     
     public void guardarDadesDisc(String camiDesti) throws AplicacioException { 
@@ -226,30 +274,31 @@ public class Dades implements Serializable {
         }
     }
     
-    public void afegirMediaAlbum(int selected_album, int selected_file) throws AplicacioException {
+    public void afegirFitxer(String album_name, int selected_file) throws AplicacioException {
+        boolean trobat = false;
+        Iterator it = album_list.iterator();
+        AlbumFitxersMultimedia afm;
+        int i = 0;
         
-        AlbumFitxersMultimedia afm = album_list.get(selected_album);
+        while(it.hasNext()) {
+            afm = (AlbumFitxersMultimedia) it.next();
+            
+            if(afm.getTitol().equals(album_name)) {
+                trobat = true;
+                break;
+            }
+            i++;
+        }
+        
+        if (trobat) afm = album_list.get(i);
+        else throw new AplicacioException("The album doesn't exists!");
+        
         FitxerMultimedia fm = (FitxerMultimedia) biblioteca.getAt(selected_file);
         
         if (!afm.isFull())
             afm.addFitxer(fm);
         else
             throw new AplicacioException("The album is full!");
-    }
-    
-    public boolean albumIndexExists(int index) {
-        return (index < album_list.size() && index >= 0);
-    }
-    
-    public boolean albumMediaIndexExists(int selected_album, int index) {
-        AlbumFitxersMultimedia afm = album_list.get(selected_album);
-        return (index < afm.getSize() && index >= 0);
-    }
-    
-    public void removeMediaFromAlbum(int selected_album, int selected_file) throws AplicacioException {
-        AlbumFitxersMultimedia afm = album_list.get(selected_album);
-        
-        afm.removeFitxer(selected_file);
     }
     
     

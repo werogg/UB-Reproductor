@@ -1,7 +1,6 @@
 package edu.ub.prog2.VinagreJorgeOteroJoel.model;
 
 import edu.ub.prog2.utils.AplicacioException;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /**
@@ -26,8 +25,6 @@ public class AlbumFitxersMultimedia extends BibliotecaFitxersMultimedia {
         this.album_fitxers = new ArrayList<>(max);
     }
     
-    
-    
     public String getTitol() {
         return titol;
     }
@@ -48,13 +45,8 @@ public class AlbumFitxersMultimedia extends BibliotecaFitxersMultimedia {
     }
     
     public void removeAllFitxers(FitxerMultimedia fm) {
-        FitxerMultimedia temp_fm;
-        
-        for (int i = 0; i < album_fitxers.size(); i++) {
-            temp_fm = (FitxerMultimedia) album_fitxers.get(i);
-            if (temp_fm.equals(fm)) {
-                album_fitxers.remove(i);
-            }
+        while (album_fitxers.contains(fm)) {
+            album_fitxers.remove(fm);
         }
     }
 

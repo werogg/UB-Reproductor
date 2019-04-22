@@ -177,11 +177,11 @@ public class AplicacioUB3 {
         } while (opcio != OpcionsMenuAlbum.BACK);
     }
     
-    private void manageAlbumManager(Scanner sc, Menu<OpcionsMenuAlbumManager> album_menu, int album_index) throws AplicacioException {
+    private void manageAlbumManager(Scanner sc, Menu<OpcionsMenuAlbumManager> album_menu, String album_name) throws AplicacioException {
         OpcionsMenuAlbumManager opcio;
         
         do {
-            if (!controlador.albumIndexExists(album_index)) throw new AplicacioException("Album index out of bounds!"); 
+            if (!controlador.existeixAlbum(album_name)) throw new AplicacioException("Album index out of bounds!"); 
             
             // Prints the menu
             album_menu.mostrarMenu();
@@ -192,13 +192,13 @@ public class AplicacioUB3 {
             // Switch between options
             switch (opcio) {
                 case ADD_MEDIA:
-                    addMediaToAlbumOpt(album_index);
+                    addMediaToAlbumOpt(album_name);
                     break;
                 case SHOW_ALBUM:
-                    showAlbumOpt(album_index);
+                    showAlbumOpt(album_name);
                     break;
                 case DEL_MEDIA:
-                    removeMediaFromAlbumOpt(album_index);
+                    removeMediaFromAlbumOpt(album_name);
                     break;
                 case BACK:
                     break;
@@ -269,14 +269,13 @@ public class AplicacioUB3 {
     }
 
     private void manageAlbumOpt(Scanner sc, Menu<OpcionsMenuAlbumManager> album_menu) {
-        int selected_album;
+        String album_name;
         showAlbumsSimplified();
         System.out.println("Select an album: ");
-        selected_album = sc.nextInt();
-        selected_album--;
+        album_name = sc.nextLine();
         
         try {
-            manageAlbumManager(sc, album_menu, selected_album);
+            manageAlbumManager(sc, album_menu, album_name);
         } catch (AplicacioException ex) {
             System.out.println(ex.getMessage());
         }
@@ -474,7 +473,7 @@ public class AplicacioUB3 {
     }
     
     private void showAlbumsSimplified() {
-        controlador.mostrarAlbumsSimplified().forEach((info) -> {
+        controlador.mostrarLlistatAlbums().forEach((info) -> {
             System.out.println(info);
         });
     }
@@ -529,22 +528,9 @@ public class AplicacioUB3 {
         
         System.out.println("Introduce the album name");
         titol = sc.nextLine();
-        
-        do {
-            System.out.println("Introduce the album size");
-            
-            try {
-                tamany = sc.nextInt();
-            } catch (InputMismatchException e) {
-                System.err.println(e.getMessage());
-            }
-            
-            sc.nextLine(); // Clean the buffer
-            
-        } while (tamany <= 0);
-        
+
         try {
-            controlador.crearAlbum(tamany, titol);
+            controlador.afegirAlbum(titol);
         } catch (AplicacioException e) {
             exception_caught = true;
         }
@@ -554,7 +540,7 @@ public class AplicacioUB3 {
         }
     }
     
-    private void addMediaToAlbumOpt(int selected_album) {
+    private void addMediaToAlbumOpt(String album_name) {
         boolean exception_caught = false;
         Scanner sc = new Scanner(System.in);
         int selected_file;
@@ -565,7 +551,7 @@ public class AplicacioUB3 {
         selected_file--;
         
         try {
-            controlador.afegirMediaAlbum(selected_album, selected_file);
+            controlador.afegirFitxer(album_name, selected_file);
         } catch (AplicacioException ex) {
             System.err.println(ex.getMessage());
         }
@@ -576,23 +562,27 @@ public class AplicacioUB3 {
         
     }
     
-    private void showAlbumOpt(int album_index) {
-        System.out.println(controlador.mostrarAlbum(album_index));
+    private void showAlbumOpt(String album_name) {
+        try {
+            System.out.println(controlador.mostrarAlbum(album_name));
+        } catch (AplicacioException ex) {
+            System.err.println(ex.getMessage());
+        }
     }
     
-    private void removeMediaFromAlbumOpt(int album_index) {
+    private void removeMediaFromAlbumOpt(String album_name) {
         boolean exception_caught = false;
         Scanner sc = new Scanner(System.in);
-        showAlbumOpt(album_index);
+        showAlbumOpt(album_name);
         System.out.println("Select the file to be removed:");
         int selected_file = sc.nextInt();
         selected_file--;
         
         try {
-            controlador.removeMediaFromAlbum(album_index, selected_file);
+            controlador.esborrarFitxer(album_name, selected_file);
         } catch (AplicacioException ex) {
             exception_caught = true;
-            System.out.println(ex.getMessage());
+            System.err.println(ex.getMessage());
         }
         
         if (!exception_caught) {
@@ -605,14 +595,13 @@ public class AplicacioUB3 {
         Scanner sc = new Scanner(System.in);
         showAlbumsSimplified();
         System.out.println("Select the album to be removed:");
-        int selected_album = sc.nextInt();
-        selected_album--;
+        String selected_album = sc.nextLine();
         
         try {
-            controlador.eliminarAlbum(selected_album);
+            controlador.esborrarAlbum(selected_album);
         } catch (AplicacioException ex) {
             exception_caught = true;
-            System.out.println(ex.getMessage());
+            System.err.println(ex.getMessage());
         }
         
         if (!exception_caught) {
