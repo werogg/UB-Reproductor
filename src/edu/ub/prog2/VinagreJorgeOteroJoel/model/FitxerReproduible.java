@@ -1,11 +1,12 @@
 package edu.ub.prog2.VinagreJorgeOteroJoel.model;
 
 import edu.ub.prog2.VinagreJorgeOteroJoel.controlador.Reproductor;
+import edu.ub.prog2.utils.AplicacioException;
 
 public abstract class FitxerReproduible extends FitxerMultimedia {
     private final String codec;
     private final float durada;
-    private transient Reproductor reproductor;
+    protected transient Reproductor reproductor;
 
     /**
      * FitxerReproduible class constructor
@@ -23,11 +24,16 @@ public abstract class FitxerReproduible extends FitxerMultimedia {
         this.durada = durada;
         this.reproductor = r;
     }
+
+    public float getDurada() {
+        return durada;
+    }
     
     
     /**
      * Abstract method to play the file
+     * @throws edu.ub.prog2.utils.AplicacioException
      */
-    protected abstract void reproduir();
+    protected abstract void reproduir() throws AplicacioException;
     
 }
