@@ -3,12 +3,8 @@ package edu.ub.prog2.VinagreJorgeOteroJoel.vista;
 import edu.ub.prog2.VinagreJorgeOteroJoel.controlador.Controlador;
 import edu.ub.prog2.utils.AplicacioException;
 import edu.ub.prog2.utils.Menu;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class AplicacioUB3 {
     
