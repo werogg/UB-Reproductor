@@ -1,10 +1,12 @@
  package edu.ub.prog2.VinagreJorgeOteroJoel.model;
 
 import edu.ub.prog2.VinagreJorgeOteroJoel.controlador.Reproductor;
+import edu.ub.prog2.utils.AplicacioException;
 import java.io.File;
 
 public class Audio extends FitxerReproduible {
     private final int kbps; // Audio kbps attribute
+    private final File fitxerImatge;
 
     /**
      * Audio class contructor
@@ -20,13 +22,15 @@ public class Audio extends FitxerReproduible {
             int kbps, Reproductor r) {
         super(cami, nom, codec, durada, r);
         this.kbps = kbps;
+        this.fitxerImatge = fitxerImatge;
     }
     
     /**
      * Play audio method
+     * @throws edu.ub.prog2.utils.AplicacioException
      */
     @Override
-    protected void reproduir() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    protected void reproduir() throws AplicacioException {
+        reproductor.reprodueix(this, fitxerImatge);
     }
 }
