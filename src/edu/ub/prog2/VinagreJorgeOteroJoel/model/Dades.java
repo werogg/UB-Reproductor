@@ -39,7 +39,7 @@ public class Dades implements Serializable {
      * @param alcada Video high
      * @param amplada Video width
      * @param fps Video frames per second
-     * @param reproductor
+     * @param reproductor Reproductor object for playing
      * @throws AplicacioException If the file is already in the library, library is full or file is not media
      */
     public void afegirVideo(String path, String nomVideo, String codec, float durada, int alcada, int amplada, float fps, Reproductor reproductor) throws AplicacioException {
@@ -57,7 +57,7 @@ public class Dades implements Serializable {
      * @param codec Audio codec
      * @param durada Audio duration
      * @param kbps Audio kbps (Quality)
-     * @param reproductor
+     * @param reproductor Reproductor object for playing
      * @throws AplicacioException If the file is already in the library, library is full or file is not media
      */
     public void afegirAudio(String cami, String camiImatge ,String nomAudio, String codec, float durada, int kbps, Reproductor reproductor) throws AplicacioException {
@@ -106,7 +106,7 @@ public class Dades implements Serializable {
     /**
      * Remove a file from the library
      * @param id Id of the file to be removed
-     * @throws edu.ub.prog2.utils.AplicacioException
+     * @throws AplicacioException when the file can't be found
      */
     public void esborrarFitxer(int id) throws AplicacioException {
        FitxerMultimedia fm = (FitxerMultimedia) biblioteca.getAt(id);

@@ -64,7 +64,7 @@ public class FitxerMultimedia extends File {
     
     /**
      * Setter of file description
-     * @param desc
+     * @param desc File description
      */
     public void setDescripcio(String desc) {
         descripcio = desc;

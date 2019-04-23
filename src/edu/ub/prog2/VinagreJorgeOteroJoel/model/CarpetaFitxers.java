@@ -31,13 +31,11 @@ public class CarpetaFitxers implements Serializable {
     /**
      * Add a file to the folder
      * @param file File to be added to the folder
-     * @throws javax.naming.LimitExceededException
-     * @throws edu.ub.prog2.utils.AplicacioException
-     * @throws java.io.FileNotFoundException
+     * @throws AplicacioException when the folder is full
      */
-    public void addFitxer(File file) throws LimitExceededException, AplicacioException, FileNotFoundException {
+    public void addFitxer(File file) throws AplicacioException {
         if (isFull())
-            throw new LimitExceededException("Exception: The folder is full.");
+            throw new AplicacioException("The folder is full.");
         else
             tauFitxers.add((FitxerMultimedia) file);
     }
@@ -45,7 +43,7 @@ public class CarpetaFitxers implements Serializable {
     /**
      * Remove a file from the folder
      * @param file File to be removed from the folder
-     * @throws edu.ub.prog2.utils.AplicacioException
+     * @throws AplicacioException when the file can't be found
      */
     public void removeFitxer(File file) throws AplicacioException {
         if (file instanceof FitxerMultimedia) {
@@ -61,7 +59,7 @@ public class CarpetaFitxers implements Serializable {
      * Get file at position
      * @param position Index of the file
      * @return File in the index
-     * @throws edu.ub.prog2.utils.AplicacioException
+     * @throws AplicacioException when the file can't be found
      * 
      */
     public File getAt(int position) throws AplicacioException {

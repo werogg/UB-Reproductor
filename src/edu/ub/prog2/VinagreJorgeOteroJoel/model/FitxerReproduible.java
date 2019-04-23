@@ -32,7 +32,7 @@ public abstract class FitxerReproduible extends FitxerMultimedia {
     
     /**
      * Abstract method to play the file
-     * @throws edu.ub.prog2.utils.AplicacioException
+     * @throws AplicacioException if error happens playing a file
      */
     protected abstract void reproduir() throws AplicacioException;
     

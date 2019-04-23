@@ -16,7 +16,7 @@ public class BibliotecaFitxersMultimedia extends CarpetaFitxers {
     /**
      * Add file to BibliotecaFitxersMultimedia
      * @param file File to be added
-     * @throws AplicacioException 
+     * @throws AplicacioException to handle multiple errors
      */
     @Override
     public void addFitxer(File file) throws AplicacioException {

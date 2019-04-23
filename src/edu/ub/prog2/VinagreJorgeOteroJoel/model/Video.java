@@ -28,7 +28,7 @@ public class Video extends FitxerReproduible {
 
     /**
      * Play file method
-     * @throws edu.ub.prog2.utils.AplicacioException
+     * @throws AplicacioException when error happens playing the video
      */
     @Override
     protected void reproduir() throws AplicacioException {

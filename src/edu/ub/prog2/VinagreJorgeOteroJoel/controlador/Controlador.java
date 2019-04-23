@@ -55,7 +55,7 @@ public class Controlador implements InControlador {
     /**
      * Remove a file from the library (Delegation)
      * @param id Id of the file to be removed
-     * @throws edu.ub.prog2.utils.AplicacioException
+     * @throws AplicacioException when the file couldn't be found
      */
     @Override
     public void esborrarFitxer(int id) throws AplicacioException {
@@ -78,7 +78,7 @@ public class Controlador implements InControlador {
     /**
      * Save data to the disk
      * @param camiDesti Path to the data file
-     * @throws edu.ub.prog2.utils.AplicacioException
+     * @throws AplicacioException for IO error
      */
     @Override
     public void guardarDadesDisc(String camiDesti) throws AplicacioException { 
@@ -88,7 +88,7 @@ public class Controlador implements InControlador {
     /**
      * Load tdata from disk
      * @param camiOrigen Path to the data file
-     * @throws edu.ub.prog2.utils.AplicacioException
+     * @throws AplicacioException when the file couldn't be found
      */
     @Override
     public void carregarDadesDisc(String camiOrigen) throws AplicacioException {
