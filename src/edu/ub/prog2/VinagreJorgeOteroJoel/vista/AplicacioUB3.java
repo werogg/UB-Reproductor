@@ -384,7 +384,7 @@ public class AplicacioUB3 {
         String cami = sc.nextLine();
         
         System.out.println("Itroduce the path to the audio's image:");
-        String camiImatge = sc.next();
+        String camiImatge = sc.nextLine();
         
         System.out.println("Introduce the audio name:");
         String nomAudio = sc.next();
