@@ -149,39 +149,42 @@ public class Controlador implements InControlador {
 
     @Override
     public void obrirFinestraReproductor() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.player.open();
     }
 
     @Override
     public void tancarFinestraReproductor() throws AplicacioException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.player.close();
     }
 
+    // TODO
     @Override
     public void reproduirCarpeta() throws AplicacioException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    // TODO
     @Override
     public void reproduirCarpeta(String string) throws AplicacioException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     @Override
     public void reemprenReproduccio() throws AplicacioException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.player.resume();
     }
 
     @Override
     public void pausaReproduccio() throws AplicacioException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.player.pause();
     }
 
     @Override
     public void aturaReproduccio() throws AplicacioException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.player.stop();
     }
 
+    // TODO
     @Override
     public void saltaReproduccio() throws AplicacioException {
         System.out.println("no implementado");
