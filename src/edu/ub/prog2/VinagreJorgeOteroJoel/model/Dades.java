@@ -63,6 +63,8 @@ public class Dades implements Serializable {
     public void afegirAudio(String cami, String camiImatge ,String nomAudio, String codec, float durada, int kbps, Reproductor reproductor) throws AplicacioException {
         FitxerMultimedia fm = new FitxerMultimedia(camiImatge);
         
+        if (!fm.exists()) throw new AplicacioException("The audio image doesn't exists!");
+        
         Audio audio = new Audio(cami, fm, nomAudio, codec, durada, kbps, reproductor);
         
         biblioteca.addFitxer(audio);
