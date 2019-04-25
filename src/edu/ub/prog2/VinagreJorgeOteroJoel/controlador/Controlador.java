@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Controlador implements InControlador {
     private Dades dades;
-    private EscoltadorReproduccio eplayer;
+    private final EscoltadorReproduccio eplayer;
     private final Reproductor player;
     
     /**
