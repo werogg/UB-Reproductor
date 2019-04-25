@@ -21,6 +21,7 @@ public class Dades implements Serializable {
     
     private BibliotecaFitxersMultimedia biblioteca;
     private ArrayList<AlbumFitxersMultimedia> album_list;
+    private boolean reproduccioCiclica, reproduccioAleatoria;
     
     /**
      * Dades class constructor
@@ -306,18 +307,20 @@ public class Dades implements Serializable {
     
     public void setReproduccioCiclica(EscoltadorReproduccio eplayer, boolean reproduccioCiclica) {
         eplayer.setReproduccioCiclica(reproduccioCiclica);
+        this.reproduccioCiclica = reproduccioCiclica;
     }
 
     public void setReproduccioAleatoria(EscoltadorReproduccio eplayer, boolean reproduccioAleatoria) {
         eplayer.setReproduccioAleatoria(reproduccioAleatoria);
+        this.reproduccioAleatoria = reproduccioAleatoria;
     }
     
-    public boolean isReproduccioCiclica(EscoltadorReproduccio eplayer) {
-        return eplayer.isReproduccioCiclica();
+    public boolean isReproduccioCiclica() {
+        return this.reproduccioCiclica;
     }
 
-    public boolean isReproduccioAleatoria(EscoltadorReproduccio eplayer) {
-        return eplayer.isReproduccioAleatoria();
+    public boolean isReproduccioAleatoria() {
+        return this.reproduccioAleatoria;
     }
     
     

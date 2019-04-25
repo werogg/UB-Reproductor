@@ -194,18 +194,18 @@ public class Controlador implements InControlador {
     }
     
     public void setReproduccioCiclica(boolean reproduccioCiclica) {
-        eplayer.setReproduccioCiclica(reproduccioCiclica);
+        dades.setReproduccioCiclica(eplayer, reproduccioCiclica);
     }
 
     public void setReproduccioAleatoria(boolean reproduccioAleatoria) {
-        eplayer.setReproduccioAleatoria(reproduccioAleatoria);
+        dades.setReproduccioAleatoria(eplayer, reproduccioAleatoria);
     }
     
     public boolean isReproduccioCiclica() {
-        return eplayer.isReproduccioCiclica();
+        return dades.isReproduccioCiclica();
     }
 
     public boolean isReproduccioAleatoria() {
-        return eplayer.isReproduccioAleatoria();
+        return dades.isReproduccioAleatoria();
     }
 }
