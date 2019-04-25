@@ -1,5 +1,6 @@
 package edu.ub.prog2.VinagreJorgeOteroJoel.model;
 
+import edu.ub.prog2.VinagreJorgeOteroJoel.controlador.EscoltadorReproduccio;
 import edu.ub.prog2.VinagreJorgeOteroJoel.controlador.Reproductor;
 import edu.ub.prog2.utils.AplicacioException;
 import java.io.File;
@@ -259,12 +260,10 @@ public class Dades implements Serializable {
         }
     }
     
-    public void carregarDadesDisc(String camiOrigen) throws AplicacioException {
+    public static Dades carregarDadesDisc(String camiOrigen) throws AplicacioException {
+        Dades dades_temp;
         try (FileInputStream fin = new FileInputStream(new File(camiOrigen)); ObjectInputStream ois = new ObjectInputStream(fin)) {
-            Dades dades_temp = (Dades) ois.readObject();
-            this.biblioteca = dades_temp.biblioteca;
-            this.album_list = dades_temp.album_list;
-            
+            dades_temp = (Dades) ois.readObject();
             fin.close();
             ois.close();
         } catch (FileNotFoundException ex) {
@@ -274,6 +273,8 @@ public class Dades implements Serializable {
         } catch (ClassNotFoundException ex) {
             throw new AplicacioException("Class not found in data file!");
         }
+        
+        return dades_temp;
     }
     
     public void afegirFitxer(String album_name, int selected_file) throws AplicacioException {
@@ -301,6 +302,22 @@ public class Dades implements Serializable {
             afm.addFitxer(fm);
         else
             throw new AplicacioException("The album is full!");
+    }
+    
+    public void setReproduccioCiclica(EscoltadorReproduccio eplayer, boolean reproduccioCiclica) {
+        eplayer.setReproduccioCiclica(reproduccioCiclica);
+    }
+
+    public void setReproduccioAleatoria(EscoltadorReproduccio eplayer, boolean reproduccioAleatoria) {
+        eplayer.setReproduccioAleatoria(reproduccioAleatoria);
+    }
+    
+    public boolean isReproduccioCiclica(EscoltadorReproduccio eplayer) {
+        return eplayer.isReproduccioCiclica();
+    }
+
+    public boolean isReproduccioAleatoria(EscoltadorReproduccio eplayer) {
+        return eplayer.isReproduccioAleatoria();
     }
     
     

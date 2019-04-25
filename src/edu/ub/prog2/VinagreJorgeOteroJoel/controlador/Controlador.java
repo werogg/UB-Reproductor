@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Controlador implements InControlador {
     private Dades dades;
-    private EscoltadorReproduccio eplayer;
+    private final EscoltadorReproduccio eplayer;
     private final Reproductor player;
     
     /**
@@ -95,8 +95,7 @@ public class Controlador implements InControlador {
      */
     @Override
     public void carregarDadesDisc(String camiOrigen) throws AplicacioException {
-        dades.carregarDadesDisc(camiOrigen);
-        // TODO static method
+        dades = Dades.carregarDadesDisc(camiOrigen);
     }
     
     public List<String> mostrarAlbums() {

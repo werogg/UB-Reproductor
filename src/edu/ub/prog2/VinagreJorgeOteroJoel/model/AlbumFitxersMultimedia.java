@@ -11,7 +11,7 @@ public class AlbumFitxersMultimedia extends BibliotecaFitxersMultimedia {
     
     private final int max;
     private final String titol;
-    private ArrayList<FitxerMultimedia> album_fitxers;
+    private final ArrayList<FitxerMultimedia> album_fitxers;
 
     public AlbumFitxersMultimedia(int max, String titol) {
         this.max = max;
