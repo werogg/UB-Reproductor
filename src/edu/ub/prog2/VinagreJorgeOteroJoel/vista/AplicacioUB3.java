@@ -604,4 +604,18 @@ public class AplicacioUB3 {
             System.out.println("The album was succefully removed!");
         }
     }
+    
+    private void enableDisableCiclicPlaying() {
+        controlador.setReproduccioCiclica(!controlador.isReproduccioCiclica());
+        
+        if(controlador.isReproduccioCiclica()) System.out.println("CiclicPlaying is now enabled!");
+        else System.out.println("CiclicPlaying is now disabled!");
+    }
+    
+    private void enableDisableRandomPlaying(){
+        controlador.setReproduccioAleatoria(!controlador.isReproduccioAleatoria());
+        
+        if(controlador.isReproduccioAleatoria()) System.out.println("RandomPlaying is now enabled");
+        else System.out.println("RandomPlaying is now disabled!");
+    }
 }

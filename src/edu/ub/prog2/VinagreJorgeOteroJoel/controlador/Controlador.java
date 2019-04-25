@@ -1,22 +1,25 @@
 package edu.ub.prog2.VinagreJorgeOteroJoel.controlador;
 
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.Dades;
-import edu.ub.prog2.VinagreJorgeOteroJoel.model.EscoltadorReproduccio;
 import edu.ub.prog2.utils.AplicacioException;
 import edu.ub.prog2.utils.InControlador;
 import java.util.List;
 
 public class Controlador implements InControlador {
     private Dades dades;
-    EscoltadorReproduccio eplayer = new EscoltadorReproduccio();
-    private final Reproductor player = new Reproductor(eplayer);
+    private EscoltadorReproduccio eplayer;
+    private final Reproductor player;
     
     /**
      * The Controlador class constructor
      */
     public Controlador() {
         dades = new Dades();
+        eplayer = new EscoltadorReproduccio();
+        player = new Reproductor(eplayer);
     }
+    
+    
     
     /**
      * Add video to the library (Delegation)
@@ -189,5 +192,21 @@ public class Controlador implements InControlador {
     public void saltaReproduccio() throws AplicacioException {
         System.out.println("no implementado");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public void setReproduccioCiclica(boolean reproduccioCiclica) {
+        eplayer.setReproduccioCiclica(reproduccioCiclica);
+    }
+
+    public void setReproduccioAleatoria(boolean reproduccioAleatoria) {
+        eplayer.setReproduccioAleatoria(reproduccioAleatoria);
+    }
+    
+    public boolean isReproduccioCiclica() {
+        return eplayer.isReproduccioCiclica();
+    }
+
+    public boolean isReproduccioAleatoria() {
+        return eplayer.isReproduccioAleatoria();
     }
 }

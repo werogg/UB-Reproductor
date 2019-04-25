@@ -30,7 +30,7 @@ public class Audio extends FitxerReproduible {
      * @throws AplicacioException if error happens playing the audio
      */
     @Override
-    protected void reproduir() throws AplicacioException {
+    public void reproduir() throws AplicacioException {
         reproductor.reprodueix(this, fitxerImatge);
     }
 }

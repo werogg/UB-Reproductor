@@ -2,10 +2,8 @@ package edu.ub.prog2.VinagreJorgeOteroJoel.model;
 
 import edu.ub.prog2.utils.AplicacioException;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import javax.naming.LimitExceededException;
 
 public class CarpetaFitxers implements Serializable {
     
