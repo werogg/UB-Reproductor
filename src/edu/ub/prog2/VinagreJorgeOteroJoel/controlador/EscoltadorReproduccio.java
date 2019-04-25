@@ -2,15 +2,18 @@ package edu.ub.prog2.VinagreJorgeOteroJoel.controlador;
 
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.Audio;
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.CarpetaFitxers;
+import edu.ub.prog2.VinagreJorgeOteroJoel.model.FitxerMultimedia;
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.Video;
 import edu.ub.prog2.utils.AplicacioException;
 import edu.ub.prog2.utils.EscoltadorReproduccioBasic;
+import java.util.Random;
 
 public class EscoltadorReproduccio extends EscoltadorReproduccioBasic {
 
     private CarpetaFitxers llistaReproduint;
     private boolean [] llistaCtrl;
     private boolean reproduccioCiclica, reproduccioAleatoria;
+    private FitxerMultimedia playing;
 
     public EscoltadorReproduccio(CarpetaFitxers llista_reproduint, boolean[] llistaCtrl, boolean reproduccioCiclica, boolean reproduccioAleatoria) {
         this.llistaReproduint = llista_reproduint;
@@ -48,13 +51,15 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic {
         if (llistaReproduint.getAt(0) instanceof Video) {
             Video video = (Video) llistaReproduint.getAt(0);
             video.reproduir();
+            playing = video;
         } else if (llistaReproduint.getAt(0) instanceof Audio) {
             Audio audio = (Audio) llistaReproduint.getAt(0);
             audio.reproduir();
+            playing = audio;
         } else
             throw new AplicacioException("File not supported!");
         
-        this.llistaCtrl[0] = false;
+        this.llistaCtrl[0] = true;
     }
     
     
@@ -62,17 +67,18 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic {
     protected void onEndFile() {
         if (this.reproduccioCiclica) {
             
+                
         }
     }
     
-    public void iniciarReproduccio(CarpetaFitxers c, boolean reproduccioCiclica) {
-        
-        
-        
-    }
-
     @Override
     protected void next() {
+        
+        if(hasNext()){
+            if(isReproduccioAleatoria()){
+                
+            }
+        }
         int i = 0;
         while (llistaCtrl.length < i) {
             if (llistaCtrl[i]) break;
@@ -85,7 +91,7 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic {
     protected boolean hasNext() {
         int i = 0;
         while (llistaCtrl.length > i) {
-            if (llistaCtrl[i]) return true;
+            if (!llistaCtrl[i]) return true;
             i++;
         }
         return false;
