@@ -259,12 +259,10 @@ public class Dades implements Serializable {
         }
     }
     
-    public void carregarDadesDisc(String camiOrigen) throws AplicacioException {
+    public static Dades carregarDadesDisc(String camiOrigen) throws AplicacioException {
+        Dades dades_temp;
         try (FileInputStream fin = new FileInputStream(new File(camiOrigen)); ObjectInputStream ois = new ObjectInputStream(fin)) {
-            Dades dades_temp = (Dades) ois.readObject();
-            this.biblioteca = dades_temp.biblioteca;
-            this.album_list = dades_temp.album_list;
-            
+            dades_temp = (Dades) ois.readObject();
             fin.close();
             ois.close();
         } catch (FileNotFoundException ex) {
@@ -274,6 +272,8 @@ public class Dades implements Serializable {
         } catch (ClassNotFoundException ex) {
             throw new AplicacioException("Class not found in data file!");
         }
+        
+        return dades_temp;
     }
     
     public void afegirFitxer(String album_name, int selected_file) throws AplicacioException {
