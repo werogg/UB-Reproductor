@@ -1,8 +1,12 @@
-package edu.ub.prog2.VinagreJorgeOteroJoel.model;
+package edu.ub.prog2.VinagreJorgeOteroJoel.controlador;
 
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.Audio;
+import edu.ub.prog2.VinagreJorgeOteroJoel.model.Audio;
+import edu.ub.prog2.VinagreJorgeOteroJoel.model.CarpetaFitxers;
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.CarpetaFitxers;
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.FitxerMultimedia;
+import edu.ub.prog2.VinagreJorgeOteroJoel.model.FitxerMultimedia;
+import edu.ub.prog2.VinagreJorgeOteroJoel.model.Video;
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.Video;
 import edu.ub.prog2.utils.AplicacioException;
 import edu.ub.prog2.utils.EscoltadorReproduccioBasic;

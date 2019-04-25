@@ -1,5 +1,6 @@
 package edu.ub.prog2.VinagreJorgeOteroJoel.model;
 
+import edu.ub.prog2.VinagreJorgeOteroJoel.controlador.EscoltadorReproduccio;
 import edu.ub.prog2.VinagreJorgeOteroJoel.controlador.Reproductor;
 import edu.ub.prog2.utils.AplicacioException;
 import java.io.File;
