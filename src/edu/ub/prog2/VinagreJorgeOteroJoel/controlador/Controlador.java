@@ -95,8 +95,7 @@ public class Controlador implements InControlador {
      */
     @Override
     public void carregarDadesDisc(String camiOrigen) throws AplicacioException {
-        dades.carregarDadesDisc(camiOrigen);
-        // TODO static method
+        dades = Dades.carregarDadesDisc(camiOrigen);
     }
     
     public List<String> mostrarAlbums() {
