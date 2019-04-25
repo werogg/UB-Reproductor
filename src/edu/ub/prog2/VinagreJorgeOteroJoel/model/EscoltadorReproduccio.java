@@ -1,4 +1,4 @@
-package edu.ub.prog2.VinagreJorgeOteroJoel.controlador;
+package edu.ub.prog2.VinagreJorgeOteroJoel.model;
 
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.Audio;
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.CarpetaFitxers;
