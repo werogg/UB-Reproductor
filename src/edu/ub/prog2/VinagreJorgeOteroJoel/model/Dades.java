@@ -1,5 +1,6 @@
 package edu.ub.prog2.VinagreJorgeOteroJoel.model;
 
+import edu.ub.prog2.VinagreJorgeOteroJoel.controlador.EscoltadorReproduccio;
 import edu.ub.prog2.VinagreJorgeOteroJoel.controlador.Reproductor;
 import edu.ub.prog2.utils.AplicacioException;
 import java.io.File;
@@ -301,6 +302,22 @@ public class Dades implements Serializable {
             afm.addFitxer(fm);
         else
             throw new AplicacioException("The album is full!");
+    }
+    
+    public void setReproduccioCiclica(EscoltadorReproduccio eplayer, boolean reproduccioCiclica) {
+        eplayer.setReproduccioCiclica(reproduccioCiclica);
+    }
+
+    public void setReproduccioAleatoria(EscoltadorReproduccio eplayer, boolean reproduccioAleatoria) {
+        eplayer.setReproduccioAleatoria(reproduccioAleatoria);
+    }
+    
+    public boolean isReproduccioCiclica(EscoltadorReproduccio eplayer) {
+        return eplayer.isReproduccioCiclica();
+    }
+
+    public boolean isReproduccioAleatoria(EscoltadorReproduccio eplayer) {
+        return eplayer.isReproduccioAleatoria();
     }
     
     
