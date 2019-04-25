@@ -5,6 +5,8 @@ import edu.ub.prog2.utils.AplicacioException;
 import edu.ub.prog2.utils.Menu;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AplicacioUB3 {
     
@@ -96,8 +98,8 @@ public class AplicacioUB3 {
         
         Menu<OpcionsMenuAlbum> album_menu = new Menu<>("Album menu", OpcionsMenuAlbum.values());
         Menu<OpcionsMenuAlbumManager> album_manager_menu = new Menu<>("Album manager menu", OpcionsMenuAlbumManager.values());
-        Menu<OpcionsMenuPlayerManager> album_player_manager_menu = new Menu<>("Album player manager menu", OpcionsMenuPlayerManager.values());
-        Menu<OpcionsMenuPlayingManager> album_playing_manager_menu = new Menu<>("Album playing manager menu", OpcionsMenuPlayingManager.values());
+        Menu<OpcionsMenuPlayerManager> player_manager_menu = new Menu<>("Album player manager menu", OpcionsMenuPlayerManager.values());
+        Menu<OpcionsMenuPlayingManager> playing_manager_menu = new Menu<>("Album playing manager menu", OpcionsMenuPlayingManager.values());
         
 
         menu.setDescripcions(MENU_PRINCIPAL_DESC);
@@ -106,8 +108,8 @@ public class AplicacioUB3 {
         
         album_menu.setDescripcions(MENU_ALBUM_DESC);
         album_manager_menu.setDescripcions(MENU_ALBUM_MANAGER_DESC);
-        album_player_manager_menu.setDescripcions(MENU_PLAYER_DESC);
-        album_playing_manager_menu.setDescripcions(MENU_PLAYING_DESC);
+        player_manager_menu.setDescripcions(MENU_PLAYER_DESC);
+        playing_manager_menu.setDescripcions(MENU_PLAYING_DESC);
         
 
         // Obtenim una opciÃ³ des del menÃº i fem les accions pertinents
@@ -128,6 +130,7 @@ public class AplicacioUB3 {
                     albumManager(sc, album_menu, album_manager_menu);
                     break;
                 case PLAYER_MANAGER:
+                    playerManager(sc, player_manager_menu, playing_manager_menu);
                     break;
                 case SAVE_DATA:
                     saveDataOption();
@@ -262,6 +265,67 @@ public class AplicacioUB3 {
                     break;
             }
         } while (opcio != OpcionsMenuAfegir.BACK);
+    }
+    
+    private void playerManager(Scanner sc, Menu<OpcionsMenuPlayerManager> player_menu, Menu<OpcionsMenuPlayingManager> playing_menu) {
+        OpcionsMenuPlayerManager opcio;
+        
+        do {
+            // Prints the menu
+            player_menu.mostrarMenu();
+            
+            // Get the selected option
+            opcio = player_menu.getOpcio(sc);
+            
+            // Switch between options
+            switch (opcio) {
+                case PLAY_MEDIA:
+                    break;
+                case PLAY_LIBRARY:
+                    break;
+                case CONTINUE_PLAY:
+                    enableDisableCiclicPlayingOpt();
+                    break;
+                case RANDOM_PLAY:
+                    enableDisableRandomPlayingOpt();
+                    break;
+                case PLAYING_MANAGER:
+                    playingManager(sc, playing_menu);
+                    break;
+                case BACK:
+                    break;
+            }
+        } while (opcio != OpcionsMenuPlayerManager.BACK);
+    }
+    
+    private void playingManager(Scanner sc, Menu<OpcionsMenuPlayingManager> playing_menu) {
+        OpcionsMenuPlayingManager opcio;
+        
+        do {
+            // Prints the menu
+            playing_menu.mostrarMenu();
+            
+            // Get the selected option
+            opcio = playing_menu.getOpcio(sc);
+            
+            // Switch between options
+            switch (opcio) {
+                case RESUME:
+                    resumePlayingOpt();
+                    break;
+                case PAUSE:
+                    pausePlayingOpt();
+                    break;
+                case STOP:
+                    stopPlayingOpt();
+                    break;
+                case JUMP:
+                    jumpPlayingOpt();
+                    break;
+                case BACK:
+                    break;
+            }
+        } while (opcio != OpcionsMenuPlayingManager.BACK);
     }
 
     private void manageAlbumOpt(Scanner sc, Menu<OpcionsMenuAlbumManager> album_menu) {
@@ -605,17 +669,67 @@ public class AplicacioUB3 {
         }
     }
     
-    private void enableDisableCiclicPlaying() {
-        controlador.setReproduccioCiclica(!controlador.isReproduccioCiclica());
+    private void enableDisableCiclicPlayingOpt() {
+        controlador.setReproduccioCiclica();
         
         if(controlador.isReproduccioCiclica()) System.out.println("CiclicPlaying is now enabled!");
         else System.out.println("CiclicPlaying is now disabled!");
     }
     
-    private void enableDisableRandomPlaying(){
-        controlador.setReproduccioAleatoria(!controlador.isReproduccioAleatoria());
+    private void enableDisableRandomPlayingOpt(){
+        controlador.setReproduccioAleatoria();
         
         if(controlador.isReproduccioAleatoria()) System.out.println("RandomPlaying is now enabled");
         else System.out.println("RandomPlaying is now disabled!");
+    }
+    
+    private void resumePlayingOpt() {
+        boolean exception_caught = false;
+        
+        try {
+            controlador.reemprenReproduccio();
+        } catch (AplicacioException ex) {
+            System.err.println(ex.getMessage());
+            exception_caught = true;
+        }
+        
+        if (!exception_caught) System.out.println("Playing resumed!");
+    }
+    
+    private void pausePlayingOpt() {
+        boolean exception_caught = false;
+        
+        try {
+            controlador.pausaReproduccio();
+        } catch (AplicacioException ex) {
+            System.err.println(ex.getMessage());
+            exception_caught = true;
+        }
+        
+        if (!exception_caught) System.out.println("Playing paused!");
+    }
+    
+    private void stopPlayingOpt() {
+        boolean exception_caught = false;
+        try {
+            controlador.aturaReproduccio();
+        } catch (AplicacioException ex) {
+            System.err.println(ex.getMessage());
+            exception_caught = true;
+        }
+        
+        if (!exception_caught) System.out.println("Playing stopped!");
+    }
+    
+    private void jumpPlayingOpt() {
+        boolean exception_caught = false;
+        try {
+            controlador.saltaReproduccio();
+        } catch (AplicacioException ex) {
+            System.err.println(ex.getMessage());
+            exception_caught = true;
+        }
+        
+        if (!exception_caught) System.out.println("File playing skipped!");
     }
 }

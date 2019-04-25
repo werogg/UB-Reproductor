@@ -305,14 +305,14 @@ public class Dades implements Serializable {
             throw new AplicacioException("The album is full!");
     }
     
-    public void setReproduccioCiclica(EscoltadorReproduccio eplayer, boolean reproduccioCiclica) {
-        eplayer.setReproduccioCiclica(reproduccioCiclica);
-        this.reproduccioCiclica = reproduccioCiclica;
+    public void setReproduccioCiclica(EscoltadorReproduccio eplayer) {
+        this.reproduccioCiclica = !this.isReproduccioCiclica();
+        eplayer.setReproduccioCiclica(this.reproduccioCiclica);
     }
 
-    public void setReproduccioAleatoria(EscoltadorReproduccio eplayer, boolean reproduccioAleatoria) {
+    public void setReproduccioAleatoria(EscoltadorReproduccio eplayer) {
+        this.reproduccioAleatoria = !this.reproduccioAleatoria;
         eplayer.setReproduccioAleatoria(reproduccioAleatoria);
-        this.reproduccioAleatoria = reproduccioAleatoria;
     }
     
     public boolean isReproduccioCiclica() {

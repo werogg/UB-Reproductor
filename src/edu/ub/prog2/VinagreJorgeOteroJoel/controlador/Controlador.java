@@ -189,16 +189,15 @@ public class Controlador implements InControlador {
     // TODO
     @Override
     public void saltaReproduccio() throws AplicacioException {
-        System.out.println("no implementado");
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        eplayer.next();
     }
     
-    public void setReproduccioCiclica(boolean reproduccioCiclica) {
-        dades.setReproduccioCiclica(eplayer, reproduccioCiclica);
+    public void setReproduccioCiclica() {
+        dades.setReproduccioCiclica(eplayer);
     }
 
-    public void setReproduccioAleatoria(boolean reproduccioAleatoria) {
-        dades.setReproduccioAleatoria(eplayer, reproduccioAleatoria);
+    public void setReproduccioAleatoria() {
+        dades.setReproduccioAleatoria(eplayer);
     }
     
     public boolean isReproduccioCiclica() {
