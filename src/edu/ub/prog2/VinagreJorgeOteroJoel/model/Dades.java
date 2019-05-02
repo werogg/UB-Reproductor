@@ -323,11 +323,12 @@ public class Dades implements Serializable {
         return this.reproduccioAleatoria;
     }
     
-    public FitxerReproduible getFitxerFromBiblioteca(int i) throws AplicacioException {
-        return (FitxerReproduible) biblioteca.getAt(i);
+    public void reproduirFitxer(int i) throws AplicacioException {
+        FitxerReproduible fr = (FitxerReproduible) biblioteca.getAt(i);
+        fr.reproduir();
     }
     
-    public void reproduirCarpeta(String string, EscoltadorReproduccio eplayer) throws AplicacioException {
+    public CarpetaFitxers reproduirCarpeta(String string) throws AplicacioException {
         if(existeixAlbum(string)){
             Iterator it = album_list.iterator();
             AlbumFitxersMultimedia afm;
@@ -336,14 +337,15 @@ public class Dades implements Serializable {
                 afm = (AlbumFitxersMultimedia) it.next();
 
                 if(afm.getTitol().equals(string)){
-                    eplayer.iniciadorReproduccio(afm, reproduccioCiclica);
+                    return afm;
                 }
             }
         } else throw new AplicacioException("Album not found!");   
+        return null;
     }
     
-    public void reproduirCarpeta(EscoltadorReproduccio eplayer) throws AplicacioException{
-        eplayer.iniciadorReproduccio(biblioteca, reproduccioCiclica);
+    public CarpetaFitxers reproduirCarpeta() throws AplicacioException {
+        return biblioteca;
     }
     
     /**

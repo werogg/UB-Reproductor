@@ -776,6 +776,7 @@ public class AplicacioUB3 {
         boolean exception_caught = false;
         Scanner sc = new Scanner(System.in);
         showAlbumsSimplified();
+        System.out.println("Which album do you want to play? (By name)");
         String play_album = sc.nextLine();
         controlador.obrirFinestraReproductor();
         

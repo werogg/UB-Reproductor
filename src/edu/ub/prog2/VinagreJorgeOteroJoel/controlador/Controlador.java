@@ -102,19 +102,16 @@ public class Controlador implements InControlador {
         return dades.mostrarAlbums();
     }
 
-    // TODO
     @Override
     public void reproduirFitxer(int i) throws AplicacioException {
-        dades.getFitxerFromBiblioteca(i).reproduir();
+        dades.reproduirFitxer(i);
     }
 
-    // DONE
     @Override
     public void afegirAlbum(String string) throws AplicacioException {
         dades.afegirAlbum(string);
     }
 
-    // DONE
     @Override
     public List<String> mostrarLlistatAlbums() {
         return dades.mostrarLlistatAlbums();
@@ -125,25 +122,21 @@ public class Controlador implements InControlador {
         dades.esborrarAlbum(string);
     }
 
-    // DONE
     @Override
     public boolean existeixAlbum(String string) {
         return dades.existeixAlbum(string);
     }
 
-    // DONE
     @Override
     public void afegirFitxer(String album_name, int selected_file) throws AplicacioException {
         dades.afegirFitxer(album_name, selected_file);
     }
     
-    // DONE
     @Override
     public void esborrarFitxer(String string, int i) throws AplicacioException {
         dades.esborrarFitxer(string, i);
     }
 
-    // DONE
     @Override
     public List<String> mostrarAlbum(String string) throws AplicacioException {
         return dades.mostrarAlbum(string);
@@ -162,13 +155,13 @@ public class Controlador implements InControlador {
     // TODO
     @Override
     public void reproduirCarpeta() throws AplicacioException {
-        dades.reproduirCarpeta(eplayer);
+        eplayer.iniciadorReproduccio(dades.reproduirCarpeta(), this);
     }
 
     // TODO
     @Override
     public void reproduirCarpeta(String string) throws AplicacioException {
-        dades.reproduirCarpeta(string, eplayer);
+        eplayer.iniciadorReproduccio(dades.reproduirCarpeta(string), this);
     }
     
     @Override

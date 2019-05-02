@@ -1,6 +1,7 @@
 package edu.ub.prog2.VinagreJorgeOteroJoel.model;
 
 import edu.ub.prog2.utils.AplicacioException;
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -27,6 +28,19 @@ public class AlbumFitxersMultimedia extends BibliotecaFitxersMultimedia {
     
     public String getTitol() {
         return titol;
+    }
+    
+    @Override
+    public int getSize() {
+        return album_fitxers.size();
+    }
+    
+    @Override
+    public File getAt(int position) throws AplicacioException {
+        if (position >= album_fitxers.size() || position < 0)
+            throw new AplicacioException("File not found");
+        else
+            return album_fitxers.get(position);
     }
     
     @Override
