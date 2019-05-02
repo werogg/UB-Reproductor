@@ -457,7 +457,7 @@ public class AplicacioUB3 {
         String camiImatge = sc.nextLine();
         
         System.out.println("Introduce the audio name:");
-        String nomAudio = sc.next();
+        String nomAudio = sc.nextLine();
         
         System.out.println("Introduce the codec:");
         String codec = sc.next();

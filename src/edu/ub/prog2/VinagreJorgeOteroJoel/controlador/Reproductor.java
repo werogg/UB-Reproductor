@@ -17,8 +17,7 @@ public class Reproductor extends ReproductorBasic {
         this.play(fr);
     }
     
-    public void reprodueix(Audio audio, File file) throws AplicacioException {
-        this.play(audio, file);
-        this.show(file, (int) audio.getDurada());
+    public void reprodueix(FitxerReproduible fr, File file) throws AplicacioException {
+        this.play(fr, file);
     }
 }
