@@ -745,9 +745,11 @@ public class AplicacioUB3 {
         int play_id;
         
         showLibrarySimplified();
-        System.out.println("Quin fitxer vols reproduïr?");
+        System.out.println("Quin fitxer vols reproduïr? (Index)");
         play_id = sc.nextInt();
+        --play_id;
         
+        controlador.obrirFinestraReproductor();
         try {
             controlador.reproduirFitxer(play_id);
         } catch (AplicacioException ex) {
@@ -760,6 +762,7 @@ public class AplicacioUB3 {
     
     private void playLibraryOpt() {
         boolean exception_caught = false;
+        controlador.obrirFinestraReproductor();
         try {
             controlador.reproduirCarpeta();
         } catch (AplicacioException ex) {
@@ -770,14 +773,18 @@ public class AplicacioUB3 {
     }
     
     private void playAlbumOpt() {
+        boolean exception_caught = false;
         Scanner sc = new Scanner(System.in);
         showAlbumsSimplified();
         String play_album = sc.nextLine();
+        controlador.obrirFinestraReproductor();
         
         try {
             controlador.reproduirCarpeta(play_album);
         } catch (AplicacioException ex) {
             System.err.println(ex.getMessage());
         }
+        
+        if (!exception_caught) System.out.println("Inciant reproductor...");
     }
 }
