@@ -1,23 +1,16 @@
 package edu.ub.prog2.VinagreJorgeOteroJoel.controlador;
 
-import edu.ub.prog2.VinagreJorgeOteroJoel.model.Audio;
-import edu.ub.prog2.VinagreJorgeOteroJoel.model.Audio;
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.CarpetaFitxers;
-import edu.ub.prog2.VinagreJorgeOteroJoel.model.CarpetaFitxers;
-import edu.ub.prog2.VinagreJorgeOteroJoel.model.FitxerMultimedia;
-import edu.ub.prog2.VinagreJorgeOteroJoel.model.FitxerMultimedia;
-import edu.ub.prog2.VinagreJorgeOteroJoel.model.Video;
-import edu.ub.prog2.VinagreJorgeOteroJoel.model.Video;
+import edu.ub.prog2.VinagreJorgeOteroJoel.model.FitxerReproduible;
 import edu.ub.prog2.utils.AplicacioException;
 import edu.ub.prog2.utils.EscoltadorReproduccioBasic;
-import java.util.Random;
 
 public class EscoltadorReproduccio extends EscoltadorReproduccioBasic {
 
     private CarpetaFitxers llistaReproduint;
     private boolean [] llistaCtrl;
     private boolean reproduccioCiclica, reproduccioAleatoria;
-    private FitxerMultimedia playing;
+    private FitxerReproduible playing;
 
     public EscoltadorReproduccio(CarpetaFitxers llista_reproduint, boolean[] llistaCtrl, boolean reproduccioCiclica, boolean reproduccioAleatoria) {
         this.llistaReproduint = llista_reproduint;
@@ -52,43 +45,57 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic {
         this.reproduccioCiclica = reproduccioCiclica;
         this.llistaCtrl = new boolean[llistaReproduint.getSize()];
         
-        if (llistaReproduint.getAt(0) instanceof Video) {
-            Video video = (Video) llistaReproduint.getAt(0);
-            video.reproduir();
-            playing = video;
-        } else if (llistaReproduint.getAt(0) instanceof Audio) {
-            Audio audio = (Audio) llistaReproduint.getAt(0);
-            audio.reproduir();
-            playing = audio;
-        } else
-            throw new AplicacioException("File not supported!");
-        
-        this.llistaCtrl[0] = true;
+        next();
     }
     
     
     @Override
     protected void onEndFile() {
-        if (this.reproduccioCiclica) {
-            
-                
+        if (this.reproduccioCiclica && !hasNext()) {
+            llistaCtrl = new boolean[llistaReproduint.getSize()];
         }
+        next();
     }
     
     @Override
     protected void next() {
         
         if(hasNext()){
-            if(isReproduccioAleatoria()){
-                
+            if(isReproduccioAleatoria())  {
+                int i = 0;
+                int cont = 0;
+                while(llistaCtrl.length > i){
+                    if(!llistaCtrl[i])
+                        cont++;
+                    i++;    
+                }
+                int pos =(int) Math.round(Math.random()*(cont));
+                int cnt = 0;
+                while(llistaCtrl[cnt] && pos != 0) {
+                    if (!llistaCtrl[cnt]) pos--;
+                    cnt++;
+                }
+                try {
+                    playing = (FitxerReproduible) llistaReproduint.getAt(pos);
+                    playing.reproduir();
+                } catch (AplicacioException ex) {
+                    System.err.println(ex.getMessage());
+                }
+            }else{
+                int i = 0;
+                while(llistaCtrl.length > i){
+                    if(!llistaCtrl[i]) {
+                        try {
+                            playing = (FitxerReproduible) llistaReproduint.getAt(i);
+                            playing.reproduir();
+                        } catch (AplicacioException ex) {
+                            System.err.println(ex.getMessage());
+                        }
+                    }
+                    i++;
+                }   
             }
         }
-        int i = 0;
-        while (llistaCtrl.length < i) {
-            if (llistaCtrl[i]) break;
-            i++;
-        }
-        
     }
 
     @Override

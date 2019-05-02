@@ -34,6 +34,6 @@ public abstract class FitxerReproduible extends FitxerMultimedia {
      * Abstract method to play the file
      * @throws AplicacioException if error happens playing a file
      */
-    protected abstract void reproduir() throws AplicacioException;
+    public abstract void reproduir() throws AplicacioException;
     
 }
