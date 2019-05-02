@@ -323,6 +323,28 @@ public class Dades implements Serializable {
         return this.reproduccioAleatoria;
     }
     
+    public FitxerReproduible getFitxerFromBiblioteca(int i) throws AplicacioException {
+        return (FitxerReproduible) biblioteca.getAt(i);
+    }
+    
+    public void reproduirCarpeta(String string, EscoltadorReproduccio eplayer) throws AplicacioException {
+        if(existeixAlbum(string)){
+            Iterator it = album_list.iterator();
+            AlbumFitxersMultimedia afm;
+
+            while(it.hasNext()) {
+                afm = (AlbumFitxersMultimedia) it.next();
+
+                if(afm.getTitol().equals(string)){
+                    eplayer.iniciadorReproduccio(afm, reproduccioCiclica);
+                }
+            }
+        } else throw new AplicacioException("Album not found!");   
+    }
+    
+    public void reproduirCarpeta(EscoltadorReproduccio eplayer) throws AplicacioException{
+        eplayer.iniciadorReproduccio(biblioteca, reproduccioCiclica);
+    }
     
     /**
      * Class toString()

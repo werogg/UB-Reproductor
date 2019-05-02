@@ -105,7 +105,7 @@ public class Controlador implements InControlador {
     // TODO
     @Override
     public void reproduirFitxer(int i) throws AplicacioException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        dades.getFitxerFromBiblioteca(i).reproduir();
     }
 
     // DONE
@@ -162,13 +162,13 @@ public class Controlador implements InControlador {
     // TODO
     @Override
     public void reproduirCarpeta() throws AplicacioException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        dades.reproduirCarpeta(eplayer);
     }
 
     // TODO
     @Override
     public void reproduirCarpeta(String string) throws AplicacioException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        dades.reproduirCarpeta(string, eplayer);
     }
     
     @Override
