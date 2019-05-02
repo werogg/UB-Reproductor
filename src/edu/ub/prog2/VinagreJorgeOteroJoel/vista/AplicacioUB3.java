@@ -20,7 +20,7 @@ public class AplicacioUB3 {
     
     static private enum OpcionsMenuAlbum {ADD_ALBUM, SHOW_ALBUMS, DEL_ALBUM, MANAGE_ALBUM, BACK};
     static private enum OpcionsMenuAlbumManager {ADD_MEDIA, SHOW_ALBUM, DEL_MEDIA, BACK};
-    static private enum OpcionsMenuPlayerManager {PLAY_MEDIA, PLAY_LIBRARY, CONTINUE_PLAY, RANDOM_PLAY, PLAYING_MANAGER , BACK};
+    static private enum OpcionsMenuPlayerManager {PLAY_MEDIA, PLAY_LIBRARY, PLAY_ALBUM, CONTINUE_PLAY, RANDOM_PLAY, PLAYING_MANAGER , BACK};
     static private enum OpcionsMenuPlayingManager {RESUME, PAUSE, STOP, JUMP, BACK}
     
     // Declarem descripcions personalitzades per a les opcions del menÃº principal
@@ -64,6 +64,7 @@ public class AplicacioUB3 {
     private static final String[] MENU_PLAYER_DESC = {
         "Play media",
         "Play full library",
+        "Play album",
         "Activate/Deactivate continue play",
         "Activate/Deactivate random play",
         "Playing now manager",
@@ -280,8 +281,12 @@ public class AplicacioUB3 {
             // Switch between options
             switch (opcio) {
                 case PLAY_MEDIA:
+                    playMediaOpt();
                     break;
                 case PLAY_LIBRARY:
+                    playLibraryOpt();
+                    break;
+                case PLAY_ALBUM:
                     break;
                 case CONTINUE_PLAY:
                     enableDisableCiclicPlayingOpt();
@@ -331,7 +336,7 @@ public class AplicacioUB3 {
     private void manageAlbumOpt(Scanner sc, Menu<OpcionsMenuAlbumManager> album_menu) {
         String album_name;
         showAlbumsSimplified();
-        System.out.println("Select an album: ");
+        System.out.println("Select an album: (by name)");
         album_name = sc.nextLine();
         
         try {
@@ -731,5 +736,35 @@ public class AplicacioUB3 {
         }
         
         if (!exception_caught) System.out.println("File playing skipped!");
+    }
+    
+    private void playMediaOpt() {
+        boolean exception_caught = false;
+        Scanner sc = new Scanner(System.in);
+        int play_id;
+        
+        showAlbumsSimplified();
+        System.out.println("Quin fitxer vols reproduïr?");
+        play_id = sc.nextInt();
+        
+        try {
+            controlador.reproduirFitxer(play_id);
+        } catch (AplicacioException ex) {
+            System.err.println(ex.getMessage());
+            exception_caught = true;
+        }
+        
+        if (!exception_caught) System.out.println("Iniciant reproductor...");
+    }
+    
+    private void playLibraryOpt() {
+        boolean exception_caught = false;
+        try {
+            controlador.reproduirCarpeta();
+        } catch (AplicacioException ex) {
+            System.err.println(ex.getMessage());
+        }
+        
+        if (!exception_caught) System.out.println("Inciant reproductor...");
     }
 }
