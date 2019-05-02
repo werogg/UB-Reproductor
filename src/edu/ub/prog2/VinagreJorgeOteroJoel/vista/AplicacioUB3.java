@@ -287,6 +287,7 @@ public class AplicacioUB3 {
                     playLibraryOpt();
                     break;
                 case PLAY_ALBUM:
+                    playAlbumOpt();
                     break;
                 case CONTINUE_PLAY:
                     enableDisableCiclicPlayingOpt();
@@ -743,7 +744,7 @@ public class AplicacioUB3 {
         Scanner sc = new Scanner(System.in);
         int play_id;
         
-        showAlbumsSimplified();
+        showLibrarySimplified();
         System.out.println("Quin fitxer vols reproduïr?");
         play_id = sc.nextInt();
         
@@ -766,5 +767,17 @@ public class AplicacioUB3 {
         }
         
         if (!exception_caught) System.out.println("Inciant reproductor...");
+    }
+    
+    private void playAlbumOpt() {
+        Scanner sc = new Scanner(System.in);
+        showAlbumsSimplified();
+        String play_album = sc.nextLine();
+        
+        try {
+            controlador.reproduirCarpeta(play_album);
+        } catch (AplicacioException ex) {
+            System.err.println(ex.getMessage());
+        }
     }
 }
