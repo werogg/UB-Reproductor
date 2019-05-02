@@ -373,7 +373,7 @@ public class AplicacioUB3 {
         
         
         System.out.println("Introduce the video name:");
-        nomVideo = sc.next();
+        nomVideo = sc.nextLine();
         
         System.out.println("Introduce the video codec:");
         codec = sc.next();
