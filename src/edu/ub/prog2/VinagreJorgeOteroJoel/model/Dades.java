@@ -90,6 +90,10 @@ public class Dades implements Serializable {
         return info;
     }
     
+    /**
+     * Show library simplified
+     * @return info about the library
+     */
     public List<String> mostrarBibliotecaSimplified() {
         List<String> info = new ArrayList<>();
         
@@ -120,6 +124,12 @@ public class Dades implements Serializable {
        biblioteca.removeFitxer(fm);
     }
     
+    /**
+     * Remove a file from an album
+     * @param album_name Name of the album
+     * @param id of the file
+     * @throws AplicacioException
+     */
     public void esborrarFitxer(String album_name, int id) throws AplicacioException {
         boolean trobat = false;
         Iterator it = album_list.iterator();
@@ -144,6 +154,11 @@ public class Dades implements Serializable {
         afm.removeFitxer(fm);
     }
     
+    /**
+     * Remove an album
+     * @param titol Name of the album
+     * @throws AplicacioException 
+     */
     public void esborrarAlbum(String titol) throws AplicacioException {
         boolean trobat = false;
         AlbumFitxersMultimedia afm;
@@ -164,6 +179,11 @@ public class Dades implements Serializable {
         else throw new AplicacioException("Album not found!");
     }
     
+    /**
+     * Add a new album
+     * @param titol Name of the new album
+     * @throws AplicacioException 
+     */
     public void afegirAlbum(String titol) throws AplicacioException {
         AlbumFitxersMultimedia afm = new AlbumFitxersMultimedia(titol);
         AlbumFitxersMultimedia next_afm;
@@ -185,6 +205,10 @@ public class Dades implements Serializable {
             throw new AplicacioException("Album already existing!");
     }
     
+    /**
+     * Show albums listed
+     * @return a numered list of the albums
+     */
     public List<String> mostrarLlistatAlbums() {
         List<String> info = new ArrayList<>();
         
@@ -199,6 +223,10 @@ public class Dades implements Serializable {
         return info;
     }
     
+    /**
+     * Show albums
+     * @return info of every album
+     */
     public List<String> mostrarAlbums() {
         List<String> info = new ArrayList<>();
         
@@ -212,6 +240,12 @@ public class Dades implements Serializable {
         return info;
     }
     
+    /**
+     * Show album
+     * @param album_name Name of the album
+     * @return the info of an album
+     * @throws AplicacioException 
+     */
     public List<String> mostrarAlbum(String album_name) throws AplicacioException {
         List<String> info = new ArrayList<>();
         boolean trobat = false;
@@ -235,6 +269,11 @@ public class Dades implements Serializable {
         return info;
     }
     
+    /**
+     * Check if an album exists
+     * @param album_titol Name of the album
+     * @return true if exists
+     */
     public boolean existeixAlbum(String album_titol) {
         
         Iterator it = album_list.iterator();
@@ -249,6 +288,11 @@ public class Dades implements Serializable {
         return false;
     }
     
+    /**
+     * Save data on disk
+     * @param camiDesti Data path
+     * @throws AplicacioException 
+     */
     public void guardarDadesDisc(String camiDesti) throws AplicacioException { 
         try (FileOutputStream fout = new FileOutputStream(new File(camiDesti)); ObjectOutputStream oos = new ObjectOutputStream(fout)) {
             oos.writeObject(this);
@@ -261,6 +305,12 @@ public class Dades implements Serializable {
         }
     }
     
+    /**
+     * Load data from disk
+     * @param camiOrigen Data path
+     * @return the data to be loaded
+     * @throws AplicacioException 
+     */
     public static Dades carregarDadesDisc(String camiOrigen) throws AplicacioException {
         Dades dades_temp;
         try (FileInputStream fin = new FileInputStream(new File(camiOrigen)); ObjectInputStream ois = new ObjectInputStream(fin)) {
@@ -278,6 +328,12 @@ public class Dades implements Serializable {
         return dades_temp;
     }
     
+    /**
+     * Add file to an album
+     * @param album_name Name of the album
+     * @param selected_file id of the file
+     * @throws AplicacioException 
+     */
     public void afegirFitxer(String album_name, int selected_file) throws AplicacioException {
         boolean trobat = false;
         Iterator it = album_list.iterator();
@@ -305,29 +361,56 @@ public class Dades implements Serializable {
             throw new AplicacioException("The album is full!");
     }
     
+    /**
+     * Enable/Disable cyclic playing
+     * @param eplayer 
+     */
     public void setReproduccioCiclica(EscoltadorReproduccio eplayer) {
         this.reproduccioCiclica = !this.isReproduccioCiclica();
         eplayer.setReproduccioCiclica(this.reproduccioCiclica);
     }
 
+    /**
+     * Enable/Disable random playing
+     * @param eplayer 
+     */
     public void setReproduccioAleatoria(EscoltadorReproduccio eplayer) {
         this.reproduccioAleatoria = !this.reproduccioAleatoria;
         eplayer.setReproduccioAleatoria(reproduccioAleatoria);
     }
     
+    /**
+     * Getter of cyclic playing
+     * @return true if cyclic playing is enabled
+     */
     public boolean isReproduccioCiclica() {
         return this.reproduccioCiclica;
     }
 
+    /**
+     * Getter of random playing
+     * @return true if random playing is enabled
+     */
     public boolean isReproduccioAleatoria() {
         return this.reproduccioAleatoria;
     }
     
+    /**
+     * Play a file
+     * @param i Library file id to play
+     * @throws AplicacioException if failed to play
+     */
     public void reproduirFitxer(int i) throws AplicacioException {
         FitxerReproduible fr = (FitxerReproduible) biblioteca.getAt(i);
         fr.reproduir();
     }
     
+    /**
+     * Play folder
+     * @param string Name of the folder to be played
+     * @return the folder to be played
+     * @throws AplicacioException 
+     */
     public CarpetaFitxers reproduirCarpeta(String string) throws AplicacioException {
         if(existeixAlbum(string)){
             Iterator it = album_list.iterator();
@@ -344,6 +427,11 @@ public class Dades implements Serializable {
         return null;
     }
     
+    /**
+     * Play the whole library
+     * @return the library folder object
+     * @throws AplicacioException 
+     */
     public CarpetaFitxers reproduirCarpeta() throws AplicacioException {
         return biblioteca;
     }

@@ -17,6 +17,14 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic {
     private int playing_index;
     private Controlador controlador;
 
+    /**
+     * EscoltadorReproduccio constructor with data
+     * @param llista_reproduint Folder to be played
+     * @param llistaCtrl Boolean control list
+     * @param reproduccioCiclica Cyclic mode boolean
+     * @param reproduccioAleatoria Random mode noolean
+     * @param player The player
+     */
     public EscoltadorReproduccio(CarpetaFitxers llista_reproduint, boolean[] llistaCtrl, boolean reproduccioCiclica, boolean reproduccioAleatoria, Reproductor player) {
         this.llistaReproduint = llista_reproduint;
         this.llistaCtrl = llistaCtrl;
@@ -24,6 +32,9 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic {
         this.reproduccioAleatoria = reproduccioAleatoria;
     }
     
+    /**
+     * EscoltadorReproduccio constructor without data
+     */
     public EscoltadorReproduccio() {
         reproduccioCiclica = false;
         reproduccioAleatoria = false;
@@ -32,22 +43,44 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic {
         playing_index = 0;
     }
 
+    /**
+     * Cyclic playing setter
+     * @param reproduccioCiclica
+     */
     public void setReproduccioCiclica(boolean reproduccioCiclica) {
         this.reproduccioCiclica = reproduccioCiclica;
     }
 
+    /**
+     * Random playing setter
+     * @param reproduccioAleatoria
+     */
     public void setReproduccioAleatoria(boolean reproduccioAleatoria) {
         this.reproduccioAleatoria = reproduccioAleatoria;
     }
 
+    /**
+     * Cyclic playing getter
+     * @return true if enabled
+     */
     public boolean isReproduccioCiclica() {
         return reproduccioCiclica;
     }
 
+    /**
+     * Random playing getter
+     * @return true if enabled
+     */
     public boolean isReproduccioAleatoria() {
         return reproduccioAleatoria;
     }
     
+    /**
+     * Start the playing
+     * @param llistaReproduint Folder to be played
+     * @param controlador Controller
+     * @throws AplicacioException 
+     */
     public void iniciadorReproduccio(CarpetaFitxers llistaReproduint, Controlador controlador) throws AplicacioException{
         this.llistaReproduint = llistaReproduint;
         this.controlador = controlador;
@@ -60,7 +93,9 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic {
         next();
     }
     
-    
+    /**
+     * Method to execute when a playing file ends
+     */
     @Override
     protected void onEndFile() {
         if (this.reproduccioCiclica && !hasNext()) {
@@ -72,6 +107,9 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic {
         next();
     }
     
+    /**
+     * Next file to play method
+     */
     @Override
     protected void next() {
         boolean exception_caught = false;
@@ -119,6 +157,10 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic {
         }
     }
 
+    /**
+     * Check if there's any file left to be played
+     * @return true if there's a next file
+     */
     @Override
     protected boolean hasNext() {
         int i = 0;
@@ -127,8 +169,5 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic {
             i++;
         }
         return false;
-    }
-    
-    
-    
+    }  
 }
