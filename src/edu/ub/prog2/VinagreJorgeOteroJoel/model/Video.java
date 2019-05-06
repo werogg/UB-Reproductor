@@ -4,8 +4,8 @@ import edu.ub.prog2.VinagreJorgeOteroJoel.controlador.Reproductor;
 import edu.ub.prog2.utils.AplicacioException;
 
 public class Video extends FitxerReproduible {
-    private final float fps;
-    private final int alcada, amplada;
+    private float fps;
+    private int alcada, amplada;
 
     /**
      * Video class constructor

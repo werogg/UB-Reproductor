@@ -326,6 +326,15 @@ public class Dades implements Serializable {
         return dades_temp;
     }
     
+    public void resetReproductors(Reproductor player) {
+        for (FitxerMultimedia fm : biblioteca.tauFitxers) {
+            if (fm instanceof FitxerReproduible) {
+                FitxerReproduible fr = (FitxerReproduible) fm;
+                fr.setReproductor(player);
+            }
+        }
+    }
+    
     /**
      * Add file to an album
      * @param album_name Name of the album

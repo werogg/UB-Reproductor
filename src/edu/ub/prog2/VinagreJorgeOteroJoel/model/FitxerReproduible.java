@@ -1,9 +1,11 @@
 package edu.ub.prog2.VinagreJorgeOteroJoel.model;
 
+import edu.ub.prog2.VinagreJorgeOteroJoel.controlador.Controlador;
 import edu.ub.prog2.VinagreJorgeOteroJoel.controlador.Reproductor;
 import edu.ub.prog2.utils.AplicacioException;
 
 public abstract class FitxerReproduible extends FitxerMultimedia {
+    private Controlador controlador;
     private final String codec;
     private final float durada;
     protected transient Reproductor reproductor;
@@ -27,6 +29,10 @@ public abstract class FitxerReproduible extends FitxerMultimedia {
 
     public float getDurada() {
         return durada;
+    }
+    
+    public void setReproductor(Reproductor player) {
+        this.reproductor = player;
     }
     
     

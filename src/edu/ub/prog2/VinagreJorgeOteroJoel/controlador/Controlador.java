@@ -94,6 +94,7 @@ public class Controlador implements InControlador {
     @Override
     public void carregarDadesDisc(String camiOrigen) throws AplicacioException {
         dades = Dades.carregarDadesDisc(camiOrigen);
+        dades.resetReproductors(player);
     }
     
     /**
