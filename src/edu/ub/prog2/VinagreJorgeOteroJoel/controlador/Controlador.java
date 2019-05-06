@@ -1,6 +1,8 @@
 package edu.ub.prog2.VinagreJorgeOteroJoel.controlador;
 
+import edu.ub.prog2.VinagreJorgeOteroJoel.model.CarpetaFitxers;
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.Dades;
+import edu.ub.prog2.VinagreJorgeOteroJoel.model.FitxerMultimedia;
 import edu.ub.prog2.utils.AplicacioException;
 import edu.ub.prog2.utils.InControlador;
 import java.util.List;
@@ -112,7 +114,9 @@ public class Controlador implements InControlador {
      */
     @Override
     public void reproduirFitxer(int i) throws AplicacioException {
-        dades.reproduirFitxer(i);
+        CarpetaFitxers cf = new CarpetaFitxers();
+        cf.addFitxer(dades.reproduirFitxer(i));
+        eplayer.iniciadorReproduccio(cf, this);
     }
 
     /**

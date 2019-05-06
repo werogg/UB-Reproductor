@@ -405,11 +405,12 @@ public class Dades implements Serializable {
     /**
      * Play a file
      * @param i Library file id to play
+     * @return FitxerReproduible object from library
      * @throws AplicacioException if failed to play
      */
-    public void reproduirFitxer(int i) throws AplicacioException {
+    public FitxerReproduible reproduirFitxer(int i) throws AplicacioException {
         FitxerReproduible fr = (FitxerReproduible) biblioteca.getAt(i);
-        fr.reproduir();
+        return fr;
     }
     
     /**
