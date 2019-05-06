@@ -5,17 +5,15 @@ import edu.ub.prog2.VinagreJorgeOteroJoel.model.CarpetaFitxers;
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.FitxerReproduible;
 import edu.ub.prog2.utils.AplicacioException;
 import edu.ub.prog2.utils.EscoltadorReproduccioBasic;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class EscoltadorReproduccio extends EscoltadorReproduccioBasic {
 
-    private CarpetaFitxers llistaReproduint;
-    private boolean [] llistaCtrl;
-    private boolean reproduccioCiclica, reproduccioAleatoria;
-    private FitxerReproduible playing;
-    private int playing_index;
-    private Controlador controlador;
+    private CarpetaFitxers llistaReproduint; // File container with the media that have to be played
+    private boolean [] llistaCtrl; // Control list of the played media
+    private boolean reproduccioCiclica, reproduccioAleatoria; // Playing modes
+    private FitxerReproduible playing; // Current file playing
+    private int playing_index; // Current file index playing (in llistaReproduint)
+    private Controlador controlador; // Controller object to stop the playing at the end of the folder
 
     /**
      * EscoltadorReproduccio constructor with data
@@ -86,9 +84,10 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic {
         this.controlador = controlador;
         this.playing_index = 0;
         
+        // Different implementation if we get a CarpetaFitxers or an AlbumFitxersMultimedia object
         if (llistaReproduint instanceof AlbumFitxersMultimedia) {
             AlbumFitxersMultimedia afm = (AlbumFitxersMultimedia) llistaReproduint;
-            this.llistaCtrl = new boolean[afm.getSize()];
+            this.llistaCtrl = new boolean[afm.getSize()]; // Init control list with all values to false
         } else this.llistaCtrl = new boolean[llistaReproduint.getSize()];
         next();
     }
@@ -116,9 +115,16 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic {
         int i;
         
         if (hasNext() && isReproduccioAleatoria()) {
+            
             i = 0;
-            playing_index = (int) Math.round(Math.random() * (llistaReproduint.getSize() - 1));
-            while (llistaCtrl[playing_index] && i < llistaCtrl.length) playing_index = (( playing_index + 1 ) % llistaCtrl.length);
+            playing_index = (int) Math.round(Math.random() * (llistaReproduint.getSize() - 1)); // We get a random file index
+            
+            // While iteration to avoid getting already played file index
+            while (llistaCtrl[playing_index] && i < llistaCtrl.length) {
+                playing_index = (( playing_index + 1 ) % llistaCtrl.length);
+            }
+            
+            // The new index will be currentIndex + 1
         } else if (hasNext() && !isReproduccioAleatoria()) {
             i = 0;
             while (llistaCtrl[playing_index] && i < llistaCtrl.length) {
@@ -127,30 +133,43 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic {
         }
         
         if (hasNext()) {
+            
+            /* We are forced to do a try/catch on the controller
+                as the model method doesn't throws any excetpion */
             try {
                 if (llistaReproduint instanceof AlbumFitxersMultimedia) {
+                    // Cast the Folder -> AlbumFitxersMultimedia (Different implementation)
                     AlbumFitxersMultimedia afm = (AlbumFitxersMultimedia) llistaReproduint;
-                    playing = (FitxerReproduible) afm.getAt(playing_index);
-                    playing.reproduir();
+                    playing = (FitxerReproduible) afm.getAt(playing_index); // Get the file at given index
+                    playing.reproduir(); // Call the play method
                 } else {
+                    // Get the file at given index
                     playing = (FitxerReproduible) llistaReproduint.getAt(playing_index);
-                    playing.reproduir();
+                    playing.reproduir(); // Call the play method
                 }
             } catch (AplicacioException ex) {
                 System.out.println(ex.getMessage());
             }
 
+            // Set the media as played in the control list if no exception was caught
             if (!exception_caught) llistaCtrl[playing_index] = true;
             
         } else if (!hasNext() && isReproduccioCiclica()) {
+            
+            /* We are forced to do a try/catch on the controller
+                as the model method doesn't throws any excetpion */
             try {
+                // Start again the playing
                 iniciadorReproduccio(llistaReproduint, controlador);
             } catch (AplicacioException ex) {
                 System.err.println(ex.getMessage());
             }
-        } else {
+        } else { // If there's no next file to play
+            
+            /* We are forced to do a try/catch on the controller
+                as the model method doesn't throws any excetpion */
             try {
-                controlador.aturaReproduccio();
+                controlador.aturaReproduccio(); // Stop the playing
             } catch (AplicacioException ex) {
                 System.err.println(ex.getMessage());
             }
