@@ -112,11 +112,12 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic {
      */
     @Override
     protected void next() {
-        boolean exception_caught = false;
+        boolean exception_caught = false; // Boolean to catch exception
         int i;
+        
         if (hasNext() && isReproduccioAleatoria()) {
             i = 0;
-            playing_index = (int) Math.round(Math.random() * llistaReproduint.getSize());
+            playing_index = (int) Math.round(Math.random() * (llistaReproduint.getSize() - 1));
             while (llistaCtrl[playing_index] && i < llistaCtrl.length) playing_index = (( playing_index + 1 ) % llistaCtrl.length);
         } else if (hasNext() && !isReproduccioAleatoria()) {
             i = 0;
@@ -142,11 +143,11 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic {
             if (!exception_caught) llistaCtrl[playing_index] = true;
             
         } else if (!hasNext() && isReproduccioCiclica()) {
-                try {
-                    iniciadorReproduccio(llistaReproduint, controlador);
-                } catch (AplicacioException ex) {
-                    System.err.println(ex.getMessage());
-                }
+            try {
+                iniciadorReproduccio(llistaReproduint, controlador);
+            } catch (AplicacioException ex) {
+                System.err.println(ex.getMessage());
+            }
         } else {
             try {
                 controlador.aturaReproduccio();
