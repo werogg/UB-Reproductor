@@ -3,11 +3,8 @@ package edu.ub.prog2.VinagreJorgeOteroJoel.vista;
 import edu.ub.prog2.VinagreJorgeOteroJoel.controlador.Controlador;
 import edu.ub.prog2.utils.AplicacioException;
 import edu.ub.prog2.utils.Menu;
-import java.io.UnsupportedEncodingException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class AplicacioUB3 {
     
@@ -352,7 +349,7 @@ public class AplicacioUB3 {
     * Starts the manager
     */
     public void gestioAplicacioUB() {
-        Scanner input = new Scanner(System.in);
+        Scanner input = new Scanner(System.in, "ISO-8859-1");
         
         manager(input);
     }
@@ -366,7 +363,7 @@ public class AplicacioUB3 {
         int alcada = 0, amplada = 0;
         boolean exception_caught = false;
         
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in, "ISO-8859-1");
         
         
         System.out.println("Introduce the path to the video file:");
@@ -450,7 +447,7 @@ public class AplicacioUB3 {
         float durada = 0f;
         int kbps = 0;
         
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in, "ISO-8859-1");
         System.out.println("Introduce the path to the audio file:");
         String cami = sc.nextLine();
         
@@ -506,7 +503,7 @@ public class AplicacioUB3 {
     */
     private void removeFileOption() {
         boolean exception_caught = false;
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in, "ISO-8859-1");
         
         showLibrarySimplified();
         
@@ -550,7 +547,7 @@ public class AplicacioUB3 {
      */
     private void saveDataOption() {
         boolean exception_caught = false;
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in, "ISO-8859-1");
         String camiDesti;
         
         System.out.println("Path to the Data File to be saved?");
@@ -571,7 +568,7 @@ public class AplicacioUB3 {
      */
     private void loadDataOption() {
         boolean exception_caught = false;
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in, "ISO-8859-1");
         String camiOrigen;
         
         System.out.println("Path to the Data File to be loaded?");
@@ -589,7 +586,7 @@ public class AplicacioUB3 {
     
     private void createAlbumOpt() {
         boolean exception_caught = false;
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in, "ISO-8859-1");
         String titol;
         int tamany = 0;
         
@@ -609,7 +606,7 @@ public class AplicacioUB3 {
     
     private void addMediaToAlbumOpt(String album_name) {
         boolean exception_caught = false;
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in, "ISO-8859-1");
         int selected_file;
         
         showLibrarySimplified();
@@ -639,7 +636,7 @@ public class AplicacioUB3 {
     
     private void removeMediaFromAlbumOpt(String album_name) {
         boolean exception_caught = false;
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in, "ISO-8859-1");
         showAlbumOpt(album_name);
         System.out.println("Select the file to be removed:");
         int selected_file = sc.nextInt();
@@ -659,7 +656,7 @@ public class AplicacioUB3 {
     
     private void removeAlbumOpt() {
         boolean exception_caught = false;
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in, "ISO-8859-1");
         showAlbumsSimplified();
         System.out.println("Select the album to be removed:");
         String selected_album = sc.nextLine();
@@ -742,7 +739,7 @@ public class AplicacioUB3 {
     
     private void playMediaOpt() {
         boolean exception_caught = false;
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in, "ISO-8859-1");
         int play_id;
         
         showLibrarySimplified();
@@ -775,7 +772,7 @@ public class AplicacioUB3 {
     
     private void playAlbumOpt() {
         boolean exception_caught = false;
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in, "ISO-8859-1");
         showAlbumsSimplified();
         System.out.println("Which album do you want to play? (By name)");
         String play_album = sc.nextLine();
