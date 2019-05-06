@@ -326,13 +326,26 @@ public class Dades implements Serializable {
         return dades_temp;
     }
     
-    public void resetReproductors(Reproductor player) {
+    /**
+     * Reload the Reproductor attribute to all the media files
+     * @param player Player to be loaded to the files
+     */
+    public void reloadReproductors(Reproductor player) {
         for (FitxerMultimedia fm : biblioteca.tauFitxers) {
             if (fm instanceof FitxerReproduible) {
                 FitxerReproduible fr = (FitxerReproduible) fm;
                 fr.setReproductor(player);
             }
         }
+    }
+    
+    /**
+     * Reload the player modes
+     * @param er EscoltadorReproduccio object
+     */
+    public void reloadModes(EscoltadorReproduccio er) {
+        er.setReproduccioAleatoria(reproduccioAleatoria);
+        er.setReproduccioCiclica(reproduccioCiclica);
     }
     
     /**

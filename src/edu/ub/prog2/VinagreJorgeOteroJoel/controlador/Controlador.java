@@ -2,7 +2,6 @@ package edu.ub.prog2.VinagreJorgeOteroJoel.controlador;
 
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.CarpetaFitxers;
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.Dades;
-import edu.ub.prog2.VinagreJorgeOteroJoel.model.FitxerMultimedia;
 import edu.ub.prog2.utils.AplicacioException;
 import edu.ub.prog2.utils.InControlador;
 import java.util.List;
@@ -96,7 +95,8 @@ public class Controlador implements InControlador {
     @Override
     public void carregarDadesDisc(String camiOrigen) throws AplicacioException {
         dades = Dades.carregarDadesDisc(camiOrigen);
-        dades.resetReproductors(player);
+        dades.reloadReproductors(player);
+        dades.reloadModes(eplayer);
     }
     
     /**
