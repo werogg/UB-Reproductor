@@ -14,8 +14,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Dades implements Serializable {
     
@@ -299,9 +297,9 @@ public class Dades implements Serializable {
             fout.close();
             oos.close();
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(Dades.class.getName()).log(Level.SEVERE, null, ex);
+            throw new AplicacioException("Data file not found!");
         } catch (IOException ex) {
-            Logger.getLogger(Dades.class.getName()).log(Level.SEVERE, null, ex);
+            throw new AplicacioException("IOException caught!");
         }
     }
     
