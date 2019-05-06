@@ -140,19 +140,18 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic {
             }
 
             if (!exception_caught) llistaCtrl[playing_index] = true;
-        } else {
-            if (isReproduccioCiclica()) {
+            
+        } else if (!hasNext() && isReproduccioCiclica()) {
                 try {
                     iniciadorReproduccio(llistaReproduint, controlador);
                 } catch (AplicacioException ex) {
-                    Logger.getLogger(EscoltadorReproduccio.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } else {
-                try {
-                controlador.aturaReproduccio();
-                } catch (AplicacioException ex) {
                     System.err.println(ex.getMessage());
                 }
+        } else {
+            try {
+                controlador.aturaReproduccio();
+            } catch (AplicacioException ex) {
+                System.err.println(ex.getMessage());
             }
         }
     }
