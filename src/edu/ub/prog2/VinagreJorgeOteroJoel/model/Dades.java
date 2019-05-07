@@ -441,7 +441,8 @@ public class Dades implements Serializable {
                 afm = (AlbumFitxersMultimedia) it.next();
 
                 if(afm.getTitol().equals(string)){
-                    return afm;
+                    if (afm.getSize() == 0) throw new AplicacioException("Album empty!");
+                    else return afm;
                 }
             }
         } else throw new AplicacioException("Album not found!");   
