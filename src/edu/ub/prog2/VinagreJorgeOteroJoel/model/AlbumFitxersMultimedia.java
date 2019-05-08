@@ -52,7 +52,7 @@ public class AlbumFitxersMultimedia extends BibliotecaFitxersMultimedia {
      * Get file at given index
      * @param position Index of the file
      * @return File object
-     * @throws AplicacioException 
+     * @throws AplicacioException Internal app exception
      */
     @Override
     public File getAt(int position) throws AplicacioException {
@@ -74,7 +74,7 @@ public class AlbumFitxersMultimedia extends BibliotecaFitxersMultimedia {
     /**
      * Add file to the album
      * @param fm FitxersMultimedia to add to the album
-     * @throws AplicacioException 
+     * @throws AplicacioException Internal app exception
      */
     public void addFitxer(FitxerMultimedia fm) throws AplicacioException {
         if (isFull()) throw new AplicacioException("The album is full!");
@@ -84,7 +84,7 @@ public class AlbumFitxersMultimedia extends BibliotecaFitxersMultimedia {
     /**
      * Remove a file from the album
      * @param index Index of the file to be removed
-     * @throws AplicacioException 
+     * @throws AplicacioException Internal app exception
      */
     public void removeFitxer(int index) throws AplicacioException {
         if (index < 0 || index >= album_fitxers.size()) throw new AplicacioException("Index out of bounds!");

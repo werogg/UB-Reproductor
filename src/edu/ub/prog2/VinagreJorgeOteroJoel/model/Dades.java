@@ -126,7 +126,7 @@ public class Dades implements Serializable {
      * Remove a file from an album
      * @param album_name Name of the album
      * @param id of the file
-     * @throws AplicacioException
+     * @throws AplicacioException Internal app exception
      */
     public void esborrarFitxer(String album_name, int id) throws AplicacioException {
         boolean trobat = false;
@@ -155,7 +155,7 @@ public class Dades implements Serializable {
     /**
      * Remove an album
      * @param titol Name of the album
-     * @throws AplicacioException 
+     * @throws AplicacioException Internal app exception
      */
     public void esborrarAlbum(String titol) throws AplicacioException {
         boolean trobat = false;
@@ -180,7 +180,7 @@ public class Dades implements Serializable {
     /**
      * Add a new album
      * @param titol Name of the new album
-     * @throws AplicacioException 
+     * @throws AplicacioException Internal app exception
      */
     public void afegirAlbum(String titol) throws AplicacioException {
         AlbumFitxersMultimedia afm = new AlbumFitxersMultimedia(titol);
@@ -242,7 +242,7 @@ public class Dades implements Serializable {
      * Show album
      * @param album_name Name of the album
      * @return the info of an album
-     * @throws AplicacioException 
+     * @throws AplicacioException Internal app exception
      */
     public List<String> mostrarAlbum(String album_name) throws AplicacioException {
         List<String> info = new ArrayList<>();
@@ -289,7 +289,7 @@ public class Dades implements Serializable {
     /**
      * Save data on disk
      * @param camiDesti Data path
-     * @throws AplicacioException 
+     * @throws AplicacioException Internal app exception
      */
     public void guardarDadesDisc(String camiDesti) throws AplicacioException { 
         try (FileOutputStream fout = new FileOutputStream(new File(camiDesti)); ObjectOutputStream oos = new ObjectOutputStream(fout)) {
@@ -307,7 +307,7 @@ public class Dades implements Serializable {
      * Load data from disk
      * @param camiOrigen Data path
      * @return the data to be loaded
-     * @throws AplicacioException 
+     * @throws AplicacioException Internal app exception
      */
     public static Dades carregarDadesDisc(String camiOrigen) throws AplicacioException {
         Dades dades_temp;
@@ -352,7 +352,7 @@ public class Dades implements Serializable {
      * Add file to an album
      * @param album_name Name of the album
      * @param selected_file id of the file
-     * @throws AplicacioException 
+     * @throws AplicacioException Internal app exception
      */
     public void afegirFitxer(String album_name, int selected_file) throws AplicacioException {
         boolean trobat = false;
@@ -383,7 +383,7 @@ public class Dades implements Serializable {
     
     /**
      * Enable/Disable cyclic playing
-     * @param eplayer 
+     * @param eplayer EscoltadorReproduccio object
      */
     public void setReproduccioCiclica(EscoltadorReproduccio eplayer) {
         this.reproduccioCiclica = !this.isReproduccioCiclica();
@@ -392,7 +392,7 @@ public class Dades implements Serializable {
 
     /**
      * Enable/Disable random playing
-     * @param eplayer 
+     * @param eplayer EscoltadorReproduccio object
      */
     public void setReproduccioAleatoria(EscoltadorReproduccio eplayer) {
         this.reproduccioAleatoria = !this.reproduccioAleatoria;
@@ -430,7 +430,7 @@ public class Dades implements Serializable {
      * Play folder
      * @param string Name of the folder to be played
      * @return the folder to be played
-     * @throws AplicacioException 
+     * @throws AplicacioException Internal app exception
      */
     public CarpetaFitxers reproduirCarpeta(String string) throws AplicacioException {
         if(existeixAlbum(string)){
@@ -452,7 +452,7 @@ public class Dades implements Serializable {
     /**
      * Play the whole library
      * @return the library folder object
-     * @throws AplicacioException 
+     * @throws AplicacioException Internal app exception
      */
     public CarpetaFitxers reproduirCarpeta() throws AplicacioException {
         return biblioteca;

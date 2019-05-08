@@ -19,7 +19,7 @@ public class Reproductor extends ReproductorBasic {
     /**
      * Play a file
      * @param fr FitxerReproduible object
-     * @throws AplicacioException 
+     * @throws AplicacioException Internal app exception
      */
     public void reprodueix(FitxerReproduible fr) throws AplicacioException {
         this.play(fr);
@@ -29,7 +29,7 @@ public class Reproductor extends ReproductorBasic {
      * Play an audio
      * @param fr FitxerReproduible object (Audio)
      * @param file File object (Image)
-     * @throws AplicacioException 
+     * @throws AplicacioException Internal app exception
      */
     public void reprodueix(FitxerReproduible fr, File file) throws AplicacioException {
         this.play(fr, file);

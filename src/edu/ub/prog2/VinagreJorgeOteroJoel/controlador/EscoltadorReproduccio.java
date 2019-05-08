@@ -43,7 +43,7 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic {
 
     /**
      * Cyclic playing setter
-     * @param reproduccioCiclica
+     * @param reproduccioCiclica Set it to true/false
      */
     public void setReproduccioCiclica(boolean reproduccioCiclica) {
         this.reproduccioCiclica = reproduccioCiclica;
@@ -51,7 +51,7 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic {
 
     /**
      * Random playing setter
-     * @param reproduccioAleatoria
+     * @param reproduccioAleatoria Set it to true/false
      */
     public void setReproduccioAleatoria(boolean reproduccioAleatoria) {
         this.reproduccioAleatoria = reproduccioAleatoria;
@@ -77,7 +77,7 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic {
      * Start the playing
      * @param llistaReproduint Folder to be played
      * @param controlador Controller
-     * @throws AplicacioException 
+     * @throws AplicacioException Internal app exception
      */
     public void iniciadorReproduccio(CarpetaFitxers llistaReproduint, Controlador controlador) throws AplicacioException{
         this.llistaReproduint = llistaReproduint;
