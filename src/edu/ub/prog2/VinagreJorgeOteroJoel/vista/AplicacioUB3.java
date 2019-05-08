@@ -870,13 +870,7 @@ public class AplicacioUB3 {
      * Exit option selected
      */
     private void exitOpt() {
-        System.out.println();
-        try {
-            controlador.aturaReproduccio();
-            controlador.tancarFinestraReproductor();
-        } catch (AplicacioException ex) {
-            System.err.println(ex.getMessage());
-            System.exit(1);
-        }
+        System.out.println("Exiting...");
+        System.exit(0);
     }
 }
