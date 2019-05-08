@@ -10,14 +10,13 @@ package edu.ub.prog2.VinagreJorgeOteroJoel.vista;
 
 public class IniciadorAplicacioUB {
     
-    private static AplicacioUB2 aplicacio;
     
     /**
-    * This is the main method where we call and instance an AplicacioUB1 object.
+    * This is the main method where we call and instance an AplicacioUB3 object.
     * @param args Unused.
     */
     public static void main(String [] args) {
-        aplicacio = new AplicacioUB2();
+        AplicacioUB3 aplicacio = new AplicacioUB3();
         
         aplicacio.gestioAplicacioUB();
     }

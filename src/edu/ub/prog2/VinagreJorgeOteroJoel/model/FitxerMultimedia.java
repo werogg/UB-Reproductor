@@ -64,7 +64,7 @@ public class FitxerMultimedia extends File {
     
     /**
      * Setter of file description
-     * @param desc
+     * @param desc File description
      */
     public void setDescripcio(String desc) {
         descripcio = desc;
@@ -78,6 +78,7 @@ public class FitxerMultimedia extends File {
      */
     @Override
     public boolean equals(Object fitxerMultimedia) {
+        if (fitxerMultimedia == null) return false;
         if (fitxerMultimedia instanceof FitxerMultimedia) {
             FitxerMultimedia fm = (FitxerMultimedia) fitxerMultimedia;
             return this.getNomFitxer().equals(fm.getNomFitxer()) 

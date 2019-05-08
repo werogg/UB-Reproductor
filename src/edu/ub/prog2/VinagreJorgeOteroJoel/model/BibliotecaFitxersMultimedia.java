@@ -1,7 +1,6 @@
 package edu.ub.prog2.VinagreJorgeOteroJoel.model;
 import edu.ub.prog2.utils.AplicacioException;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class BibliotecaFitxersMultimedia extends CarpetaFitxers {
@@ -16,16 +15,13 @@ public class BibliotecaFitxersMultimedia extends CarpetaFitxers {
     /**
      * Add file to BibliotecaFitxersMultimedia
      * @param file File to be added
-     * @throws java.io.FileNotFoundException
-     * @throws AplicacioException 
+     * @throws AplicacioException to handle multiple errors
      */
     @Override
-    public void	addFitxer(File file) throws FileNotFoundException, AplicacioException {
+    public void addFitxer(File file) throws AplicacioException {
         if (file.exists()) { // Check if file exists
             if (file instanceof FitxerMultimedia) { // Check if file is instance of FitxerMultimedia
                 FitxerMultimedia fm = (FitxerMultimedia) file; // Explicit conversion
-                if (isFull()) // Check if library is full
-                    throw new AplicacioException("The folder is full.");
                 if (!tauFitxers.contains(fm)) // Check if the file is already in the library
                     tauFitxers.add(fm);
                 else 
@@ -33,6 +29,6 @@ public class BibliotecaFitxersMultimedia extends CarpetaFitxers {
             } else
                 throw new AplicacioException("File is not a FitxerMultimedia");
         } else
-            throw new FileNotFoundException("Exception: File does not exists");
+            throw new AplicacioException("File does not exists");
     }
 }

@@ -2,14 +2,12 @@ package edu.ub.prog2.VinagreJorgeOteroJoel.model;
 
 import edu.ub.prog2.utils.AplicacioException;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import javax.naming.LimitExceededException;
 
 public class CarpetaFitxers implements Serializable {
     
-    protected final int _max_size;
+    private final int _max_size;
     protected ArrayList<FitxerMultimedia> tauFitxers;
     
     /**
@@ -31,13 +29,11 @@ public class CarpetaFitxers implements Serializable {
     /**
      * Add a file to the folder
      * @param file File to be added to the folder
-     * @throws javax.naming.LimitExceededException
-     * @throws edu.ub.prog2.utils.AplicacioException
-     * @throws java.io.FileNotFoundException
+     * @throws AplicacioException when the folder is full
      */
-    public void addFitxer(File file) throws LimitExceededException, AplicacioException, FileNotFoundException {
+    public void addFitxer(File file) throws AplicacioException {
         if (isFull())
-            throw new LimitExceededException("Exception: The folder is full.");
+            throw new AplicacioException("The folder is full.");
         else
             tauFitxers.add((FitxerMultimedia) file);
     }
@@ -45,15 +41,15 @@ public class CarpetaFitxers implements Serializable {
     /**
      * Remove a file from the folder
      * @param file File to be removed from the folder
-     * @throws java.io.FileNotFoundException
+     * @throws AplicacioException when the file can't be found
      */
-    public void removeFitxer(File file) throws FileNotFoundException {
+    public void removeFitxer(File file) throws AplicacioException {
         if (file instanceof FitxerMultimedia) {
             FitxerMultimedia fm = (FitxerMultimedia) file;
             if (tauFitxers.contains(fm))
                 tauFitxers.remove(fm);
             else
-                throw new FileNotFoundException("Exception: File not found");
+                throw new AplicacioException("File not found");
         }
     }
     
@@ -61,12 +57,12 @@ public class CarpetaFitxers implements Serializable {
      * Get file at position
      * @param position Index of the file
      * @return File in the index
-     * @throws java.io.FileNotFoundException
+     * @throws AplicacioException when the file can't be found
      * 
      */
-    public File getAt(int position) throws FileNotFoundException {
-        if (position >= tauFitxers.size())
-            throw new FileNotFoundException("Exception: File not found");
+    public File getAt(int position) throws AplicacioException {
+        if (position >= tauFitxers.size() || position < 0)
+            throw new AplicacioException("File not found");
         else
             return tauFitxers.get(position);
     }

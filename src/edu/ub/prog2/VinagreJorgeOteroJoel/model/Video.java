@@ -1,8 +1,11 @@
 package edu.ub.prog2.VinagreJorgeOteroJoel.model;
 
+import edu.ub.prog2.VinagreJorgeOteroJoel.controlador.Reproductor;
+import edu.ub.prog2.utils.AplicacioException;
+
 public class Video extends FitxerReproduible {
-    private final float fps;
-    private final int alcada, amplada;
+    private float fps;
+    private int alcada, amplada;
 
     /**
      * Video class constructor
@@ -25,12 +28,10 @@ public class Video extends FitxerReproduible {
 
     /**
      * Play file method
+     * @throws AplicacioException when error happens playing the video
      */
     @Override
-    protected void reproduir() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void reproduir() throws AplicacioException {
+        reproductor.reprodueix(this);
     }
-    
-    
-    
 }
