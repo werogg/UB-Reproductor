@@ -138,13 +138,19 @@ public class AplicacioUB3 {
                     loadDataOption();
                     break;
                 case EXIT:
-                    System.out.println("See you later!");
+                    exitOpt();
                     break;
             }
 
         } while(opcio!=OpcionsMenuPrincipal.EXIT);
     }
     
+    /**
+     * Menu - Album manager
+     * @param sc Scanner object
+     * @param album_menu Menu album object
+     * @param album_menu_manager Menu album manager object
+     */
     private void albumManager(Scanner sc, Menu<OpcionsMenuAlbum> album_menu, Menu<OpcionsMenuAlbumManager> album_menu_manager) {
         OpcionsMenuAlbum opcio;
         
@@ -175,6 +181,13 @@ public class AplicacioUB3 {
         } while (opcio != OpcionsMenuAlbum.BACK);
     }
     
+    /**
+     * Menu - Album manager
+     * @param sc Scanner object
+     * @param album_menu Menu album object
+     * @param album_name Album name
+     * @throws AplicacioException 
+     */
     private void manageAlbumManager(Scanner sc, Menu<OpcionsMenuAlbumManager> album_menu, String album_name) throws AplicacioException {
         OpcionsMenuAlbumManager opcio;
         
@@ -266,6 +279,12 @@ public class AplicacioUB3 {
         } while (opcio != OpcionsMenuAfegir.BACK);
     }
     
+    /**
+     * Menu - Player manager
+     * @param sc Scanner object
+     * @param player_menu Menu player object
+     * @param playing_menu  Menu playing object
+     */
     private void playerManager(Scanner sc, Menu<OpcionsMenuPlayerManager> player_menu, Menu<OpcionsMenuPlayingManager> playing_menu) {
         OpcionsMenuPlayerManager opcio;
         
@@ -302,6 +321,11 @@ public class AplicacioUB3 {
         } while (opcio != OpcionsMenuPlayerManager.BACK);
     }
     
+    /**
+     * Menu - Playing manager
+     * @param sc Scanner object
+     * @param playing_menu Menu playing object
+     */
     private void playingManager(Scanner sc, Menu<OpcionsMenuPlayingManager> playing_menu) {
         OpcionsMenuPlayingManager opcio;
         
@@ -332,6 +356,11 @@ public class AplicacioUB3 {
         } while (opcio != OpcionsMenuPlayingManager.BACK);
     }
 
+    /**
+     * Manage album option selected
+     * @param sc Scanner object
+     * @param album_menu Menu album object
+     */
     private void manageAlbumOpt(Scanner sc, Menu<OpcionsMenuAlbumManager> album_menu) {
         String album_name;
         showAlbumsSimplified();
@@ -530,12 +559,18 @@ public class AplicacioUB3 {
         });
     }
     
+    /**
+     * Show library by a simplified way
+     */
     private void showLibrarySimplified() {
         controlador.mostrarBibliotecaSimplified().forEach((info) -> {
             System.out.println(info);
         });
     }
     
+    /**
+     * Show albums by a simplified way
+     */
     private void showAlbumsSimplified() {
         controlador.mostrarLlistatAlbums().forEach((info) -> {
             System.out.println(info);
@@ -584,11 +619,13 @@ public class AplicacioUB3 {
         if (!exception_caught) System.out.println("Data succefully loaded!");
     }
     
+    /**
+     * Option to create a new album selected
+     */
     private void createAlbumOpt() {
         boolean exception_caught = false;
         Scanner sc = new Scanner(System.in, "ISO-8859-1");
         String titol;
-        int tamany = 0;
         
         System.out.println("Introduce the album name");
         titol = sc.nextLine();
@@ -604,6 +641,10 @@ public class AplicacioUB3 {
         }
     }
     
+    /**
+     * Option to add media to an album selected
+     * @param album_name Album name
+     */
     private void addMediaToAlbumOpt(String album_name) {
         boolean exception_caught = false;
         Scanner sc = new Scanner(System.in, "ISO-8859-1");
@@ -626,6 +667,10 @@ public class AplicacioUB3 {
         
     }
     
+    /**
+     * Show album option selected
+     * @param album_name Album name
+     */
     private void showAlbumOpt(String album_name) {
         try {
             System.out.println(controlador.mostrarAlbum(album_name));
@@ -634,6 +679,10 @@ public class AplicacioUB3 {
         }
     }
     
+    /**
+     * Remove media form album option selected
+     * @param album_name Album name
+     */
     private void removeMediaFromAlbumOpt(String album_name) {
         boolean exception_caught = false;
         Scanner sc = new Scanner(System.in, "ISO-8859-1");
@@ -654,6 +703,9 @@ public class AplicacioUB3 {
         }
     }
     
+    /**
+     * Remove an album option selected
+     */
     private void removeAlbumOpt() {
         boolean exception_caught = false;
         Scanner sc = new Scanner(System.in, "ISO-8859-1");
@@ -673,20 +725,29 @@ public class AplicacioUB3 {
         }
     }
     
+    /**
+     * Enable/Disable cyclic playing option selected
+     */
     private void enableDisableCiclicPlayingOpt() {
         controlador.setReproduccioCiclica();
         
-        if(controlador.isReproduccioCiclica()) System.out.println("CiclicPlaying is now enabled!");
-        else System.out.println("CiclicPlaying is now disabled!");
+        if(controlador.isReproduccioCiclica()) System.out.println("Cyclic playing is now enabled!");
+        else System.out.println("Cyclic playing is now disabled!");
     }
     
+    /**
+     * Enable/Disable random playing option selected
+     */
     private void enableDisableRandomPlayingOpt(){
         controlador.setReproduccioAleatoria();
         
-        if(controlador.isReproduccioAleatoria()) System.out.println("RandomPlaying is now enabled");
-        else System.out.println("RandomPlaying is now disabled!");
+        if(controlador.isReproduccioAleatoria()) System.out.println("Random playing is now enabled");
+        else System.out.println("Cyclic playing is now disabled!");
     }
     
+    /**
+     * Resume playing option selected
+     */
     private void resumePlayingOpt() {
         boolean exception_caught = false;
         
@@ -700,6 +761,9 @@ public class AplicacioUB3 {
         if (!exception_caught) System.out.println("Playing resumed!");
     }
     
+    /**
+     * Pause playing option selected
+     */
     private void pausePlayingOpt() {
         boolean exception_caught = false;
         
@@ -713,6 +777,9 @@ public class AplicacioUB3 {
         if (!exception_caught) System.out.println("Playing paused!");
     }
     
+    /**
+     * Stop playing option selected
+     */
     private void stopPlayingOpt() {
         boolean exception_caught = false;
         try {
@@ -725,6 +792,9 @@ public class AplicacioUB3 {
         if (!exception_caught) System.out.println("Playing stopped!");
     }
     
+    /**
+     * Jump playing option selected
+     */
     private void jumpPlayingOpt() {
         boolean exception_caught = false;
         try {
@@ -737,13 +807,16 @@ public class AplicacioUB3 {
         if (!exception_caught) System.out.println("File playing skipped!");
     }
     
+    /**
+     * Play media option selected
+     */
     private void playMediaOpt() {
         boolean exception_caught = false;
         Scanner sc = new Scanner(System.in, "ISO-8859-1");
         int play_id;
         
         showLibrarySimplified();
-        System.out.println("Quin fitxer vols reproduïr? (Index)");
+        System.out.println("Which file do you want to play? (Index)");
         play_id = sc.nextInt();
         --play_id;
         
@@ -755,9 +828,12 @@ public class AplicacioUB3 {
             exception_caught = true;
         }
         
-        if (!exception_caught) System.out.println("Iniciant reproductor...");
+        if (!exception_caught) System.out.println("Launching the player...");
     }
     
+    /**
+     * Play full library option selected
+     */
     private void playLibraryOpt() {
         boolean exception_caught = false;
         controlador.obrirFinestraReproductor();
@@ -767,9 +843,12 @@ public class AplicacioUB3 {
             System.err.println(ex.getMessage());
         }
         
-        if (!exception_caught) System.out.println("Inciant reproductor...");
+        if (!exception_caught) System.out.println("Launching the player...");
     }
     
+    /**
+     * Play an album option selected
+     */
     private void playAlbumOpt() {
         boolean exception_caught = false;
         Scanner sc = new Scanner(System.in, "ISO-8859-1");
@@ -784,6 +863,20 @@ public class AplicacioUB3 {
             System.err.println(ex.getMessage());
         }
         
-        if (!exception_caught) System.out.println("Inciant reproductor...");
+        if (!exception_caught) System.out.println("Launching the player...");
+    }
+    
+    /**
+     * Exit option selected
+     */
+    private void exitOpt() {
+        System.out.println();
+        try {
+            controlador.aturaReproduccio();
+            controlador.tancarFinestraReproductor();
+        } catch (AplicacioException ex) {
+            System.err.println(ex.getMessage());
+            System.exit(1);
+        }
     }
 }
