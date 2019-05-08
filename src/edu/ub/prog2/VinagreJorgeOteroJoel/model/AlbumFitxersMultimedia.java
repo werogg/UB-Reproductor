@@ -3,6 +3,7 @@ package edu.ub.prog2.VinagreJorgeOteroJoel.model;
 import edu.ub.prog2.utils.AplicacioException;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AlbumFitxersMultimedia extends BibliotecaFitxersMultimedia {
     
@@ -100,6 +101,20 @@ public class AlbumFitxersMultimedia extends BibliotecaFitxersMultimedia {
             album_fitxers.remove(fm);
         }
     }
+    
+    /**
+     * Show album content simplified
+     * @return String list with the album content
+     */
+    public List<String> showContent() {
+        List<String> info = new ArrayList<>();
+        int cnt = 1;
+        for (FitxerMultimedia fm : album_fitxers) {
+            info.add("[" + cnt + "] " + fm.getNomFitxer());
+            cnt++;
+        }
+        return info;
+    }
 
     /**
      * Return Album's info
@@ -107,7 +122,11 @@ public class AlbumFitxersMultimedia extends BibliotecaFitxersMultimedia {
      */
     @Override
     public String toString() {
-        return "AlbumFitxersMultimedia{" + "max=" + max + ", titol=" + titol + ", album_fitxers=" + album_fitxers + '}';
+        String info = "\n";
+        info += "==========================\n";
+        info += titol + " - " + getSize() + "/" + max + " spaces used.\n";
+        info += "==========================";
+        return info;
     }
     
 }

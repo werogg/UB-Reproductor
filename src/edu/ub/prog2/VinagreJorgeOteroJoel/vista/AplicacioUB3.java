@@ -672,8 +672,28 @@ public class AplicacioUB3 {
      * @param album_name Album name
      */
     private void showAlbumOpt(String album_name) {
+        boolean exception_caught = false;
         try {
-            System.out.println(controlador.mostrarAlbum(album_name));
+            for (String str : controlador.mostrarAlbum(album_name)) {
+                System.out.println(str);
+            }
+        } catch (AplicacioException ex) {
+            System.err.println(ex.getMessage());
+            exception_caught = true;
+        }
+        
+        if (!exception_caught) showAlbumContent(album_name);
+    }
+    
+    /**
+     * Show album content
+     * @param album_name Album name
+     */
+    private void showAlbumContent(String album_name) {
+        try {
+            for (String str : controlador.mostrarContingutAlbum(album_name)) {
+                System.out.println(str);
+            }
         } catch (AplicacioException ex) {
             System.err.println(ex.getMessage());
         }
@@ -686,7 +706,7 @@ public class AplicacioUB3 {
     private void removeMediaFromAlbumOpt(String album_name) {
         boolean exception_caught = false;
         Scanner sc = new Scanner(System.in, "ISO-8859-1");
-        showAlbumOpt(album_name);
+        showAlbumContent(album_name);
         System.out.println("Select the file to be removed:");
         int selected_file = sc.nextInt();
         selected_file--;

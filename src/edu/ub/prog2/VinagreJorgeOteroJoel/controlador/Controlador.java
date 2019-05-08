@@ -190,6 +190,16 @@ public class Controlador implements InControlador {
     public List<String> mostrarAlbum(String string) throws AplicacioException {
         return dades.mostrarAlbum(string);
     }
+    
+    /**
+     * Show album content
+     * @param string Album name
+     * @return List of strings with a list of the album content
+     * @throws AplicacioException if error getting the album content info
+     */
+    public List<String> mostrarContingutAlbum(String string) throws AplicacioException {
+        return dades.mostrarContingutAlbum(string);
+    }
 
     /**
      * Open the player

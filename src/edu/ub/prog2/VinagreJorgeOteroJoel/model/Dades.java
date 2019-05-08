@@ -131,8 +131,7 @@ public class Dades implements Serializable {
     public void esborrarFitxer(String album_name, int id) throws AplicacioException {
         boolean trobat = false;
         Iterator it = album_list.iterator();
-        AlbumFitxersMultimedia afm;
-        int i = 0;
+        AlbumFitxersMultimedia afm = null;
         
         while(it.hasNext()) {
             afm = (AlbumFitxersMultimedia) it.next();
@@ -141,15 +140,11 @@ public class Dades implements Serializable {
                 trobat = true;
                 break;
             }
-            i++;
         }
         
-        if (trobat) afm = album_list.get(i);
-        else throw new AplicacioException("The album doesn't exists!");
-        
-        FitxerMultimedia fm = (FitxerMultimedia) biblioteca.getAt(id);
-        
-        afm.removeFitxer(fm);
+        if (!trobat) throw new AplicacioException("The album doesn't exists!");
+        if (afm != null) afm.removeFitxer(id);
+        else throw new AplicacioException("Another error with the album!");
     }
     
     /**
@@ -284,6 +279,27 @@ public class Dades implements Serializable {
         }
         
         return false;
+    }
+    
+    /**
+     * Show album content
+     * @param string Album name
+     * @return List of strings with a list of the album content
+     * @throws AplicacioException if error getting the album content info
+     */
+    public List<String> mostrarContingutAlbum(String string) throws AplicacioException {
+        Iterator it = album_list.iterator();
+        AlbumFitxersMultimedia afm;
+        int i = 0;
+        while(it.hasNext()) {
+            afm = (AlbumFitxersMultimedia) it.next();
+            
+            if(afm.getTitol().equals(string)) {
+                return afm.showContent();
+            }
+        }
+
+        throw new AplicacioException("The album doesn't exists!");
     }
     
     /**
