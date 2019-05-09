@@ -112,22 +112,19 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic {
     @Override
     protected void next() {
         boolean exception_caught = false; // Boolean to catch exception
-        int i;
         
         if (hasNext() && isReproduccioAleatoria()) {
-            
-            i = 0;
+
             playing_index = (int) Math.round(Math.random() * (llistaReproduint.getSize() - 1)); // We get a random file index
             
             // While iteration to avoid getting already played file index
-            while (llistaCtrl[playing_index] && i < llistaCtrl.length) {
+            while (llistaCtrl[playing_index]) {
                 playing_index = (( playing_index + 1 ) % llistaCtrl.length);
             }
             
             // The new index will be currentIndex + 1
         } else if (hasNext() && !isReproduccioAleatoria()) {
-            i = 0;
-            while (llistaCtrl[playing_index] && i < llistaCtrl.length) {
+            while (llistaCtrl[playing_index]) {
                 playing_index = (playing_index + 1) % llistaCtrl.length;
             }
         }
