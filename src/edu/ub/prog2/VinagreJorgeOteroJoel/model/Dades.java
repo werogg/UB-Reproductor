@@ -77,12 +77,8 @@ public class Dades implements Serializable {
     public List<String> mostrarBiblioteca() { 
         List<String> info = new ArrayList<>();
         
-        int cnt = 1;
         for (FitxerMultimedia fm : biblioteca.tauFitxers) {
-            info.add("-----------------------------");
-            info.add("File Index: " + cnt);
-            info.add(fm.toString());
-            cnt++;
+            info.add(fm.getDescripcio());
         }
         
         return info;
@@ -205,13 +201,9 @@ public class Dades implements Serializable {
     public List<String> mostrarLlistatAlbums() {
         List<String> info = new ArrayList<>();
         
-        int cnt = 1;
-        info.add("-----------------------------");
-        for (AlbumFitxersMultimedia afm : album_list) {
-            info.add("[" + cnt + "] " + afm.getTitol());
-            cnt++;
-        }
-        info.add("-----------------------------");
+        album_list.forEach((afm) -> {
+            info.add(afm.getTitol());
+        });
         
         return info;
     }
@@ -223,12 +215,9 @@ public class Dades implements Serializable {
     public List<String> mostrarAlbums() {
         List<String> info = new ArrayList<>();
         
-        int cnt = 1;
-        info.add("-----------------------------");
         album_list.forEach((afm) -> {
             info.add(afm.toString());
         });
-        info.add("-----------------------------");
         
         return info;
     }
@@ -251,7 +240,12 @@ public class Dades implements Serializable {
             afm = (AlbumFitxersMultimedia) it.next();
             
             if(afm.getTitol().equals(album_name)) {
-                info.add(afm.toString());
+                FitxerMultimedia fm;
+                for(int i = 0; i < afm.getSize(); i++) {
+                    fm = (FitxerMultimedia) afm.getAt(i);
+                    info.add(fm.getDescripcio());
+                }
+                
                 trobat = true;
                 break;
             }
@@ -498,5 +492,43 @@ public class Dades implements Serializable {
         }
         
         return to_print;
+    }
+    
+    public List<FitxerReproduible> getBibliotecaFiles() {
+        List<FitxerReproduible> files = new ArrayList<>();
+        
+        biblioteca.tauFitxers.forEach((fm) -> {
+            files.add((FitxerReproduible) fm);
+        });
+        
+        return files;
+    }
+    
+    public List<FitxerReproduible> mostrarAlbumFitxers(String string) throws AplicacioException {
+        List<FitxerReproduible> info = new ArrayList<>();
+        boolean trobat = false;
+        
+        
+        Iterator it = album_list.iterator();
+        AlbumFitxersMultimedia afm;
+        
+        while(it.hasNext()) {
+            afm = (AlbumFitxersMultimedia) it.next();
+            
+            if(afm.getTitol().equals(string)) {
+                FitxerReproduible fr;
+                for(int i = 0; i < afm.getSize(); i++) {
+                    fr = (FitxerReproduible) afm.getAt(i);
+                    info.add(fr);
+                }
+                
+                trobat = true;
+                break;
+            }
+        }
+        
+        if (!trobat) throw new AplicacioException("The album doesn't exists!");
+        
+        return info;
     }
 }

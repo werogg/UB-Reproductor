@@ -2,6 +2,7 @@ package edu.ub.prog2.VinagreJorgeOteroJoel.controlador;
 
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.CarpetaFitxers;
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.Dades;
+import edu.ub.prog2.VinagreJorgeOteroJoel.model.FitxerReproduible;
 import edu.ub.prog2.utils.AplicacioException;
 import edu.ub.prog2.utils.InControlador;
 import java.util.List;
@@ -75,6 +76,10 @@ public class Controlador implements InControlador {
     
     public List<String> mostrarBibliotecaSimplified() {
         return dades.mostrarBibliotecaSimplified();
+    }
+    
+    public List<FitxerReproduible> getBibliotecaFiles() {
+        return dades.getBibliotecaFiles();
     }
     
     /**
@@ -199,6 +204,10 @@ public class Controlador implements InControlador {
      */
     public List<String> mostrarContingutAlbum(String string) throws AplicacioException {
         return dades.mostrarContingutAlbum(string);
+    }
+    
+    public List<FitxerReproduible> mostrarAlbumFitxers(String string) throws AplicacioException {
+        return dades.mostrarAlbumFitxers(string);
     }
 
     /**
