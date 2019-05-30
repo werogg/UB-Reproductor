@@ -8,8 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -69,7 +67,7 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
                 try {
                     controlador.carregarDadesDisc("data.dat");
                 } catch (AplicacioException ex) {
-                    Logger.getLogger(AplicacioUB4Remastered.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
@@ -114,7 +112,7 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
                 }
             }  
         } catch (AplicacioException ex) {
-            Logger.getLogger(AplicacioUB4Remastered.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -146,7 +144,7 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
                         JMenuItem menuItem = (JMenuItem)e.getSource();
                         controlador.afegirFitxer(menuItem.getText(), jTable1.getSelectedRow());
                     } catch (AplicacioException ex) {
-                        Logger.getLogger(AplicacioUB4Remastered.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             });
@@ -520,7 +518,7 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
         try {
             controlador.afegirAlbum(input);
         } catch (AplicacioException ex) {
-            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Inane error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
         }
         
         this.refreshListAlbums();
@@ -588,7 +586,7 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
             // TODO add your handling code here:
             controlador.esborrarFitxer(jTable1.getSelectedRow());
         } catch (AplicacioException ex) {
-            Logger.getLogger(AplicacioUB4Remastered.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
         }
         this.refreshTableBiblioteca();
         
@@ -598,7 +596,7 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
         try {
             controlador.esborrarFitxer(selection, jTable1.getSelectedRow());
         } catch (AplicacioException ex) {
-            Logger.getLogger(AplicacioUB4Remastered.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
         }
         
         this.refreshTableAlbum(selection);
@@ -610,7 +608,7 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
             controlador.esborrarAlbum(selection);
             jList1.setSelectedIndex(0);
         } catch (AplicacioException ex) {
-            Logger.getLogger(AplicacioUB4Remastered.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
         }
         this.refreshListAlbums();
     }//GEN-LAST:event_jMenuItem5ActionPerformed
@@ -621,7 +619,7 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
             controlador.obrirFinestraReproductor();
             controlador.reproduirFitxer(jTable1.getSelectedRow());
         } catch (AplicacioException ex) {
-            Logger.getLogger(AplicacioUB4Remastered.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
@@ -631,7 +629,7 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
             // TODO add your handling code here:
             controlador.reproduirCarpeta(selection);
         } catch (AplicacioException ex) {
-            Logger.getLogger(AplicacioUB4Remastered.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
@@ -640,7 +638,7 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
             // TODO add your handling code here:
             controlador.reemprenReproduccio();
         } catch (AplicacioException ex) {
-            Logger.getLogger(AplicacioUB4Remastered.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton9ActionPerformed
 
@@ -649,7 +647,7 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
             // TODO add your handling code here:
             controlador.pausaReproduccio();
         } catch (AplicacioException ex) {
-            Logger.getLogger(AplicacioUB4Remastered.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton8ActionPerformed
 
@@ -658,7 +656,7 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
             // TODO add your handling code here:
             controlador.aturaReproduccio();
         } catch (AplicacioException ex) {
-            Logger.getLogger(AplicacioUB4Remastered.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -667,7 +665,7 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
             // TODO add your handling code here:
             controlador.saltaReproduccio();
         } catch (AplicacioException ex) {
-            Logger.getLogger(AplicacioUB4Remastered.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -711,7 +709,7 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
             controlador.obrirFinestraReproductor();
             controlador.reproduirFitxer(i);
         } catch (AplicacioException ex) {
-            Logger.getLogger(AplicacioUB4Remastered.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
@@ -725,7 +723,7 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
             try {
                 controlador.guardarDadesDisc("data.dat");
             } catch (AplicacioException ex) {
-                Logger.getLogger(AplicacioUB4Remastered.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
             }
             System.exit(0);
         } 
