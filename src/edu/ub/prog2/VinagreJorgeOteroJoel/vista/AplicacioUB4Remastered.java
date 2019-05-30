@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -49,7 +51,7 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
         // Init the rest of variables
         playing = false;
         selection = "";
-        jList1.setSelectedIndex(0); // Set the selected index to biblioteca on start
+        leftMenu.setSelectedIndex(0); // Set the selected index to biblioteca on start
         
         
     }
@@ -77,7 +79,7 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
      * Method to refresh the main table with the library files
      */
     public void refreshTableBiblioteca() {
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        DefaultTableModel model = (DefaultTableModel) fileDisplayTable.getModel();
         
         for (int i = model.getRowCount() - 1; i >= 0; i--) {
             model.removeRow(i);
@@ -97,7 +99,7 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
      * @param string Name of the album to be loaded to the main table
      */
     public void refreshTableAlbum(String string) {
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        DefaultTableModel model = (DefaultTableModel) fileDisplayTable.getModel();
 
         for (int i = model.getRowCount() - 1; i >= 0; i--) {
             model.removeRow(i);
@@ -133,7 +135,7 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
      */
     public void refreshPopupAlbums() {
         JMenuItem jmi; 
-        jMenu2.removeAll();
+        btnAfegirImatgeAlbum.removeAll();
         
         for (String str : controlador.mostrarLlistatAlbums()) {
             jmi = new JMenuItem(str);
@@ -142,13 +144,13 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
                 public void actionPerformed(ActionEvent e) {
                     try {
                         JMenuItem menuItem = (JMenuItem)e.getSource();
-                        controlador.afegirFitxer(menuItem.getText(), jTable1.getSelectedRow());
+                        controlador.afegirFitxer(menuItem.getText(), fileDisplayTable.getSelectedRow());
                     } catch (AplicacioException ex) {
                         JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             });
-            jMenu2.add(jmi);
+            btnAfegirImatgeAlbum.add(jmi);
         }
     }
 
@@ -161,93 +163,111 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPopupMenu1 = new javax.swing.JPopupMenu();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
-        jPopupMenu2 = new javax.swing.JPopupMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
-        jPopupMenu3 = new javax.swing.JPopupMenu();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem8 = new javax.swing.JMenuItem();
-        jPanel1 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        jPanel2 = new javax.swing.JPanel();
-        jButton10 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        libFileRightClickMenu = new javax.swing.JPopupMenu();
+        btnAfegirImatgeAlbum = new javax.swing.JMenu();
+        btnEliminarImatge = new javax.swing.JMenuItem();
+        btnPlayImBiblioteca = new javax.swing.JMenuItem();
+        albumFileRightClickMenu = new javax.swing.JPopupMenu();
+        btnEliminarImatgeAlbum = new javax.swing.JMenuItem();
+        btnPlayImAlbum = new javax.swing.JMenuItem();
+        albumRightClickMenu = new javax.swing.JPopupMenu();
+        btnEliminarAlbum = new javax.swing.JMenuItem();
+        btnPlayAlbum = new javax.swing.JMenuItem();
+        libRightClickMenu = new javax.swing.JPopupMenu();
+        btnPlayBiblioteca = new javax.swing.JMenuItem();
+        leftMenuPanel = new javax.swing.JPanel();
+        leftMenuScroll = new javax.swing.JScrollPane();
+        leftMenu = new javax.swing.JList<>();
+        bottomBarPanel = new javax.swing.JPanel();
+        btnAleatoryMode = new javax.swing.JButton();
+        btnStopPlaying = new javax.swing.JButton();
+        btnResumePlaying = new javax.swing.JButton();
+        btnPausePlaying = new javax.swing.JButton();
+        btnJumpPlaying = new javax.swing.JButton();
+        btnCyclicMode = new javax.swing.JButton();
+        fileDisplayTablePanel = new javax.swing.JPanel();
+        fileDisplayTableScroll = new javax.swing.JScrollPane();
+        fileDisplayTable = new javax.swing.JTable();
+        topBarMenu = new javax.swing.JMenuBar();
+        mediaMenu = new javax.swing.JMenu();
+        btnAfegirFitxerBiblioteca = new javax.swing.JMenuItem();
+        btnCrearAlbum = new javax.swing.JMenuItem();
 
-        jMenu2.setText("Afegir a album...");
-        jMenu2.addMenuListener(new javax.swing.event.MenuListener() {
+        btnAfegirImatgeAlbum.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-sum-16.png"))); // NOI18N
+        btnAfegirImatgeAlbum.setText("Afegir a album...");
+        btnAfegirImatgeAlbum.addMenuListener(new javax.swing.event.MenuListener() {
             public void menuCanceled(javax.swing.event.MenuEvent evt) {
             }
             public void menuDeselected(javax.swing.event.MenuEvent evt) {
             }
             public void menuSelected(javax.swing.event.MenuEvent evt) {
-                jMenu2MenuSelected(evt);
+                btnAfegirImatgeAlbumMenuSelected(evt);
             }
         });
-        jPopupMenu1.add(jMenu2);
+        libFileRightClickMenu.add(btnAfegirImatgeAlbum);
 
-        jMenuItem3.setText("Eliminar arxiu");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        btnEliminarImatge.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-basura-16.png"))); // NOI18N
+        btnEliminarImatge.setText("Eliminar arxiu");
+        btnEliminarImatge.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                btnEliminarImatgeActionPerformed(evt);
             }
         });
-        jPopupMenu1.add(jMenuItem3);
+        libFileRightClickMenu.add(btnEliminarImatge);
 
-        jMenuItem6.setText("Reproduir arxiu");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+        btnPlayImBiblioteca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-reproducir-16.png"))); // NOI18N
+        btnPlayImBiblioteca.setText("Reproduir arxiu");
+        btnPlayImBiblioteca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
+                btnPlayImBibliotecaActionPerformed(evt);
             }
         });
-        jPopupMenu1.add(jMenuItem6);
+        libFileRightClickMenu.add(btnPlayImBiblioteca);
 
-        jMenuItem4.setText("Eliminar arxiu del album");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        btnEliminarImatgeAlbum.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-basura-16.png"))); // NOI18N
+        btnEliminarImatgeAlbum.setText("Eliminar arxiu del album");
+        btnEliminarImatgeAlbum.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                btnEliminarImatgeAlbumActionPerformed(evt);
             }
         });
-        jPopupMenu2.add(jMenuItem4);
+        albumFileRightClickMenu.add(btnEliminarImatgeAlbum);
 
-        jMenuItem7.setText("Reproduir arxiu");
-        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+        btnPlayImAlbum.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-reproducir-16.png"))); // NOI18N
+        btnPlayImAlbum.setText("Reproduir arxiu");
+        btnPlayImAlbum.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem7ActionPerformed(evt);
+                btnPlayImAlbumActionPerformed(evt);
             }
         });
-        jPopupMenu2.add(jMenuItem7);
+        albumFileRightClickMenu.add(btnPlayImAlbum);
 
-        jMenuItem5.setText("Eliminar album");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+        btnEliminarAlbum.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-basura-16.png"))); // NOI18N
+        btnEliminarAlbum.setText("Eliminar album");
+        btnEliminarAlbum.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
+                btnEliminarAlbumActionPerformed(evt);
             }
         });
-        jPopupMenu3.add(jMenuItem5);
+        albumRightClickMenu.add(btnEliminarAlbum);
 
-        jMenuItem8.setText("Reproduir album");
-        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+        btnPlayAlbum.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-reproducir-16.png"))); // NOI18N
+        btnPlayAlbum.setText("Reproduir album");
+        btnPlayAlbum.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem8ActionPerformed(evt);
+                btnPlayAlbumActionPerformed(evt);
             }
         });
-        jPopupMenu3.add(jMenuItem8);
+        albumRightClickMenu.add(btnPlayAlbum);
+
+        btnPlayBiblioteca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-reproducir-16.png"))); // NOI18N
+        btnPlayBiblioteca.setText("Reproduir biblioteca");
+        btnPlayBiblioteca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPlayBibliotecaActionPerformed(evt);
+            }
+        });
+        libRightClickMenu.add(btnPlayBiblioteca);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Vinotero Media Player");
@@ -258,152 +278,152 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
             }
         });
 
-        jPanel1.setBackground(new java.awt.Color(51, 51, 51));
+        leftMenuPanel.setBackground(new java.awt.Color(51, 51, 51));
 
-        jScrollPane2.setBorder(null);
-        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane2.setHorizontalScrollBar(null);
+        leftMenuScroll.setBorder(null);
+        leftMenuScroll.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        leftMenuScroll.setHorizontalScrollBar(null);
 
-        jList1.setBackground(new java.awt.Color(51, 51, 51));
-        jList1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jList1.setForeground(new java.awt.Color(159, 159, 159));
-        jList1.setModel(dlm);
-        jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jList1.setFocusable(false);
-        jList1.setRequestFocusEnabled(false);
-        jList1.setSelectionBackground(null);
-        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
+        leftMenu.setBackground(new java.awt.Color(51, 51, 51));
+        leftMenu.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        leftMenu.setForeground(new java.awt.Color(159, 159, 159));
+        leftMenu.setModel(dlm);
+        leftMenu.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        leftMenu.setFocusable(false);
+        leftMenu.setRequestFocusEnabled(false);
+        leftMenu.setSelectionBackground(null);
+        leftMenu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jList1MouseReleased(evt);
+                leftMenuMouseReleased(evt);
             }
         });
-        jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+        leftMenu.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                jList1ValueChanged(evt);
+                leftMenuValueChanged(evt);
             }
         });
-        jScrollPane2.setViewportView(jList1);
+        leftMenuScroll.setViewportView(leftMenu);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout leftMenuPanelLayout = new javax.swing.GroupLayout(leftMenuPanel);
+        leftMenuPanel.setLayout(leftMenuPanelLayout);
+        leftMenuPanelLayout.setHorizontalGroup(
+            leftMenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, leftMenuPanelLayout.createSequentialGroup()
                 .addContainerGap(20, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(leftMenuScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        leftMenuPanelLayout.setVerticalGroup(
+            leftMenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, leftMenuPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
+                .addComponent(leftMenuScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
+        getContentPane().add(leftMenuPanel, java.awt.BorderLayout.LINE_START);
 
-        jPanel2.setBackground(new java.awt.Color(51, 51, 51));
-        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        bottomBarPanel.setBackground(new java.awt.Color(51, 51, 51));
+        bottomBarPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jButton10.setBackground(new java.awt.Color(51, 51, 51));
-        jButton10.setForeground(new java.awt.Color(51, 51, 51));
-        jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-shuffle-24.png"))); // NOI18N
-        jButton10.setBorder(null);
-        jButton10.setBorderPainted(false);
-        jButton10.setContentAreaFilled(false);
-        jButton10.setFocusable(false);
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
+        btnAleatoryMode.setBackground(new java.awt.Color(51, 51, 51));
+        btnAleatoryMode.setForeground(new java.awt.Color(51, 51, 51));
+        btnAleatoryMode.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-shuffle-24.png"))); // NOI18N
+        btnAleatoryMode.setBorder(null);
+        btnAleatoryMode.setBorderPainted(false);
+        btnAleatoryMode.setContentAreaFilled(false);
+        btnAleatoryMode.setFocusable(false);
+        btnAleatoryMode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
+                btnAleatoryModeActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton10);
+        bottomBarPanel.add(btnAleatoryMode);
 
-        jButton2.setBackground(new java.awt.Color(51, 51, 51));
-        jButton2.setForeground(new java.awt.Color(51, 51, 51));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-stop-squared-filled-24.png"))); // NOI18N
-        jButton2.setBorder(null);
-        jButton2.setBorderPainted(false);
-        jButton2.setContentAreaFilled(false);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnStopPlaying.setBackground(new java.awt.Color(51, 51, 51));
+        btnStopPlaying.setForeground(new java.awt.Color(51, 51, 51));
+        btnStopPlaying.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-stop-squared-filled-24.png"))); // NOI18N
+        btnStopPlaying.setBorder(null);
+        btnStopPlaying.setBorderPainted(false);
+        btnStopPlaying.setContentAreaFilled(false);
+        btnStopPlaying.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnStopPlayingActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton2);
+        bottomBarPanel.add(btnStopPlaying);
 
-        jButton9.setBackground(new java.awt.Color(51, 51, 51));
-        jButton9.setForeground(new java.awt.Color(51, 51, 51));
-        jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-play-24.png"))); // NOI18N
-        jButton9.setBorder(null);
-        jButton9.setBorderPainted(false);
-        jButton9.setContentAreaFilled(false);
-        jButton9.setFocusable(false);
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
+        btnResumePlaying.setBackground(new java.awt.Color(51, 51, 51));
+        btnResumePlaying.setForeground(new java.awt.Color(51, 51, 51));
+        btnResumePlaying.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-play-24.png"))); // NOI18N
+        btnResumePlaying.setBorder(null);
+        btnResumePlaying.setBorderPainted(false);
+        btnResumePlaying.setContentAreaFilled(false);
+        btnResumePlaying.setFocusable(false);
+        btnResumePlaying.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
+                btnResumePlayingActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton9);
+        bottomBarPanel.add(btnResumePlaying);
 
-        jButton8.setBackground(new java.awt.Color(51, 51, 51));
-        jButton8.setForeground(new java.awt.Color(51, 51, 51));
-        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-pause-squared-filled-24.png"))); // NOI18N
-        jButton8.setBorder(null);
-        jButton8.setBorderPainted(false);
-        jButton8.setContentAreaFilled(false);
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
+        btnPausePlaying.setBackground(new java.awt.Color(51, 51, 51));
+        btnPausePlaying.setForeground(new java.awt.Color(51, 51, 51));
+        btnPausePlaying.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-pause-squared-filled-24.png"))); // NOI18N
+        btnPausePlaying.setBorder(null);
+        btnPausePlaying.setBorderPainted(false);
+        btnPausePlaying.setContentAreaFilled(false);
+        btnPausePlaying.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
+                btnPausePlayingActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton8);
+        bottomBarPanel.add(btnPausePlaying);
 
-        jButton5.setBackground(new java.awt.Color(51, 51, 51));
-        jButton5.setForeground(new java.awt.Color(51, 51, 51));
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-end-filled-24.png"))); // NOI18N
-        jButton5.setBorder(null);
-        jButton5.setBorderPainted(false);
-        jButton5.setContentAreaFilled(false);
-        jButton5.setFocusable(false);
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        btnJumpPlaying.setBackground(new java.awt.Color(51, 51, 51));
+        btnJumpPlaying.setForeground(new java.awt.Color(51, 51, 51));
+        btnJumpPlaying.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-end-filled-24.png"))); // NOI18N
+        btnJumpPlaying.setBorder(null);
+        btnJumpPlaying.setBorderPainted(false);
+        btnJumpPlaying.setContentAreaFilled(false);
+        btnJumpPlaying.setFocusable(false);
+        btnJumpPlaying.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                btnJumpPlayingActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton5);
+        bottomBarPanel.add(btnJumpPlaying);
 
-        jButton7.setBackground(new java.awt.Color(51, 51, 51));
-        jButton7.setForeground(new java.awt.Color(51, 51, 51));
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-repeat-24.png"))); // NOI18N
-        jButton7.setBorder(null);
-        jButton7.setBorderPainted(false);
-        jButton7.setContentAreaFilled(false);
-        jButton7.setFocusable(false);
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        btnCyclicMode.setBackground(new java.awt.Color(51, 51, 51));
+        btnCyclicMode.setForeground(new java.awt.Color(51, 51, 51));
+        btnCyclicMode.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-repeat-24.png"))); // NOI18N
+        btnCyclicMode.setBorder(null);
+        btnCyclicMode.setBorderPainted(false);
+        btnCyclicMode.setContentAreaFilled(false);
+        btnCyclicMode.setFocusable(false);
+        btnCyclicMode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                btnCyclicModeActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton7);
+        bottomBarPanel.add(btnCyclicMode);
 
-        getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_END);
+        getContentPane().add(bottomBarPanel, java.awt.BorderLayout.PAGE_END);
 
-        jPanel3.setBackground(new java.awt.Color(51, 51, 51));
-        jPanel3.setForeground(new java.awt.Color(51, 51, 51));
-        jPanel3.setLayout(new java.awt.GridLayout(1, 0));
+        fileDisplayTablePanel.setBackground(new java.awt.Color(51, 51, 51));
+        fileDisplayTablePanel.setForeground(new java.awt.Color(51, 51, 51));
+        fileDisplayTablePanel.setLayout(new java.awt.GridLayout(1, 0));
 
-        jScrollPane1.setBackground(new java.awt.Color(51, 51, 51));
-        jScrollPane1.setBorder(null);
-        jScrollPane1.setForeground(new java.awt.Color(51, 51, 51));
-        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane1.setHorizontalScrollBar(null);
-        jScrollPane1.setPreferredSize(getSize());
+        fileDisplayTableScroll.setBackground(new java.awt.Color(51, 51, 51));
+        fileDisplayTableScroll.setBorder(null);
+        fileDisplayTableScroll.setForeground(new java.awt.Color(51, 51, 51));
+        fileDisplayTableScroll.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        fileDisplayTableScroll.setHorizontalScrollBar(null);
+        fileDisplayTableScroll.setPreferredSize(getSize());
 
-        jTable1.setBackground(new java.awt.Color(51, 51, 51));
-        jTable1.setForeground(new java.awt.Color(255, 255, 255));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        fileDisplayTable.setBackground(new java.awt.Color(51, 51, 51));
+        fileDisplayTable.setForeground(new java.awt.Color(255, 255, 255));
+        fileDisplayTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -426,93 +446,101 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        jTable1.setAutoscrolls(false);
-        jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jTable1.setFillsViewportHeight(true);
-        jTable1.setFocusable(false);
-        jTable1.setGridColor(new java.awt.Color(102, 102, 102));
-        jTable1.setMinimumSize(new java.awt.Dimension(100, 0));
-        jTable1.setPreferredSize(new java.awt.Dimension(500, 500));
-        jTable1.setRowHeight(30);
-        jTable1.setRowMargin(5);
-        jTable1.setSelectionBackground(new java.awt.Color(102, 102, 102));
-        jTable1.setShowVerticalLines(false);
-        jTable1.setSurrendersFocusOnKeystroke(true);
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+        fileDisplayTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        fileDisplayTable.setAutoscrolls(false);
+        fileDisplayTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        fileDisplayTable.setFillsViewportHeight(true);
+        fileDisplayTable.setFocusable(false);
+        fileDisplayTable.setGridColor(new java.awt.Color(102, 102, 102));
+        fileDisplayTable.setMinimumSize(new java.awt.Dimension(100, 0));
+        fileDisplayTable.setPreferredSize(new java.awt.Dimension(500, 500));
+        fileDisplayTable.setRowHeight(30);
+        fileDisplayTable.setRowMargin(5);
+        fileDisplayTable.setSelectionBackground(new java.awt.Color(102, 102, 102));
+        fileDisplayTable.setShowVerticalLines(false);
+        fileDisplayTable.setSurrendersFocusOnKeystroke(true);
+        fileDisplayTable.getTableHeader().setReorderingAllowed(false);
+        fileDisplayTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jTable1MouseReleased(evt);
+                fileDisplayTableMouseReleased(evt);
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
+        fileDisplayTableScroll.setViewportView(fileDisplayTable);
+        if (fileDisplayTable.getColumnModel().getColumnCount() > 0) {
+            fileDisplayTable.getColumnModel().getColumn(0).setResizable(false);
+            fileDisplayTable.getColumnModel().getColumn(1).setResizable(false);
+            fileDisplayTable.getColumnModel().getColumn(2).setResizable(false);
+            fileDisplayTable.getColumnModel().getColumn(3).setResizable(false);
+            fileDisplayTable.getColumnModel().getColumn(4).setResizable(false);
         }
 
-        jPanel3.add(jScrollPane1);
+        fileDisplayTablePanel.add(fileDisplayTableScroll);
 
-        getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
+        getContentPane().add(fileDisplayTablePanel, java.awt.BorderLayout.CENTER);
 
-        jMenuBar1.setBackground(new java.awt.Color(51, 51, 51));
-        jMenuBar1.setBorder(null);
-        jMenuBar1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        topBarMenu.setBackground(new java.awt.Color(51, 51, 51));
+        topBarMenu.setBorder(null);
+        topBarMenu.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        jMenu1.setBackground(new java.awt.Color(51, 51, 51));
-        jMenu1.setText("Media");
+        mediaMenu.setBackground(new java.awt.Color(51, 51, 51));
+        mediaMenu.setText("Media");
 
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-new-file.png"))); // NOI18N
-        jMenuItem1.setText("Afegir fitxer");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        btnAfegirFitxerBiblioteca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-new-file.png"))); // NOI18N
+        btnAfegirFitxerBiblioteca.setText("Afegir fitxer");
+        btnAfegirFitxerBiblioteca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                btnAfegirFitxerBibliotecaActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        mediaMenu.add(btnAfegirFitxerBiblioteca);
 
-        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/new-folder.png"))); // NOI18N
-        jMenuItem2.setText("Crear album");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        btnCrearAlbum.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/new-folder.png"))); // NOI18N
+        btnCrearAlbum.setText("Crear album");
+        btnCrearAlbum.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                btnCrearAlbumActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem2);
+        mediaMenu.add(btnCrearAlbum);
 
-        jMenuBar1.add(jMenu1);
+        topBarMenu.add(mediaMenu);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(topBarMenu);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
+    /**
+     * JMenu (bar menu on top) add media option clicked
+     * @param evt Action event
+     */
+    private void btnAfegirFitxerBibliotecaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAfegirFitxerBibliotecaActionPerformed
         FrmAfegirFitxerMultimedia afegirFitxerMultimedia = new FrmAfegirFitxerMultimedia(this, controlador);
         afegirFitxerMultimedia.setVisible(true);
-        
-        
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_btnAfegirFitxerBibliotecaActionPerformed
 
-    private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
-        // TODO add your handling code here:
-        if (jList1.getSelectedIndex() > -1 && !jList1.getSelectedValue().equals(selection)) {
-            selection = jList1.getSelectedValue();
-            if (jList1.getSelectedIndex() == 0) {
+    /**
+     * Album/Library selected on the JList Menu (Left one)
+     * @param evt ListSelectionEvent
+     */
+    private void leftMenuValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_leftMenuValueChanged
+        if (leftMenu.getSelectedIndex() > -1 && !leftMenu.getSelectedValue().equals(selection)) {
+            selection = leftMenu.getSelectedValue();
+            if (leftMenu.getSelectedIndex() == 0) {
                 this.refreshTableBiblioteca();
             } else {
                 this.refreshTableAlbum(selection);
             }
         }
         
-        if (jList1.getSelectedIndex() == -1) jList1.setSelectedIndex(0);
-    }//GEN-LAST:event_jList1ValueChanged
+        if (leftMenu.getSelectedIndex() == -1) leftMenu.setSelectedIndex(0);
+    }//GEN-LAST:event_leftMenuValueChanged
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    /**
+     * JMenu (bar menu on top) create album option clicked
+     * @param evt ActionEvent
+     */
+    private void btnCrearAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearAlbumActionPerformed
         // TODO add your handling code here:
         String input = JOptionPane.showInputDialog("Nom del album:");
         try {
@@ -522,155 +550,193 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
         }
         
         this.refreshListAlbums();
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_btnCrearAlbumActionPerformed
 
-    private void jList1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseReleased
-        // TODO add your handling code here:
-        int i = jList1.locationToIndex(evt.getPoint());
-        jList1.setSelectedIndex(i);
-        if (jList1.getSelectedIndex() != 0) {
-            // TODO add your handling code here:
-            
+    /**
+     * Check right click on the jList1 (Left one)
+     * @param evt  MouseEvent
+     */
+    private void leftMenuMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_leftMenuMouseReleased
+        int i = leftMenu.locationToIndex(evt.getPoint());
+        leftMenu.setSelectedIndex(i);
+        if (leftMenu.getSelectedIndex() != 0) {
             if (evt.isPopupTrigger() && evt.getComponent() instanceof JList ) {
-                jPopupMenu3.show(evt.getComponent(), evt.getX(), evt.getY());
-            }
-        }
-    }//GEN-LAST:event_jList1MouseReleased
-
-    private void jTable1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseReleased
-        if (selection.equals("Biblioteca")) {
-            // TODO add your handling code here:
-            int r = jTable1.rowAtPoint(evt.getPoint());
-            if (r >= 0 && r < jTable1.getRowCount()) {
-                jTable1.setRowSelectionInterval(r, r);
-            } else {
-                jTable1.clearSelection();
-            }
-
-            int rowindex = jTable1.getSelectedRow();
-            if (rowindex < 0)
-                return;
-            
-            this.refreshPopupAlbums();
-            
-            if (evt.isPopupTrigger() && evt.getComponent() instanceof JTable ) {
-                jPopupMenu1.show(evt.getComponent(), evt.getX(), evt.getY());
+                albumRightClickMenu.show(evt.getComponent(), evt.getX(), evt.getY());
             }
         } else {
-            // TODO add your handling code here:
-            int r = jTable1.rowAtPoint(evt.getPoint());
-            if (r >= 0 && r < jTable1.getRowCount()) {
-                jTable1.setRowSelectionInterval(r, r);
+            if (evt.isPopupTrigger() && evt.getComponent() instanceof JList ) {
+                libRightClickMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+            }
+        }
+    }//GEN-LAST:event_leftMenuMouseReleased
+
+    /**
+     * Right-Click on main table (The file list one)
+     * @param evt MouseEvent
+     */
+    private void fileDisplayTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fileDisplayTableMouseReleased
+        if (selection.equals("Biblioteca")) {
+            int r = fileDisplayTable.rowAtPoint(evt.getPoint());
+            if (r >= 0 && r < fileDisplayTable.getRowCount()) {
+                fileDisplayTable.setRowSelectionInterval(r, r);
             } else {
-                jTable1.clearSelection();
+                fileDisplayTable.clearSelection();
             }
 
-            int rowindex = jTable1.getSelectedRow();
+            int rowindex = fileDisplayTable.getSelectedRow();
             if (rowindex < 0)
                 return;
             
             this.refreshPopupAlbums();
             
             if (evt.isPopupTrigger() && evt.getComponent() instanceof JTable ) {
-                jPopupMenu2.show(evt.getComponent(), evt.getX(), evt.getY());
+                libFileRightClickMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+            }
+        } else {
+            int r = fileDisplayTable.rowAtPoint(evt.getPoint());
+            if (r >= 0 && r < fileDisplayTable.getRowCount()) {
+                fileDisplayTable.setRowSelectionInterval(r, r);
+            } else {
+                fileDisplayTable.clearSelection();
+            }
+
+            int rowindex = fileDisplayTable.getSelectedRow();
+            if (rowindex < 0)
+                return;
+            
+            this.refreshPopupAlbums();
+            
+            if (evt.isPopupTrigger() && evt.getComponent() instanceof JTable ) {
+                albumFileRightClickMenu.show(evt.getComponent(), evt.getX(), evt.getY());
             }
         }
-    }//GEN-LAST:event_jTable1MouseReleased
+    }//GEN-LAST:event_fileDisplayTableMouseReleased
 
-    private void jMenu2MenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_jMenu2MenuSelected
-        
-    }//GEN-LAST:event_jMenu2MenuSelected
+    // unused
+    private void btnAfegirImatgeAlbumMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_btnAfegirImatgeAlbumMenuSelected
+    }//GEN-LAST:event_btnAfegirImatgeAlbumMenuSelected
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+    /**
+     * Remove file option from JPopupmenu on library
+     * @param evt ActionEvent
+     */
+    private void btnEliminarImatgeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarImatgeActionPerformed
         try {
-            // TODO add your handling code here:
-            controlador.esborrarFitxer(jTable1.getSelectedRow());
+            controlador.esborrarFitxer(fileDisplayTable.getSelectedRow());
         } catch (AplicacioException ex) {
             JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
         }
         this.refreshTableBiblioteca();
         
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    }//GEN-LAST:event_btnEliminarImatgeActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+    /**
+     * Remove file option from JPopupmenu on a selected album
+     * @param evt ActionEvent
+     */
+    private void btnEliminarImatgeAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarImatgeAlbumActionPerformed
         try {
-            controlador.esborrarFitxer(selection, jTable1.getSelectedRow());
+            controlador.esborrarFitxer(selection, fileDisplayTable.getSelectedRow());
         } catch (AplicacioException ex) {
             JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
         }
         
         this.refreshTableAlbum(selection);
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+    }//GEN-LAST:event_btnEliminarImatgeAlbumActionPerformed
 
-    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+    /**
+     * Remove album option from JPopupmenu on clicked album
+     * @param evt ActionEvent
+     */
+    private void btnEliminarAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarAlbumActionPerformed
         try {
-            // TODO add your handling code here:
             controlador.esborrarAlbum(selection);
-            jList1.setSelectedIndex(0);
+            leftMenu.setSelectedIndex(0);
         } catch (AplicacioException ex) {
             JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
         }
         this.refreshListAlbums();
-    }//GEN-LAST:event_jMenuItem5ActionPerformed
+    }//GEN-LAST:event_btnEliminarAlbumActionPerformed
 
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+    /**
+     * Play file option from JPopup menu clicked while library is selected on JList
+     * @param evt ActionEvent
+     */
+    private void btnPlayImBibliotecaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayImBibliotecaActionPerformed
         try {
-            // TODO add your handling code here:
             controlador.obrirFinestraReproductor();
-            controlador.reproduirFitxer(jTable1.getSelectedRow());
+            controlador.reproduirFitxer(fileDisplayTable.getSelectedRow());
         } catch (AplicacioException ex) {
             JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
+    }//GEN-LAST:event_btnPlayImBibliotecaActionPerformed
 
-    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+    /**
+     * Play file option from JPopup menu clicked while album is selected on JList
+     * @param evt ActionEvent
+     */
+    private void btnPlayAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayAlbumActionPerformed
         try {
             controlador.obrirFinestraReproductor();
-            // TODO add your handling code here:
             controlador.reproduirCarpeta(selection);
         } catch (AplicacioException ex) {
             JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jMenuItem8ActionPerformed
+    }//GEN-LAST:event_btnPlayAlbumActionPerformed
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+    /**
+     * Resmume playing button clicked
+     * @param evt ActionEvent
+     */
+    private void btnResumePlayingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResumePlayingActionPerformed
         try {
-            // TODO add your handling code here:
             controlador.reemprenReproduccio();
         } catch (AplicacioException ex) {
             JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jButton9ActionPerformed
+    }//GEN-LAST:event_btnResumePlayingActionPerformed
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+    /**
+     * Pause playing button clicked
+     * @param evt ActionEvent
+     */
+    private void btnPausePlayingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPausePlayingActionPerformed
         try {
-            // TODO add your handling code here:
             controlador.pausaReproduccio();
         } catch (AplicacioException ex) {
             JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jButton8ActionPerformed
+    }//GEN-LAST:event_btnPausePlayingActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    /**
+     * Stop playing button clicked
+     * @param evt 
+     */
+    private void btnStopPlayingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopPlayingActionPerformed
         try {
-            // TODO add your handling code here:
             controlador.aturaReproduccio();
         } catch (AplicacioException ex) {
             JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnStopPlayingActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    /**
+     * Jump file button clicked
+     * @param evt ActionEvent
+     */
+    private void btnJumpPlayingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJumpPlayingActionPerformed
         try {
-            // TODO add your handling code here:
             controlador.saltaReproduccio();
         } catch (AplicacioException ex) {
             JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_btnJumpPlayingActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
+    /**
+     * Cyclic playing button clicked
+     * @param evt ActionEvent
+     */
+    private void btnCyclicModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCyclicModeActionPerformed
         controlador.setReproduccioCiclica();
         
         if (controlador.isReproduccioCiclica()) {
@@ -678,9 +744,13 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(new JFrame(), "Reproducció ciclica DESACTIVADA", "Informació", JOptionPane.INFORMATION_MESSAGE);
         }
-    }//GEN-LAST:event_jButton7ActionPerformed
+    }//GEN-LAST:event_btnCyclicModeActionPerformed
 
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+    /**
+     * Aleatory playing button clicked
+     * @param evt ActionEvent
+     */
+    private void btnAleatoryModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAleatoryModeActionPerformed
         // TODO add your handling code here:
         controlador.setReproduccioAleatoria();
         
@@ -689,10 +759,14 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(new JFrame(), "Reproducció aleatoria DESACTIVADA", "Informació", JOptionPane.INFORMATION_MESSAGE);
         }
-    }//GEN-LAST:event_jButton10ActionPerformed
+    }//GEN-LAST:event_btnAleatoryModeActionPerformed
 
-    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        String desc = (String) jTable1.getCellEditor(jTable1.getSelectedRow(), 0).getCellEditorValue();
+    /**
+     * Play file from JPopupmenu on a selected album clicked
+     * @param evt ActionEvent
+     */
+    private void btnPlayImAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayImAlbumActionPerformed
+        String desc = (String) fileDisplayTable.getCellEditor(fileDisplayTable.getSelectedRow(), 0).getCellEditorValue();
         boolean found = false;
         Iterator it = controlador.getBibliotecaFiles().iterator();
         FitxerReproduible fr = (FitxerReproduible) it.next();
@@ -711,8 +785,12 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
         } catch (AplicacioException ex) {
             JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jMenuItem7ActionPerformed
+    }//GEN-LAST:event_btnPlayImAlbumActionPerformed
 
+    /**
+     * Checkout before closing the app, handling data save here.
+     * @param evt WindowEvent
+     */
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
         if (JOptionPane.showConfirmDialog(this, 
@@ -729,33 +807,48 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
         } 
     }//GEN-LAST:event_formWindowClosing
 
+    /**
+     * Play full library option from JPopupmenu while library is selected
+     * @param evt 
+     */
+    private void btnPlayBibliotecaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayBibliotecaActionPerformed
+        try {
+            controlador.obrirFinestraReproductor();
+            controlador.reproduirCarpeta();
+        } catch (AplicacioException ex) {
+            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnPlayBibliotecaActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPopupMenu jPopupMenu1;
-    private javax.swing.JPopupMenu jPopupMenu2;
-    private javax.swing.JPopupMenu jPopupMenu3;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JPopupMenu albumFileRightClickMenu;
+    private javax.swing.JPopupMenu albumRightClickMenu;
+    private javax.swing.JPanel bottomBarPanel;
+    private javax.swing.JMenuItem btnAfegirFitxerBiblioteca;
+    private javax.swing.JMenu btnAfegirImatgeAlbum;
+    private javax.swing.JButton btnAleatoryMode;
+    private javax.swing.JMenuItem btnCrearAlbum;
+    private javax.swing.JButton btnCyclicMode;
+    private javax.swing.JMenuItem btnEliminarAlbum;
+    private javax.swing.JMenuItem btnEliminarImatge;
+    private javax.swing.JMenuItem btnEliminarImatgeAlbum;
+    private javax.swing.JButton btnJumpPlaying;
+    private javax.swing.JButton btnPausePlaying;
+    private javax.swing.JMenuItem btnPlayAlbum;
+    private javax.swing.JMenuItem btnPlayBiblioteca;
+    private javax.swing.JMenuItem btnPlayImAlbum;
+    private javax.swing.JMenuItem btnPlayImBiblioteca;
+    private javax.swing.JButton btnResumePlaying;
+    private javax.swing.JButton btnStopPlaying;
+    private javax.swing.JTable fileDisplayTable;
+    private javax.swing.JPanel fileDisplayTablePanel;
+    private javax.swing.JScrollPane fileDisplayTableScroll;
+    private javax.swing.JList<String> leftMenu;
+    private javax.swing.JPanel leftMenuPanel;
+    private javax.swing.JScrollPane leftMenuScroll;
+    private javax.swing.JPopupMenu libFileRightClickMenu;
+    private javax.swing.JPopupMenu libRightClickMenu;
+    private javax.swing.JMenu mediaMenu;
+    private javax.swing.JMenuBar topBarMenu;
     // End of variables declaration//GEN-END:variables
 }
