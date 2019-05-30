@@ -121,7 +121,7 @@ public class Controlador implements InControlador {
     public void reproduirFitxer(int i) throws AplicacioException {
         CarpetaFitxers cf = new CarpetaFitxers();
         cf.addFitxer(dades.reproduirFitxer(i));
-        eplayer.iniciadorReproduccio(cf, this);
+        eplayer.iniciadorReproduccio(cf);
     }
 
     /**
@@ -233,7 +233,7 @@ public class Controlador implements InControlador {
      */
     @Override
     public void reproduirCarpeta() throws AplicacioException {
-        eplayer.iniciadorReproduccio(dades.reproduirCarpeta(), this);
+        eplayer.iniciadorReproduccio(dades.reproduirCarpeta());
     }
 
     /**
@@ -243,7 +243,7 @@ public class Controlador implements InControlador {
      */
     @Override
     public void reproduirCarpeta(String string) throws AplicacioException {
-        eplayer.iniciadorReproduccio(dades.reproduirCarpeta(string), this);
+        eplayer.iniciadorReproduccio(dades.reproduirCarpeta(string));
     }
     
     /**
