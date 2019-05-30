@@ -6,6 +6,8 @@ import edu.ub.prog2.VinagreJorgeOteroJoel.model.Video;
 import edu.ub.prog2.utils.AplicacioException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -30,18 +32,52 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
      * Creates new form AplicacioUB4Remastered
      */
     public AplicacioUB4Remastered() {
-        dlm = new DefaultListModel<>();
-        dlm.insertElementAt("Biblioteca", 0);
-        initComponents();
-        playing = false;
-        this.setSize(1280, 720);
+        // Init controller and try to load the saved data
         this.controlador = new Controlador();
+        loadData();
+        
+        // Init the model of the main list (biblioteca + albums)
+        dlm = new DefaultListModel<>();
+        dlm.insertElementAt("Biblioteca", 0); // Insert biblioteca item
+        
+        // Init the rest of components
+        initComponents();
+        
+        // Init the frame status and load the lists and tables
+        this.setSize(1280, 720);
         this.refreshTableBiblioteca();
         this.refreshListAlbums();
+        
+        // Init the rest of variables
+        playing = false;
         selection = "";
-        jList1.setSelectedIndex(0);
+        jList1.setSelectedIndex(0); // Set the selected index to biblioteca on start
+        
+        
     }
     
+    /**
+     * Method to check if there's old data and ask to load it
+     */
+    private void loadData() {
+        File file = new File("data.dat");
+        if (file.exists()) {
+            if (JOptionPane.showConfirmDialog(this, 
+            "S'ha trobat un arxiu de dades guardat, vols carregar-lo?", "Carregar dades?", 
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+                try {
+                    controlador.carregarDadesDisc("data.dat");
+                } catch (AplicacioException ex) {
+                    Logger.getLogger(AplicacioUB4Remastered.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
+    
+    /**
+     * Method to refresh the main table with the library files
+     */
     public void refreshTableBiblioteca() {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         
@@ -51,13 +87,17 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
         
         for (FitxerReproduible fr : controlador.getBibliotecaFiles()) {
             if (fr instanceof Video) { 
-                model.addRow(new Object[]{fr.getNomFitxer(), fr.getCamiAbsolut(), "Video", fr.getDurada(), fr.getUltimaModificacio()});
+                model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Video", fr.getDurada(), fr.getUltimaModificacio()});
             } else {
-                model.addRow(new Object[]{fr.getNomFitxer(), fr.getCamiAbsolut(), "Audio", fr.getDurada(), fr.getUltimaModificacio()});
+                model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Audio", fr.getDurada(), fr.getUltimaModificacio()});
             }
         }
     }
     
+    /**
+     * Method to refresh the main table with a selected album files
+     * @param string Name of the album to be loaded to the main table
+     */
     public void refreshTableAlbum(String string) {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
@@ -68,9 +108,9 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
         try {
             for (FitxerReproduible fr : controlador.mostrarAlbumFitxers(selection)) {
                 if (fr instanceof Video) { 
-                    model.addRow(new Object[]{fr.getNomFitxer(), fr.getCamiAbsolut(), "Video", fr.getDurada(), fr.getUltimaModificacio()});
+                    model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Video", fr.getDurada(), fr.getUltimaModificacio()});
                 } else {
-                    model.addRow(new Object[]{fr.getNomFitxer(), fr.getCamiAbsolut(), "Audio", fr.getDurada(), fr.getUltimaModificacio()});
+                    model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Audio", fr.getDurada(), fr.getUltimaModificacio()});
                 }
             }  
         } catch (AplicacioException ex) {
@@ -78,6 +118,9 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Refresh the main list with all the albums
+     */
     public void refreshListAlbums() {
         dlm.clear();
         dlm.insertElementAt("Biblioteca", 0);
@@ -87,6 +130,9 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
         });
     }
     
+    /**
+     * Refresh the items of the popup with all the albums
+     */
     public void refreshPopupAlbums() {
         JMenuItem jmi; 
         jMenu2.removeAll();
@@ -206,6 +252,7 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
         jPopupMenu3.add(jMenuItem8);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("Vinotero Media Player");
         setBackground(new java.awt.Color(51, 51, 51));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -252,7 +299,7 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -413,6 +460,11 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
 
+        jMenuBar1.setBackground(new java.awt.Color(51, 51, 51));
+        jMenuBar1.setBorder(null);
+        jMenuBar1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        jMenu1.setBackground(new java.awt.Color(51, 51, 51));
         jMenu1.setText("Media");
 
         jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-new-file.png"))); // NOI18N
@@ -642,17 +694,41 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        // TODO add your handling code here:
+        String desc = (String) jTable1.getCellEditor(jTable1.getSelectedRow(), 0).getCellEditorValue();
+        boolean found = false;
+        Iterator it = controlador.getBibliotecaFiles().iterator();
+        FitxerReproduible fr = (FitxerReproduible) it.next();
+        int i = 0;
+        
+        while (it.hasNext() && !found) {
+            fr = (FitxerReproduible) it.next();
+            if (fr.getDescripcio().equals(desc)) {
+                found = true;
+            } else i++;
+        }
+        
+        try {
+            controlador.obrirFinestraReproductor();
+            controlador.reproduirFitxer(i);
+        } catch (AplicacioException ex) {
+            Logger.getLogger(AplicacioUB4Remastered.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
         if (JOptionPane.showConfirmDialog(this, 
-            "Are you sure you want to close this window?", "Close Window?", 
+            "Estas segur de que vols sortir de l'aplicació?", "Tancar aplicació?", 
             JOptionPane.YES_NO_OPTION,
-            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
+        {
+            try {
+                controlador.guardarDadesDisc("data.dat");
+            } catch (AplicacioException ex) {
+                Logger.getLogger(AplicacioUB4Remastered.class.getName()).log(Level.SEVERE, null, ex);
+            }
             System.exit(0);
-        }
+        } 
     }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

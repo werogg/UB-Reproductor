@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
  *
  * @author wero
  */
-public class FrmAfegirFitxerMultimedia extends javax.swing.JFrame {
+public class FrmAfegirFitxerMultimedia extends javax.swing.JDialog {
     Controlador controlador;
     JFrame comingFrame;
 
@@ -64,8 +64,6 @@ public class FrmAfegirFitxerMultimedia extends javax.swing.JFrame {
             jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 300, Short.MAX_VALUE)
         );
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Camí Arxiu:");
 
