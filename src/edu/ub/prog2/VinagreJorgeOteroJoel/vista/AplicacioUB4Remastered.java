@@ -190,12 +190,12 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
         btnAfegirImatgeAlbum.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-sum-16.png"))); // NOI18N
         btnAfegirImatgeAlbum.setText("Afegir a album...");
         btnAfegirImatgeAlbum.addMenuListener(new javax.swing.event.MenuListener() {
-            public void menuCanceled(javax.swing.event.MenuEvent evt) {
+            public void menuSelected(javax.swing.event.MenuEvent evt) {
+                btnAfegirImatgeAlbumMenuSelected(evt);
             }
             public void menuDeselected(javax.swing.event.MenuEvent evt) {
             }
-            public void menuSelected(javax.swing.event.MenuEvent evt) {
-                btnAfegirImatgeAlbumMenuSelected(evt);
+            public void menuCanceled(javax.swing.event.MenuEvent evt) {
             }
         });
         libFileRightClickMenu.add(btnAfegirImatgeAlbum);
@@ -286,6 +286,7 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
         leftMenu.setFocusable(false);
         leftMenu.setRequestFocusEnabled(false);
         leftMenu.setSelectionBackground(null);
+        leftMenu.setSelectionForeground(new java.awt.Color(255, 255, 255));
         leftMenu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 leftMenuMouseReleased(evt);
@@ -311,7 +312,7 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
             leftMenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, leftMenuPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(leftMenuScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
+                .addComponent(leftMenuScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 472, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -321,7 +322,6 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
         bottomBarPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         btnAleatoryMode.setBackground(new java.awt.Color(51, 51, 51));
-        btnAleatoryMode.setForeground(new java.awt.Color(51, 51, 51));
         btnAleatoryMode.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-shuffle-24.png"))); // NOI18N
         btnAleatoryMode.setBorder(null);
         btnAleatoryMode.setBorderPainted(false);
@@ -335,7 +335,6 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
         bottomBarPanel.add(btnAleatoryMode);
 
         btnStopPlaying.setBackground(new java.awt.Color(51, 51, 51));
-        btnStopPlaying.setForeground(new java.awt.Color(51, 51, 51));
         btnStopPlaying.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-stop-squared-filled-24.png"))); // NOI18N
         btnStopPlaying.setBorder(null);
         btnStopPlaying.setBorderPainted(false);
@@ -348,7 +347,6 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
         bottomBarPanel.add(btnStopPlaying);
 
         btnResumePlaying.setBackground(new java.awt.Color(51, 51, 51));
-        btnResumePlaying.setForeground(new java.awt.Color(51, 51, 51));
         btnResumePlaying.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-play-24.png"))); // NOI18N
         btnResumePlaying.setBorder(null);
         btnResumePlaying.setBorderPainted(false);
@@ -362,7 +360,6 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
         bottomBarPanel.add(btnResumePlaying);
 
         btnPausePlaying.setBackground(new java.awt.Color(51, 51, 51));
-        btnPausePlaying.setForeground(new java.awt.Color(51, 51, 51));
         btnPausePlaying.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-pause-squared-filled-24.png"))); // NOI18N
         btnPausePlaying.setBorder(null);
         btnPausePlaying.setBorderPainted(false);
@@ -375,7 +372,6 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
         bottomBarPanel.add(btnPausePlaying);
 
         btnJumpPlaying.setBackground(new java.awt.Color(51, 51, 51));
-        btnJumpPlaying.setForeground(new java.awt.Color(51, 51, 51));
         btnJumpPlaying.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-end-filled-24.png"))); // NOI18N
         btnJumpPlaying.setBorder(null);
         btnJumpPlaying.setBorderPainted(false);
@@ -389,7 +385,6 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
         bottomBarPanel.add(btnJumpPlaying);
 
         btnCyclicMode.setBackground(new java.awt.Color(51, 51, 51));
-        btnCyclicMode.setForeground(new java.awt.Color(51, 51, 51));
         btnCyclicMode.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-repeat-24.png"))); // NOI18N
         btnCyclicMode.setBorder(null);
         btnCyclicMode.setBorderPainted(false);
@@ -405,12 +400,10 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
         getContentPane().add(bottomBarPanel, java.awt.BorderLayout.PAGE_END);
 
         fileDisplayTablePanel.setBackground(new java.awt.Color(51, 51, 51));
-        fileDisplayTablePanel.setForeground(new java.awt.Color(51, 51, 51));
         fileDisplayTablePanel.setLayout(new java.awt.GridLayout(1, 0));
 
         fileDisplayTableScroll.setBackground(new java.awt.Color(51, 51, 51));
         fileDisplayTableScroll.setBorder(null);
-        fileDisplayTableScroll.setForeground(new java.awt.Color(51, 51, 51));
         fileDisplayTableScroll.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         fileDisplayTableScroll.setHorizontalScrollBar(null);
         fileDisplayTableScroll.setPreferredSize(getSize());
@@ -473,10 +466,11 @@ public class AplicacioUB4Remastered extends javax.swing.JFrame {
         getContentPane().add(fileDisplayTablePanel, java.awt.BorderLayout.CENTER);
 
         topBarMenu.setBackground(new java.awt.Color(51, 51, 51));
-        topBarMenu.setBorder(null);
+        topBarMenu.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         topBarMenu.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         mediaMenu.setBackground(new java.awt.Color(51, 51, 51));
+        mediaMenu.setForeground(new java.awt.Color(255, 255, 255));
         mediaMenu.setText("Media");
 
         btnAfegirFitxerBiblioteca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-new-file.png"))); // NOI18N
