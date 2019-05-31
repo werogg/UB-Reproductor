@@ -540,11 +540,7 @@ public class AplicacioUB4 extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(new JFrame(), "Reproducció aleatoria DESACTIVADA", "Informació", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jButton16ActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

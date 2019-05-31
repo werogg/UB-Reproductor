@@ -293,11 +293,6 @@ public class FrmAfegirFitxerMultimedia extends javax.swing.JDialog {
         comingFrame.setVisible(true);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAcceptar;
     private javax.swing.JButton btnCancelar;
