@@ -198,12 +198,12 @@ public class AplicacioUB4 extends javax.swing.JFrame {
         btnAfegirImatgeAlbum.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-sum-16.png"))); // NOI18N
         btnAfegirImatgeAlbum.setText("Afegir a album...");
         btnAfegirImatgeAlbum.addMenuListener(new javax.swing.event.MenuListener() {
-            public void menuCanceled(javax.swing.event.MenuEvent evt) {
+            public void menuSelected(javax.swing.event.MenuEvent evt) {
+                btnAfegirImatgeAlbumMenuSelected(evt);
             }
             public void menuDeselected(javax.swing.event.MenuEvent evt) {
             }
-            public void menuSelected(javax.swing.event.MenuEvent evt) {
-                btnAfegirImatgeAlbumMenuSelected(evt);
+            public void menuCanceled(javax.swing.event.MenuEvent evt) {
             }
         });
         libFileRightClickMenu.add(btnAfegirImatgeAlbum);
@@ -294,6 +294,7 @@ public class AplicacioUB4 extends javax.swing.JFrame {
         leftMenu.setFocusable(false);
         leftMenu.setRequestFocusEnabled(false);
         leftMenu.setSelectionBackground(null);
+        leftMenu.setSelectionForeground(new java.awt.Color(255, 255, 255));
         leftMenu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 leftMenuMouseReleased(evt);
