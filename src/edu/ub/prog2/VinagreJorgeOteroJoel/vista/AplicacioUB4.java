@@ -86,9 +86,9 @@ public class AplicacioUB4 extends javax.swing.JFrame {
         // Load new rows
         for (FitxerReproduible fr : controlador.getBibliotecaFiles()) {
             if (fr instanceof Video) { 
-                model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Video", fr.getDurada(), fr.getUltimaModificacio()});
+                model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Video", fr.getUltimaModificacio()});
             } else {
-                model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Audio", fr.getDurada(), fr.getUltimaModificacio()});
+                model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Audio", fr.getUltimaModificacio()});
             }
         }
     }
@@ -109,9 +109,9 @@ public class AplicacioUB4 extends javax.swing.JFrame {
         try {
             for (FitxerReproduible fr : controlador.mostrarAlbumFitxers(selection)) {
                 if (fr instanceof Video) { 
-                    model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Video", fr.getDurada(), fr.getUltimaModificacio()});
+                    model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Video", fr.getUltimaModificacio()});
                 } else {
-                    model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Audio", fr.getDurada(), fr.getUltimaModificacio()});
+                    model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Audio", fr.getUltimaModificacio()});
                 }
             }  
         } catch (AplicacioException ex) {
@@ -198,12 +198,12 @@ public class AplicacioUB4 extends javax.swing.JFrame {
         btnAfegirImatgeAlbum.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-sum-16.png"))); // NOI18N
         btnAfegirImatgeAlbum.setText("Afegir a album...");
         btnAfegirImatgeAlbum.addMenuListener(new javax.swing.event.MenuListener() {
-            public void menuSelected(javax.swing.event.MenuEvent evt) {
-                btnAfegirImatgeAlbumMenuSelected(evt);
+            public void menuCanceled(javax.swing.event.MenuEvent evt) {
             }
             public void menuDeselected(javax.swing.event.MenuEvent evt) {
             }
-            public void menuCanceled(javax.swing.event.MenuEvent evt) {
+            public void menuSelected(javax.swing.event.MenuEvent evt) {
+                btnAfegirImatgeAlbumMenuSelected(evt);
             }
         });
         libFileRightClickMenu.add(btnAfegirImatgeAlbum);
@@ -294,7 +294,6 @@ public class AplicacioUB4 extends javax.swing.JFrame {
         leftMenu.setFocusable(false);
         leftMenu.setRequestFocusEnabled(false);
         leftMenu.setSelectionBackground(null);
-        leftMenu.setSelectionForeground(new java.awt.Color(255, 255, 255));
         leftMenu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 leftMenuMouseReleased(evt);
@@ -423,14 +422,14 @@ public class AplicacioUB4 extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nom", "Path", "Codec", "Duracio", "Afegit"
+                "Nom", "Path", "Codec", "Afegit"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -466,7 +465,6 @@ public class AplicacioUB4 extends javax.swing.JFrame {
             fileDisplayTable.getColumnModel().getColumn(1).setResizable(false);
             fileDisplayTable.getColumnModel().getColumn(2).setResizable(false);
             fileDisplayTable.getColumnModel().getColumn(3).setResizable(false);
-            fileDisplayTable.getColumnModel().getColumn(4).setResizable(false);
         }
 
         fileDisplayTablePanel.add(fileDisplayTableScroll);
