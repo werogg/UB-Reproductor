@@ -8,17 +8,25 @@
 */
 package edu.ub.prog2.VinagreJorgeOteroJoel.vista;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 public class IniciadorAplicacioUB {
     
     
     /**
-    * This is the main method where we call and instance an AplicacioUB3 object.
+    * This is the main method where we call and instance an AplicacioUB4 object.
     * @param args Unused.
     */
     public static void main(String [] args) {
-        AplicacioUB3 aplicacio = new AplicacioUB3();
-        
-        aplicacio.gestioAplicacioUB();
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            AplicacioUB4 aplicacio = new AplicacioUB4();
+            aplicacio.setVisible(true);
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(IniciadorAplicacioUB.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
 }

@@ -9,7 +9,6 @@ public class AlbumFitxersMultimedia extends BibliotecaFitxersMultimedia {
     
     private final int max;
     private final String titol;
-    private final ArrayList<FitxerMultimedia> album_fitxers;
 
     /**
      * AlbumFitxersMultimedia constructor
@@ -19,7 +18,7 @@ public class AlbumFitxersMultimedia extends BibliotecaFitxersMultimedia {
     public AlbumFitxersMultimedia(int max, String titol) {
         this.max = max;
         this.titol = titol;
-        this.album_fitxers = new ArrayList<>(max);
+        tauFitxers = new ArrayList<>(max);
     }
     
     /**
@@ -29,7 +28,7 @@ public class AlbumFitxersMultimedia extends BibliotecaFitxersMultimedia {
     public AlbumFitxersMultimedia(String titol) {
         this.max = 10;
         this.titol = titol;
-        this.album_fitxers = new ArrayList<>(max);
+        tauFitxers = new ArrayList<>(max);
     }
     
     /**
@@ -46,7 +45,7 @@ public class AlbumFitxersMultimedia extends BibliotecaFitxersMultimedia {
      */
     @Override
     public int getSize() {
-        return album_fitxers.size();
+        return tauFitxers.size();
     }
     
     /**
@@ -57,10 +56,10 @@ public class AlbumFitxersMultimedia extends BibliotecaFitxersMultimedia {
      */
     @Override
     public File getAt(int position) throws AplicacioException {
-        if (position >= album_fitxers.size() || position < 0)
+        if (position >= tauFitxers.size() || position < 0)
             throw new AplicacioException("File not found");
         else
-            return album_fitxers.get(position);
+            return tauFitxers.get(position);
     }
     
     /**
@@ -69,7 +68,7 @@ public class AlbumFitxersMultimedia extends BibliotecaFitxersMultimedia {
      */
     @Override
     public boolean isFull() {
-        return album_fitxers.size() == max;
+        return tauFitxers.size() == max;
     }
     
     /**
@@ -79,7 +78,7 @@ public class AlbumFitxersMultimedia extends BibliotecaFitxersMultimedia {
      */
     public void addFitxer(FitxerMultimedia fm) throws AplicacioException {
         if (isFull()) throw new AplicacioException("The album is full!");
-        album_fitxers.add(fm);
+        tauFitxers.add(fm);
     }
     
     /**
@@ -88,8 +87,8 @@ public class AlbumFitxersMultimedia extends BibliotecaFitxersMultimedia {
      * @throws AplicacioException Internal app exception
      */
     public void removeFitxer(int index) throws AplicacioException {
-        if (index < 0 || index >= album_fitxers.size()) throw new AplicacioException("Index out of bounds!");
-        album_fitxers.remove(index);
+        if (index < 0 || index >= tauFitxers.size()) throw new AplicacioException("Index out of bounds!");
+        tauFitxers.remove(index);
     }
     
     /**
@@ -97,8 +96,8 @@ public class AlbumFitxersMultimedia extends BibliotecaFitxersMultimedia {
      * @param fm FitxerMultimedia be removed from the album
      */
     public void removeAllFitxers(FitxerMultimedia fm) {
-        while (album_fitxers.contains(fm)) {
-            album_fitxers.remove(fm);
+        while (tauFitxers.contains(fm)) {
+            tauFitxers.remove(fm);
         }
     }
     
@@ -109,7 +108,7 @@ public class AlbumFitxersMultimedia extends BibliotecaFitxersMultimedia {
     public List<String> showContent() {
         List<String> info = new ArrayList<>();
         int cnt = 1;
-        for (FitxerMultimedia fm : album_fitxers) {
+        for (FitxerMultimedia fm : tauFitxers) {
             info.add("[" + cnt + "] " + fm.getNomFitxer());
             cnt++;
         }

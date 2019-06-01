@@ -13,7 +13,6 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic {
     private boolean reproduccioCiclica, reproduccioAleatoria; // Playing modes
     private FitxerReproduible playing; // Current file playing
     private int playing_index; // Current file index playing (in llistaReproduint)
-    private Controlador controlador; // Controller object to stop the playing at the end of the folder
 
     /**
      * EscoltadorReproduccio constructor with data
@@ -76,12 +75,10 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic {
     /**
      * Start the playing
      * @param llistaReproduint Folder to be played
-     * @param controlador Controller
      * @throws AplicacioException Internal app exception
      */
-    public void iniciadorReproduccio(CarpetaFitxers llistaReproduint, Controlador controlador) throws AplicacioException{
+    public void iniciadorReproduccio(CarpetaFitxers llistaReproduint) throws AplicacioException{
         this.llistaReproduint = llistaReproduint;
-        this.controlador = controlador;
         this.playing_index = 0;
         
         // Different implementation if we get a CarpetaFitxers or an AlbumFitxersMultimedia object
@@ -157,16 +154,7 @@ public class EscoltadorReproduccio extends EscoltadorReproduccioBasic {
                 as the model method doesn't throws any excetpion */
             try {
                 // Start again the playing
-                iniciadorReproduccio(llistaReproduint, controlador);
-            } catch (AplicacioException ex) {
-                System.err.println(ex.getMessage());
-            }
-        } else { // If there's no next file to play
-            
-            /* We are forced to do a try/catch on the controller
-                as the model method doesn't throws any excetpion */
-            try {
-                controlador.aturaReproduccio(); // Stop the playing
+                iniciadorReproduccio(llistaReproduint);
             } catch (AplicacioException ex) {
                 System.err.println(ex.getMessage());
             }

@@ -2,6 +2,7 @@ package edu.ub.prog2.VinagreJorgeOteroJoel.controlador;
 
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.CarpetaFitxers;
 import edu.ub.prog2.VinagreJorgeOteroJoel.model.Dades;
+import edu.ub.prog2.VinagreJorgeOteroJoel.model.FitxerReproduible;
 import edu.ub.prog2.utils.AplicacioException;
 import edu.ub.prog2.utils.InControlador;
 import java.util.List;
@@ -77,6 +78,10 @@ public class Controlador implements InControlador {
         return dades.mostrarBibliotecaSimplified();
     }
     
+    public List<FitxerReproduible> getBibliotecaFiles() {
+        return dades.getBibliotecaFiles();
+    }
+    
     /**
      * Save data to the disk
      * @param camiDesti Path to the data file
@@ -116,7 +121,7 @@ public class Controlador implements InControlador {
     public void reproduirFitxer(int i) throws AplicacioException {
         CarpetaFitxers cf = new CarpetaFitxers();
         cf.addFitxer(dades.reproduirFitxer(i));
-        eplayer.iniciadorReproduccio(cf, this);
+        eplayer.iniciadorReproduccio(cf);
     }
 
     /**
@@ -200,6 +205,10 @@ public class Controlador implements InControlador {
     public List<String> mostrarContingutAlbum(String string) throws AplicacioException {
         return dades.mostrarContingutAlbum(string);
     }
+    
+    public List<FitxerReproduible> mostrarAlbumFitxers(String string) throws AplicacioException {
+        return dades.mostrarAlbumFitxers(string);
+    }
 
     /**
      * Open the player
@@ -224,7 +233,7 @@ public class Controlador implements InControlador {
      */
     @Override
     public void reproduirCarpeta() throws AplicacioException {
-        eplayer.iniciadorReproduccio(dades.reproduirCarpeta(), this);
+        eplayer.iniciadorReproduccio(dades.reproduirCarpeta());
     }
 
     /**
@@ -234,7 +243,7 @@ public class Controlador implements InControlador {
      */
     @Override
     public void reproduirCarpeta(String string) throws AplicacioException {
-        eplayer.iniciadorReproduccio(dades.reproduirCarpeta(string), this);
+        eplayer.iniciadorReproduccio(dades.reproduirCarpeta(string));
     }
     
     /**
