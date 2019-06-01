@@ -61,7 +61,7 @@ public class Dades implements Serializable {
      * @throws AplicacioException If the file is already in the library, library is full or file is not media
      */
     public void afegirAudio(String cami, String camiImatge ,String nomAudio, String codec, float durada, int kbps, Reproductor reproductor) throws AplicacioException {
-        FitxerMultimedia fm = new FitxerMultimedia(camiImatge);
+        File fm = new File(camiImatge);
         
         if (!fm.exists()) throw new AplicacioException("The audio image doesn't exists!");
         
