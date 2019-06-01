@@ -8,6 +8,7 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class FrmAfegirFitxerMultimedia extends javax.swing.JDialog {
     Controlador controlador;
@@ -31,6 +32,8 @@ public class FrmAfegirFitxerMultimedia extends javax.swing.JDialog {
         textCamiImatge.setVisible(false);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        
+        
     }
 
     /**
@@ -214,6 +217,16 @@ public class FrmAfegirFitxerMultimedia extends javax.swing.JDialog {
     private void searchFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchFileActionPerformed
         File fitxer;
         JFileChooser jf = new JFileChooser();
+        FileNameExtensionFilter filter;
+        if (selectType.getSelectedIndex() == 0) {
+            filter = new FileNameExtensionFilter("Arxius de video",
+                    "mp4", "asf", "wmv", "avi", "flv", "mov", "mpeg", "mpg");
+        } else {
+            filter = new FileNameExtensionFilter("Arxius d'audio",
+                    "mp3", "wav", "ogg", "3gp", "m4a", "wma");
+        }
+        jf.setAcceptAllFileFilterUsed(false);
+        jf.addChoosableFileFilter(filter);
         
         int sel = jf.showOpenDialog(this);
         
@@ -235,6 +248,10 @@ public class FrmAfegirFitxerMultimedia extends javax.swing.JDialog {
     private void searchImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchImageActionPerformed
         File fitxer;
         JFileChooser jf = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Arxius d'imatge",
+                    "png", "jpg", "jpeg", "gif", "svg");
+        jf.setAcceptAllFileFilterUsed(false);
+        jf.addChoosableFileFilter(filter);
         
         int sel = jf.showOpenDialog(this);
         
