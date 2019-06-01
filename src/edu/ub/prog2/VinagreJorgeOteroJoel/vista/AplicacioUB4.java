@@ -78,10 +78,12 @@ public class AplicacioUB4 extends javax.swing.JFrame {
     public void refreshTableBiblioteca() {
         DefaultTableModel model = (DefaultTableModel) fileDisplayTable.getModel();
         
+        // Remove actual rows
         for (int i = model.getRowCount() - 1; i >= 0; i--) {
             model.removeRow(i);
         }
         
+        // Load new rows
         for (FitxerReproduible fr : controlador.getBibliotecaFiles()) {
             if (fr instanceof Video) { 
                 model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Video", fr.getDurada(), fr.getUltimaModificacio()});
@@ -98,10 +100,12 @@ public class AplicacioUB4 extends javax.swing.JFrame {
     public void refreshTableAlbum(String string) {
         DefaultTableModel model = (DefaultTableModel) fileDisplayTable.getModel();
 
+        // Remove actual rows
         for (int i = model.getRowCount() - 1; i >= 0; i--) {
             model.removeRow(i);
         }
         
+        // Load new rows
         try {
             for (FitxerReproduible fr : controlador.mostrarAlbumFitxers(selection)) {
                 if (fr instanceof Video) { 
@@ -122,6 +126,7 @@ public class AplicacioUB4 extends javax.swing.JFrame {
         dlm.clear();
         dlm.insertElementAt("Biblioteca", 0);
         
+        // Insert album names to the list
         controlador.mostrarLlistatAlbums().forEach((str) -> {
             dlm.addElement(str);
         });
@@ -563,6 +568,7 @@ public class AplicacioUB4 extends javax.swing.JFrame {
      * @param evt MouseEvent
      */
     private void fileDisplayTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fileDisplayTableMouseReleased
+        // Right click on file while biblioteca is selected
         if (selection.equals("Biblioteca")) {
             int r = fileDisplayTable.rowAtPoint(evt.getPoint());
             if (r >= 0 && r < fileDisplayTable.getRowCount()) {
@@ -575,11 +581,15 @@ public class AplicacioUB4 extends javax.swing.JFrame {
             if (rowindex < 0)
                 return;
             
+            // Refresh the album list on the popupmenu
             this.refreshPopupAlbums();
             
+            // if popup triggered and component is JTable we load the libFileRightClickMenu
             if (evt.isPopupTrigger() && evt.getComponent() instanceof JTable ) {
                 libFileRightClickMenu.show(evt.getComponent(), evt.getX(), evt.getY());
             }
+            
+        // Right click on file while an album is selected
         } else {
             int r = fileDisplayTable.rowAtPoint(evt.getPoint());
             if (r >= 0 && r < fileDisplayTable.getRowCount()) {
@@ -592,8 +602,10 @@ public class AplicacioUB4 extends javax.swing.JFrame {
             if (rowindex < 0)
                 return;
             
+            // Refresh the album list on the popupmenu
             this.refreshPopupAlbums();
             
+            // if popup triggered and component is JTable we load the albumFileRightClickMenu
             if (evt.isPopupTrigger() && evt.getComponent() instanceof JTable ) {
                 albumFileRightClickMenu.show(evt.getComponent(), evt.getX(), evt.getY());
             }
@@ -739,7 +751,6 @@ public class AplicacioUB4 extends javax.swing.JFrame {
      * @param evt ActionEvent
      */
     private void btnAleatoryModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAleatoryModeActionPerformed
-        // TODO add your handling code here:
         controlador.setReproduccioAleatoria();
         
         if (controlador.isReproduccioAleatoria()) {
@@ -760,6 +771,7 @@ public class AplicacioUB4 extends javax.swing.JFrame {
         FitxerReproduible fr = (FitxerReproduible) it.next();
         int i = 0;
         
+        // Get the position of the file on the main library
         while (it.hasNext() && !found) {
             fr = (FitxerReproduible) it.next();
             if (fr.getDescripcio().equals(desc)) {
@@ -767,6 +779,7 @@ public class AplicacioUB4 extends javax.swing.JFrame {
             } else i++;
         }
         
+        // We play the file at pos i (on the library)
         try {
             controlador.obrirFinestraReproductor();
             controlador.reproduirFitxer(i);
@@ -780,12 +793,13 @@ public class AplicacioUB4 extends javax.swing.JFrame {
      * @param evt WindowEvent
      */
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        // TODO add your handling code here:
+        // We check if the user really wants to exit the app
         if (JOptionPane.showConfirmDialog(this, 
             "Estas segur de que vols sortir de l'aplicació?", "Tancar aplicació?", 
             JOptionPane.YES_NO_OPTION,
             JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
         {
+            // If yes, we ask to save the data
             if (JOptionPane.showConfirmDialog(this,
                     "Vols guardar les dades actuals?",
                     "Guardar dades?",
@@ -797,7 +811,7 @@ public class AplicacioUB4 extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
                 }
             }
-            System.exit(0);
+            System.exit(0); // We exit the program with err code 0 (Successfull running)
         } 
     }//GEN-LAST:event_formWindowClosing
 
