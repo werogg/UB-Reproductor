@@ -534,7 +534,6 @@ public class AplicacioUB4 extends javax.swing.JFrame {
      * @param evt ActionEvent
      */
     private void btnCrearAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearAlbumActionPerformed
-        // TODO add your handling code here:
         String input = JOptionPane.showInputDialog("Nom del album:");
         try {
             controlador.afegirAlbum(input);
