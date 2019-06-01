@@ -23,7 +23,7 @@ public class IniciadorAplicacioUB {
     public static void main(String [] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            AplicacioUB4Remastered aplicacio = new AplicacioUB4Remastered();
+            AplicacioUB4 aplicacio = new AplicacioUB4();
             aplicacio.setVisible(true);
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             Logger.getLogger(IniciadorAplicacioUB.class.getName()).log(Level.SEVERE, null, ex);

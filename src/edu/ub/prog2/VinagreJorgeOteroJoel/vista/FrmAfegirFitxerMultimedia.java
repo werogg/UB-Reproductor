@@ -289,10 +289,10 @@ public class FrmAfegirFitxerMultimedia extends javax.swing.JDialog {
         }
         
         if (!exception_caught) {
-            JOptionPane.showMessageDialog(new JFrame(), "El fitxe s'ha afegit a la llibreria!", "Informació", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(new JFrame(), "El fitxer s'ha afegit a la llibreria!", "Informació", JOptionPane.INFORMATION_MESSAGE);
         }
         this.setVisible(false);
-        AplicacioUB4Remastered appub = (AplicacioUB4Remastered) comingFrame;
+        AplicacioUB4 appub = (AplicacioUB4) comingFrame;
         appub.refreshTableBiblioteca();
         comingFrame.setVisible(true);
     }//GEN-LAST:event_btnAcceptarActionPerformed

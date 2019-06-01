@@ -1,64 +1,153 @@
 package edu.ub.prog2.VinagreJorgeOteroJoel.vista;
 
 import edu.ub.prog2.VinagreJorgeOteroJoel.controlador.Controlador;
+import edu.ub.prog2.VinagreJorgeOteroJoel.model.FitxerReproduible;
+import edu.ub.prog2.VinagreJorgeOteroJoel.model.Video;
 import edu.ub.prog2.utils.AplicacioException;
 import java.awt.Dimension;
-import java.awt.Toolkit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.Iterator;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author wero
- */
 public class AplicacioUB4 extends javax.swing.JFrame {
-    String selected;
     Controlador controlador;
-    private DefaultListModel<String> bibl, albums, albumContent;
+    boolean playing;
+    String selection, selectedAlbumPopup;
+    DefaultListModel<String> dlm;
     
     /**
-     * Creates new form AplicacioUB4
+     * Creates new form AplicacioUB4Remastered
      */
     public AplicacioUB4() {
-        selected = "";
-        controlador = new Controlador();
-        bibl = new DefaultListModel<>();
-        albums = new DefaultListModel<>();
-        albumContent = new DefaultListModel<>();
-        refreshTree();
+        // Init controller and try to load the saved data
+        this.controlador = new Controlador();
+        loadData();
+        
+        // Init the model of the main list (biblioteca + albums)
+        dlm = new DefaultListModel<>();
+        dlm.insertElementAt("Biblioteca", 0); // Insert biblioteca item
+        
+        // Init the rest of components
         initComponents();
-        setResizable(false);
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        
+        // Init the frame status and load the lists and tables
+        this.setSize(1280, 720);
+        this.refreshTableBiblioteca();
+        this.refreshListAlbums();
+        
+        // Init the rest of variables
+        playing = false;
+        selection = "";
+        leftMenu.setSelectedIndex(0); // Set the selected index to biblioteca on start
+        fileDisplayTable.setShowGrid(false);
+        fileDisplayTable.setIntercellSpacing(new Dimension());
+        fileDisplayTable.setShowHorizontalLines(true);
+        
     }
     
-    public void refreshTree() {
-        bibl.clear();
-        albums.clear();
-        albumContent.clear();
-        controlador.mostrarBiblioteca().forEach((str) -> {
-            bibl.addElement(str);
-        });
+    /**
+     * Method to check if there's old data and ask to load it
+     */
+    private void loadData() {
+        File file = new File("data.dat");
+        if (file.exists()) {
+            if (JOptionPane.showConfirmDialog(this, 
+            "S'ha trobat un arxiu de dades guardat, vols carregar-lo?", "Carregar dades?", 
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+                try {
+                    controlador.carregarDadesDisc("data.dat");
+                } catch (AplicacioException ex) {
+                    JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }
+    
+    /**
+     * Method to refresh the main table with the library files
+     */
+    public void refreshTableBiblioteca() {
+        DefaultTableModel model = (DefaultTableModel) fileDisplayTable.getModel();
+        
+        for (int i = model.getRowCount() - 1; i >= 0; i--) {
+            model.removeRow(i);
+        }
+        
+        for (FitxerReproduible fr : controlador.getBibliotecaFiles()) {
+            if (fr instanceof Video) { 
+                model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Video", fr.getDurada(), fr.getUltimaModificacio()});
+            } else {
+                model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Audio", fr.getDurada(), fr.getUltimaModificacio()});
+            }
+        }
+    }
+    
+    /**
+     * Method to refresh the main table with a selected album files
+     * @param string Name of the album to be loaded to the main table
+     */
+    public void refreshTableAlbum(String string) {
+        DefaultTableModel model = (DefaultTableModel) fileDisplayTable.getModel();
+
+        for (int i = model.getRowCount() - 1; i >= 0; i--) {
+            model.removeRow(i);
+        }
+        
+        try {
+            for (FitxerReproduible fr : controlador.mostrarAlbumFitxers(selection)) {
+                if (fr instanceof Video) { 
+                    model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Video", fr.getDurada(), fr.getUltimaModificacio()});
+                } else {
+                    model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Audio", fr.getDurada(), fr.getUltimaModificacio()});
+                }
+            }  
+        } catch (AplicacioException ex) {
+            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    /**
+     * Refresh the main list with all the albums
+     */
+    public void refreshListAlbums() {
+        dlm.clear();
+        dlm.insertElementAt("Biblioteca", 0);
         
         controlador.mostrarLlistatAlbums().forEach((str) -> {
-            albums.addElement(str);
+            dlm.addElement(str);
         });
     }
     
-    public void refreshAlbum() {
-        if (jList3.getSelectedIndex() > -1) {
-            selected = jList3.getSelectedValue();
-        }
-        albumContent.clear();
-        try {
-            for (String str : controlador.mostrarAlbum(selected)) {
-                albumContent.addElement(str);
-            }
-        } catch (AplicacioException ex) {
-            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Inane error", JOptionPane.ERROR_MESSAGE);
+    /**
+     * Refresh the items of the popup with all the albums
+     */
+    public void refreshPopupAlbums() {
+        JMenuItem jmi; 
+        btnAfegirImatgeAlbum.removeAll();
+        
+        for (String str : controlador.mostrarLlistatAlbums()) {
+            jmi = new JMenuItem(str);
+            jmi.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        JMenuItem menuItem = (JMenuItem)e.getSource();
+                        controlador.afegirFitxer(menuItem.getText(), fileDisplayTable.getSelectedRow());
+                    } catch (AplicacioException ex) {
+                        JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            });
+            btnAfegirImatgeAlbum.add(jmi);
         }
     }
 
@@ -71,508 +160,689 @@ public class AplicacioUB4 extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jFrame1 = new javax.swing.JFrame();
-        jLabel1 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
-        jButton12 = new javax.swing.JButton();
-        jButton13 = new javax.swing.JButton();
-        jButton14 = new javax.swing.JButton();
-        jButton15 = new javax.swing.JButton();
-        jButton16 = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jList3 = new javax.swing.JList<>();
-        jLabel4 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        libFileRightClickMenu = new javax.swing.JPopupMenu();
+        btnAfegirImatgeAlbum = new javax.swing.JMenu();
+        btnEliminarImatge = new javax.swing.JMenuItem();
+        btnPlayImBiblioteca = new javax.swing.JMenuItem();
+        albumFileRightClickMenu = new javax.swing.JPopupMenu();
+        btnEliminarImatgeAlbum = new javax.swing.JMenuItem();
+        btnPlayImAlbum = new javax.swing.JMenuItem();
+        albumRightClickMenu = new javax.swing.JPopupMenu();
+        btnEliminarAlbum = new javax.swing.JMenuItem();
+        btnPlayAlbum = new javax.swing.JMenuItem();
+        libRightClickMenu = new javax.swing.JPopupMenu();
+        btnPlayBiblioteca = new javax.swing.JMenuItem();
+        leftMenuPanel = new javax.swing.JPanel();
+        leftMenuScroll = new javax.swing.JScrollPane();
+        leftMenu = new javax.swing.JList<>();
+        bottomBarPanel = new javax.swing.JPanel();
+        btnAleatoryMode = new javax.swing.JButton();
+        btnStopPlaying = new javax.swing.JButton();
+        btnResumePlaying = new javax.swing.JButton();
+        btnPausePlaying = new javax.swing.JButton();
+        btnJumpPlaying = new javax.swing.JButton();
+        btnCyclicMode = new javax.swing.JButton();
+        fileDisplayTablePanel = new javax.swing.JPanel();
+        fileDisplayTableScroll = new javax.swing.JScrollPane();
+        fileDisplayTable = new javax.swing.JTable();
+        topBarMenu = new javax.swing.JMenuBar();
+        mediaMenu = new javax.swing.JMenu();
+        btnAfegirFitxerBiblioteca = new javax.swing.JMenuItem();
+        btnCrearAlbum = new javax.swing.JMenuItem();
 
-        javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
-        jFrame1.getContentPane().setLayout(jFrame1Layout);
-        jFrame1Layout.setHorizontalGroup(
-            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        jFrame1Layout.setVerticalGroup(
-            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        btnAfegirImatgeAlbum.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-sum-16.png"))); // NOI18N
+        btnAfegirImatgeAlbum.setText("Afegir a album...");
+        btnAfegirImatgeAlbum.addMenuListener(new javax.swing.event.MenuListener() {
+            public void menuCanceled(javax.swing.event.MenuEvent evt) {
+            }
+            public void menuDeselected(javax.swing.event.MenuEvent evt) {
+            }
+            public void menuSelected(javax.swing.event.MenuEvent evt) {
+                btnAfegirImatgeAlbumMenuSelected(evt);
+            }
+        });
+        libFileRightClickMenu.add(btnAfegirImatgeAlbum);
 
-        jLabel1.setText("jLabel1");
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new java.awt.GridLayout(1, 0));
-
-        jPanel3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        jButton4.setText("Reproduir Album");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnEliminarImatge.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-basura-16.png"))); // NOI18N
+        btnEliminarImatge.setText("Eliminar arxiu");
+        btnEliminarImatge.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnEliminarImatgeActionPerformed(evt);
+            }
+        });
+        libFileRightClickMenu.add(btnEliminarImatge);
+
+        btnPlayImBiblioteca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-reproducir-16.png"))); // NOI18N
+        btnPlayImBiblioteca.setText("Reproduir arxiu");
+        btnPlayImBiblioteca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPlayImBibliotecaActionPerformed(evt);
+            }
+        });
+        libFileRightClickMenu.add(btnPlayImBiblioteca);
+
+        btnEliminarImatgeAlbum.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-basura-16.png"))); // NOI18N
+        btnEliminarImatgeAlbum.setText("Eliminar arxiu del album");
+        btnEliminarImatgeAlbum.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarImatgeAlbumActionPerformed(evt);
+            }
+        });
+        albumFileRightClickMenu.add(btnEliminarImatgeAlbum);
+
+        btnPlayImAlbum.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-reproducir-16.png"))); // NOI18N
+        btnPlayImAlbum.setText("Reproduir arxiu");
+        btnPlayImAlbum.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPlayImAlbumActionPerformed(evt);
+            }
+        });
+        albumFileRightClickMenu.add(btnPlayImAlbum);
+
+        btnEliminarAlbum.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-basura-16.png"))); // NOI18N
+        btnEliminarAlbum.setText("Eliminar album");
+        btnEliminarAlbum.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarAlbumActionPerformed(evt);
+            }
+        });
+        albumRightClickMenu.add(btnEliminarAlbum);
+
+        btnPlayAlbum.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-reproducir-16.png"))); // NOI18N
+        btnPlayAlbum.setText("Reproduir album");
+        btnPlayAlbum.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPlayAlbumActionPerformed(evt);
+            }
+        });
+        albumRightClickMenu.add(btnPlayAlbum);
+
+        btnPlayBiblioteca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-reproducir-16.png"))); // NOI18N
+        btnPlayBiblioteca.setText("Reproduir biblioteca");
+        btnPlayBiblioteca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPlayBibliotecaActionPerformed(evt);
+            }
+        });
+        libRightClickMenu.add(btnPlayBiblioteca);
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("Vinotero Media Player");
+        setBackground(new java.awt.Color(51, 51, 51));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
             }
         });
 
-        jButton5.setText("Reproduir Biblioteca");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+        leftMenuPanel.setBackground(new java.awt.Color(51, 51, 51));
+
+        leftMenuScroll.setBorder(null);
+        leftMenuScroll.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        leftMenuScroll.setHorizontalScrollBar(null);
+
+        leftMenu.setBackground(new java.awt.Color(51, 51, 51));
+        leftMenu.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        leftMenu.setForeground(new java.awt.Color(159, 159, 159));
+        leftMenu.setModel(dlm);
+        leftMenu.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        leftMenu.setFocusable(false);
+        leftMenu.setRequestFocusEnabled(false);
+        leftMenu.setSelectionBackground(null);
+        leftMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                leftMenuMouseReleased(evt);
             }
         });
-
-        jButton6.setText("<html>Reproduir Selecció<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Album<html/>");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
-
-        jButton7.setText("<html>Reproduir Selecció<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Biblioteca<html/>");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
-            }
-        });
-
-        jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-pause-squared-filled-24.png"))); // NOI18N
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
-            }
-        });
-
-        jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-stop-squared-filled-24.png"))); // NOI18N
-        jButton12.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton12ActionPerformed(evt);
-            }
-        });
-
-        jButton13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-play-24.png"))); // NOI18N
-        jButton13.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton13ActionPerformed(evt);
-            }
-        });
-
-        jButton14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-end-filled-24.png"))); // NOI18N
-        jButton14.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton14ActionPerformed(evt);
-            }
-        });
-
-        jButton15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-repeat-24.png"))); // NOI18N
-        jButton15.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton15ActionPerformed(evt);
-            }
-        });
-
-        jButton16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-shuffle-24.png"))); // NOI18N
-        jButton16.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton16ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton5)
-                .addGap(18, 18, 18)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-
-        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jList1.setModel(bibl);
-        jScrollPane1.setViewportView(jList1);
-
-        jLabel2.setText("Biblioteca:");
-
-        jLabel3.setText("Album Seleccionat:");
-
-        jList2.setModel(albumContent);
-        jScrollPane2.setViewportView(jList2);
-
-        jList3.setModel(albums);
-        jList3.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+        leftMenu.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                jList3ValueChanged(evt);
+                leftMenuValueChanged(evt);
             }
         });
-        jScrollPane3.setViewportView(jList3);
+        leftMenuScroll.setViewportView(leftMenu);
 
-        jLabel4.setText("Albums:");
-
-        jButton1.setText("-->");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jButton2.setText("<--");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton1)
-                                    .addComponent(jButton2)))
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
-                        .addGap(56, 56, 56))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        javax.swing.GroupLayout leftMenuPanelLayout = new javax.swing.GroupLayout(leftMenuPanel);
+        leftMenuPanel.setLayout(leftMenuPanelLayout);
+        leftMenuPanelLayout.setHorizontalGroup(
+            leftMenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, leftMenuPanelLayout.createSequentialGroup()
+                .addContainerGap(20, Short.MAX_VALUE)
+                .addComponent(leftMenuScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton1)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton2)
-                                .addGap(81, 81, 81))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        leftMenuPanelLayout.setVerticalGroup(
+            leftMenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, leftMenuPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(leftMenuScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        getContentPane().add(leftMenuPanel, java.awt.BorderLayout.LINE_START);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5))
-        );
+        bottomBarPanel.setBackground(new java.awt.Color(51, 51, 51));
+        bottomBarPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        getContentPane().add(jPanel2);
-
-        jMenu1.setText("Media");
-
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-new-file.png"))); // NOI18N
-        jMenuItem2.setText("Afegir fitxer");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        btnAleatoryMode.setBackground(new java.awt.Color(51, 51, 51));
+        btnAleatoryMode.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-shuffle-24.png"))); // NOI18N
+        btnAleatoryMode.setBorder(null);
+        btnAleatoryMode.setBorderPainted(false);
+        btnAleatoryMode.setContentAreaFilled(false);
+        btnAleatoryMode.setFocusable(false);
+        btnAleatoryMode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                btnAleatoryModeActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem2);
+        bottomBarPanel.add(btnAleatoryMode);
 
-        jMenuItem1.setText("Afegir album");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        btnStopPlaying.setBackground(new java.awt.Color(51, 51, 51));
+        btnStopPlaying.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-stop-squared-filled-24.png"))); // NOI18N
+        btnStopPlaying.setBorder(null);
+        btnStopPlaying.setBorderPainted(false);
+        btnStopPlaying.setContentAreaFilled(false);
+        btnStopPlaying.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                btnStopPlayingActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        bottomBarPanel.add(btnStopPlaying);
 
-        jMenuBar1.add(jMenu1);
+        btnResumePlaying.setBackground(new java.awt.Color(51, 51, 51));
+        btnResumePlaying.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-play-24.png"))); // NOI18N
+        btnResumePlaying.setBorder(null);
+        btnResumePlaying.setBorderPainted(false);
+        btnResumePlaying.setContentAreaFilled(false);
+        btnResumePlaying.setFocusable(false);
+        btnResumePlaying.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResumePlayingActionPerformed(evt);
+            }
+        });
+        bottomBarPanel.add(btnResumePlaying);
 
-        setJMenuBar(jMenuBar1);
+        btnPausePlaying.setBackground(new java.awt.Color(51, 51, 51));
+        btnPausePlaying.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-pause-squared-filled-24.png"))); // NOI18N
+        btnPausePlaying.setBorder(null);
+        btnPausePlaying.setBorderPainted(false);
+        btnPausePlaying.setContentAreaFilled(false);
+        btnPausePlaying.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPausePlayingActionPerformed(evt);
+            }
+        });
+        bottomBarPanel.add(btnPausePlaying);
+
+        btnJumpPlaying.setBackground(new java.awt.Color(51, 51, 51));
+        btnJumpPlaying.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-end-filled-24.png"))); // NOI18N
+        btnJumpPlaying.setBorder(null);
+        btnJumpPlaying.setBorderPainted(false);
+        btnJumpPlaying.setContentAreaFilled(false);
+        btnJumpPlaying.setFocusable(false);
+        btnJumpPlaying.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnJumpPlayingActionPerformed(evt);
+            }
+        });
+        bottomBarPanel.add(btnJumpPlaying);
+
+        btnCyclicMode.setBackground(new java.awt.Color(51, 51, 51));
+        btnCyclicMode.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-repeat-24.png"))); // NOI18N
+        btnCyclicMode.setBorder(null);
+        btnCyclicMode.setBorderPainted(false);
+        btnCyclicMode.setContentAreaFilled(false);
+        btnCyclicMode.setFocusable(false);
+        btnCyclicMode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCyclicModeActionPerformed(evt);
+            }
+        });
+        bottomBarPanel.add(btnCyclicMode);
+
+        getContentPane().add(bottomBarPanel, java.awt.BorderLayout.PAGE_END);
+
+        fileDisplayTablePanel.setBackground(new java.awt.Color(51, 51, 51));
+        fileDisplayTablePanel.setLayout(new java.awt.GridLayout(1, 0));
+
+        fileDisplayTableScroll.setBackground(new java.awt.Color(51, 51, 51));
+        fileDisplayTableScroll.setBorder(null);
+        fileDisplayTableScroll.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        fileDisplayTableScroll.setHorizontalScrollBar(null);
+        fileDisplayTableScroll.setPreferredSize(getSize());
+
+        fileDisplayTable.setBackground(new java.awt.Color(51, 51, 51));
+        fileDisplayTable.setForeground(new java.awt.Color(255, 255, 255));
+        fileDisplayTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nom", "Path", "Codec", "Duracio", "Afegit"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        fileDisplayTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        fileDisplayTable.setAutoscrolls(false);
+        fileDisplayTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        fileDisplayTable.setFillsViewportHeight(true);
+        fileDisplayTable.setFocusable(false);
+        fileDisplayTable.setGridColor(new java.awt.Color(102, 102, 102));
+        fileDisplayTable.setMinimumSize(new java.awt.Dimension(100, 0));
+        fileDisplayTable.setPreferredSize(new java.awt.Dimension(500, 500));
+        fileDisplayTable.setRowHeight(30);
+        fileDisplayTable.setRowMargin(5);
+        fileDisplayTable.setSelectionBackground(new java.awt.Color(102, 102, 102));
+        fileDisplayTable.setShowVerticalLines(false);
+        fileDisplayTable.setSurrendersFocusOnKeystroke(true);
+        fileDisplayTable.getTableHeader().setReorderingAllowed(false);
+        fileDisplayTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                fileDisplayTableMouseReleased(evt);
+            }
+        });
+        fileDisplayTableScroll.setViewportView(fileDisplayTable);
+        if (fileDisplayTable.getColumnModel().getColumnCount() > 0) {
+            fileDisplayTable.getColumnModel().getColumn(0).setResizable(false);
+            fileDisplayTable.getColumnModel().getColumn(1).setResizable(false);
+            fileDisplayTable.getColumnModel().getColumn(2).setResizable(false);
+            fileDisplayTable.getColumnModel().getColumn(3).setResizable(false);
+            fileDisplayTable.getColumnModel().getColumn(4).setResizable(false);
+        }
+
+        fileDisplayTablePanel.add(fileDisplayTableScroll);
+
+        getContentPane().add(fileDisplayTablePanel, java.awt.BorderLayout.CENTER);
+
+        topBarMenu.setBackground(new java.awt.Color(255, 255, 255));
+        topBarMenu.setBorder(null);
+
+        mediaMenu.setBackground(new java.awt.Color(51, 51, 51));
+        mediaMenu.setText("Media");
+
+        btnAfegirFitxerBiblioteca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-new-file.png"))); // NOI18N
+        btnAfegirFitxerBiblioteca.setText("Afegir fitxer");
+        btnAfegirFitxerBiblioteca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAfegirFitxerBibliotecaActionPerformed(evt);
+            }
+        });
+        mediaMenu.add(btnAfegirFitxerBiblioteca);
+
+        btnCrearAlbum.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/new-folder.png"))); // NOI18N
+        btnCrearAlbum.setText("Crear album");
+        btnCrearAlbum.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearAlbumActionPerformed(evt);
+            }
+        });
+        mediaMenu.add(btnCrearAlbum);
+
+        topBarMenu.add(mediaMenu);
+
+        setJMenuBar(topBarMenu);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        this.setVisible(false);
-        FrmAfegirFitxerMultimedia fafm = new FrmAfegirFitxerMultimedia(this, controlador);
-        fafm.setVisible(true);
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    /**
+     * JMenu (bar menu on top) add media option clicked
+     * @param evt Action event
+     */
+    private void btnAfegirFitxerBibliotecaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAfegirFitxerBibliotecaActionPerformed
+        FrmAfegirFitxerMultimedia afegirFitxerMultimedia = new FrmAfegirFitxerMultimedia(this, controlador);
+        afegirFitxerMultimedia.setVisible(true);
+    }//GEN-LAST:event_btnAfegirFitxerBibliotecaActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if (!selected.equals("") && jList1.getSelectedIndex() > -1) {
-            try {
-                controlador.afegirFitxer(selected, jList1.getSelectedIndex());
-            } catch (AplicacioException ex) {
-                JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Inane error", JOptionPane.ERROR_MESSAGE);
+    /**
+     * Album/Library selected on the JList Menu (Left one)
+     * @param evt ListSelectionEvent
+     */
+    private void leftMenuValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_leftMenuValueChanged
+        if (leftMenu.getSelectedIndex() > -1 && !leftMenu.getSelectedValue().equals(selection)) {
+            selection = leftMenu.getSelectedValue();
+            if (leftMenu.getSelectedIndex() == 0) {
+                this.refreshTableBiblioteca();
+            } else {
+                this.refreshTableAlbum(selection);
             }
         }
-        refreshTree();
-        refreshAlbum();
-    }//GEN-LAST:event_jButton1ActionPerformed
+        
+        if (leftMenu.getSelectedIndex() == -1) leftMenu.setSelectedIndex(0);
+    }//GEN-LAST:event_leftMenuValueChanged
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        if (!selected.equals("") && jList2.getSelectedIndex() > -1) {
-            try {
-                controlador.esborrarFitxer(selected, jList2.getSelectedIndex());
-            } catch (AplicacioException ex) {
-                JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Inane error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-        refreshTree();
-        refreshAlbum();
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jList3ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList3ValueChanged
-        refreshAlbum();
-    }//GEN-LAST:event_jList3ValueChanged
-
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    /**
+     * JMenu (bar menu on top) create album option clicked
+     * @param evt ActionEvent
+     */
+    private void btnCrearAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearAlbumActionPerformed
         // TODO add your handling code here:
         String input = JOptionPane.showInputDialog("Nom del album:");
         try {
             controlador.afegirAlbum(input);
         } catch (AplicacioException ex) {
-            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Inane error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
         }
-        refreshTree();
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+        
+        this.refreshListAlbums();
+    }//GEN-LAST:event_btnCrearAlbumActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-        if (jList3.getSelectedIndex() > -1) {
-            try {
-                controlador.obrirFinestraReproductor();
-                controlador.reproduirCarpeta(jList3.getSelectedValue());
-            } catch (AplicacioException ex) {
-                JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Inane error", JOptionPane.ERROR_MESSAGE);
+    /**
+     * Check right click on the jList1 (Left one)
+     * @param evt  MouseEvent
+     */
+    private void leftMenuMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_leftMenuMouseReleased
+        int i = leftMenu.locationToIndex(evt.getPoint());
+        leftMenu.setSelectedIndex(i);
+        if (leftMenu.getSelectedIndex() != 0) {
+            if (evt.isPopupTrigger() && evt.getComponent() instanceof JList ) {
+                albumRightClickMenu.show(evt.getComponent(), evt.getX(), evt.getY());
             }
         } else {
-            JOptionPane.showMessageDialog(new JFrame(), "Selecciona un album!", "Inane error", JOptionPane.ERROR_MESSAGE);
+            if (evt.isPopupTrigger() && evt.getComponent() instanceof JList ) {
+                libRightClickMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+            }
         }
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_leftMenuMouseReleased
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    /**
+     * Right-Click on main table (The file list one)
+     * @param evt MouseEvent
+     */
+    private void fileDisplayTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fileDisplayTableMouseReleased
+        if (selection.equals("Biblioteca")) {
+            int r = fileDisplayTable.rowAtPoint(evt.getPoint());
+            if (r >= 0 && r < fileDisplayTable.getRowCount()) {
+                fileDisplayTable.setRowSelectionInterval(r, r);
+            } else {
+                fileDisplayTable.clearSelection();
+            }
+
+            int rowindex = fileDisplayTable.getSelectedRow();
+            if (rowindex < 0)
+                return;
+            
+            this.refreshPopupAlbums();
+            
+            if (evt.isPopupTrigger() && evt.getComponent() instanceof JTable ) {
+                libFileRightClickMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+            }
+        } else {
+            int r = fileDisplayTable.rowAtPoint(evt.getPoint());
+            if (r >= 0 && r < fileDisplayTable.getRowCount()) {
+                fileDisplayTable.setRowSelectionInterval(r, r);
+            } else {
+                fileDisplayTable.clearSelection();
+            }
+
+            int rowindex = fileDisplayTable.getSelectedRow();
+            if (rowindex < 0)
+                return;
+            
+            this.refreshPopupAlbums();
+            
+            if (evt.isPopupTrigger() && evt.getComponent() instanceof JTable ) {
+                albumFileRightClickMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+            }
+        }
+    }//GEN-LAST:event_fileDisplayTableMouseReleased
+
+    // unused
+    private void btnAfegirImatgeAlbumMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_btnAfegirImatgeAlbumMenuSelected
+    }//GEN-LAST:event_btnAfegirImatgeAlbumMenuSelected
+
+    /**
+     * Remove file option from JPopupmenu on library
+     * @param evt ActionEvent
+     */
+    private void btnEliminarImatgeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarImatgeActionPerformed
         try {
-            // TODO add your handling code here:
+            controlador.esborrarFitxer(fileDisplayTable.getSelectedRow());
+        } catch (AplicacioException ex) {
+            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
+        }
+        this.refreshTableBiblioteca();
+        
+    }//GEN-LAST:event_btnEliminarImatgeActionPerformed
+
+    /**
+     * Remove file option from JPopupmenu on a selected album
+     * @param evt ActionEvent
+     */
+    private void btnEliminarImatgeAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarImatgeAlbumActionPerformed
+        try {
+            controlador.esborrarFitxer(selection, fileDisplayTable.getSelectedRow());
+        } catch (AplicacioException ex) {
+            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        this.refreshTableAlbum(selection);
+    }//GEN-LAST:event_btnEliminarImatgeAlbumActionPerformed
+
+    /**
+     * Remove album option from JPopupmenu on clicked album
+     * @param evt ActionEvent
+     */
+    private void btnEliminarAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarAlbumActionPerformed
+        try {
+            controlador.esborrarAlbum(selection);
+            leftMenu.setSelectedIndex(0);
+        } catch (AplicacioException ex) {
+            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
+        }
+        this.refreshListAlbums();
+    }//GEN-LAST:event_btnEliminarAlbumActionPerformed
+
+    /**
+     * Play file option from JPopup menu clicked while library is selected on JList
+     * @param evt ActionEvent
+     */
+    private void btnPlayImBibliotecaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayImBibliotecaActionPerformed
+        try {
             controlador.obrirFinestraReproductor();
-            controlador.reproduirCarpeta();
+            controlador.reproduirFitxer(fileDisplayTable.getSelectedRow());
         } catch (AplicacioException ex) {
-            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Inane error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_btnPlayImBibliotecaActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-        if (jList2.getSelectedIndex() > -1) {
-            try {
-                controlador.obrirFinestraReproductor();
-                controlador.reproduirFitxer(jList2.getSelectedIndex());
-            } catch (AplicacioException ex) {
-                JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Inane error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(new JFrame(), "Selecciona un album!", "Inane error", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_jButton6ActionPerformed
-
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
-        if (jList1.getSelectedIndex() > -1) {
-            try {
-                controlador.obrirFinestraReproductor();
-                controlador.reproduirFitxer(jList1.getSelectedIndex());
-            } catch (AplicacioException ex) {
-                JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Inane error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(new JFrame(), "Selecciona un album!", "Inane error", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_jButton7ActionPerformed
-
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        // TODO add your handling code here:
+    /**
+     * Play file option from JPopup menu clicked while album is selected on JList
+     * @param evt ActionEvent
+     */
+    private void btnPlayAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayAlbumActionPerformed
         try {
-            // TODO add your handling code here:
-            controlador.pausaReproduccio();
+            controlador.obrirFinestraReproductor();
+            controlador.reproduirCarpeta(selection);
         } catch (AplicacioException ex) {
-            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Inane error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jButton10ActionPerformed
+    }//GEN-LAST:event_btnPlayAlbumActionPerformed
 
-    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        // TODO add your handling code here:
+    /**
+     * Resmume playing button clicked
+     * @param evt ActionEvent
+     */
+    private void btnResumePlayingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResumePlayingActionPerformed
         try {
-            // TODO add your handling code here:
-            controlador.aturaReproduccio();
-        } catch (AplicacioException ex) {
-            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Inane error", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_jButton12ActionPerformed
-
-    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        try {
-            // TODO add your handling code here:
             controlador.reemprenReproduccio();
         } catch (AplicacioException ex) {
-            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Inane error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jButton13ActionPerformed
+    }//GEN-LAST:event_btnResumePlayingActionPerformed
 
-    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-        // TODO add your handling code here:
+    /**
+     * Pause playing button clicked
+     * @param evt ActionEvent
+     */
+    private void btnPausePlayingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPausePlayingActionPerformed
         try {
-            // TODO add your handling code here:
+            controlador.pausaReproduccio();
+        } catch (AplicacioException ex) {
+            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnPausePlayingActionPerformed
+
+    /**
+     * Stop playing button clicked
+     * @param evt 
+     */
+    private void btnStopPlayingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopPlayingActionPerformed
+        try {
+            controlador.aturaReproduccio();
+        } catch (AplicacioException ex) {
+            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnStopPlayingActionPerformed
+
+    /**
+     * Jump file button clicked
+     * @param evt ActionEvent
+     */
+    private void btnJumpPlayingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJumpPlayingActionPerformed
+        try {
             controlador.saltaReproduccio();
         } catch (AplicacioException ex) {
-            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Inane error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jButton14ActionPerformed
+    }//GEN-LAST:event_btnJumpPlayingActionPerformed
 
-    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
-        // TODO add your handling code here:
+    /**
+     * Cyclic playing button clicked
+     * @param evt ActionEvent
+     */
+    private void btnCyclicModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCyclicModeActionPerformed
         controlador.setReproduccioCiclica();
+        
         if (controlador.isReproduccioCiclica()) {
             JOptionPane.showMessageDialog(new JFrame(), "Reproducció ciclica ACTIVADA", "Informació", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(new JFrame(), "Reproducció ciclica DESACTIVADA", "Informació", JOptionPane.INFORMATION_MESSAGE);
         }
-    }//GEN-LAST:event_jButton15ActionPerformed
+    }//GEN-LAST:event_btnCyclicModeActionPerformed
 
-    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
+    /**
+     * Aleatory playing button clicked
+     * @param evt ActionEvent
+     */
+    private void btnAleatoryModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAleatoryModeActionPerformed
         // TODO add your handling code here:
         controlador.setReproduccioAleatoria();
+        
         if (controlador.isReproduccioAleatoria()) {
             JOptionPane.showMessageDialog(new JFrame(), "Reproducció aleatoria ACTIVADA", "Informació", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(new JFrame(), "Reproducció aleatoria DESACTIVADA", "Informació", JOptionPane.INFORMATION_MESSAGE);
         }
-    }//GEN-LAST:event_jButton16ActionPerformed
-   
+    }//GEN-LAST:event_btnAleatoryModeActionPerformed
+
+    /**
+     * Play file from JPopupmenu on a selected album clicked
+     * @param evt ActionEvent
+     */
+    private void btnPlayImAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayImAlbumActionPerformed
+        String desc = (String) fileDisplayTable.getCellEditor(fileDisplayTable.getSelectedRow(), 0).getCellEditorValue();
+        boolean found = false;
+        Iterator it = controlador.getBibliotecaFiles().iterator();
+        FitxerReproduible fr = (FitxerReproduible) it.next();
+        int i = 0;
+        
+        while (it.hasNext() && !found) {
+            fr = (FitxerReproduible) it.next();
+            if (fr.getDescripcio().equals(desc)) {
+                found = true;
+            } else i++;
+        }
+        
+        try {
+            controlador.obrirFinestraReproductor();
+            controlador.reproduirFitxer(i);
+        } catch (AplicacioException ex) {
+            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnPlayImAlbumActionPerformed
+
+    /**
+     * Checkout before closing the app, handling data save here.
+     * @param evt WindowEvent
+     */
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        if (JOptionPane.showConfirmDialog(this, 
+            "Estas segur de que vols sortir de l'aplicació?", "Tancar aplicació?", 
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
+        {
+            if (JOptionPane.showConfirmDialog(this,
+                    "Vols guardar les dades actuals?",
+                    "Guardar dades?",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+                try {
+                    controlador.guardarDadesDisc("data.dat");
+                } catch (AplicacioException ex) {
+                    JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            System.exit(0);
+        } 
+    }//GEN-LAST:event_formWindowClosing
+
+    /**
+     * Play full library option from JPopupmenu while library is selected
+     * @param evt 
+     */
+    private void btnPlayBibliotecaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayBibliotecaActionPerformed
+        try {
+            controlador.obrirFinestraReproductor();
+            controlador.reproduirCarpeta();
+        } catch (AplicacioException ex) {
+            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnPlayBibliotecaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton14;
-    private javax.swing.JButton jButton15;
-    private javax.swing.JButton jButton16;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JFrame jFrame1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JList<String> jList2;
-    private javax.swing.JList<String> jList3;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JPopupMenu albumFileRightClickMenu;
+    private javax.swing.JPopupMenu albumRightClickMenu;
+    private javax.swing.JPanel bottomBarPanel;
+    private javax.swing.JMenuItem btnAfegirFitxerBiblioteca;
+    private javax.swing.JMenu btnAfegirImatgeAlbum;
+    private javax.swing.JButton btnAleatoryMode;
+    private javax.swing.JMenuItem btnCrearAlbum;
+    private javax.swing.JButton btnCyclicMode;
+    private javax.swing.JMenuItem btnEliminarAlbum;
+    private javax.swing.JMenuItem btnEliminarImatge;
+    private javax.swing.JMenuItem btnEliminarImatgeAlbum;
+    private javax.swing.JButton btnJumpPlaying;
+    private javax.swing.JButton btnPausePlaying;
+    private javax.swing.JMenuItem btnPlayAlbum;
+    private javax.swing.JMenuItem btnPlayBiblioteca;
+    private javax.swing.JMenuItem btnPlayImAlbum;
+    private javax.swing.JMenuItem btnPlayImBiblioteca;
+    private javax.swing.JButton btnResumePlaying;
+    private javax.swing.JButton btnStopPlaying;
+    private javax.swing.JTable fileDisplayTable;
+    private javax.swing.JPanel fileDisplayTablePanel;
+    private javax.swing.JScrollPane fileDisplayTableScroll;
+    private javax.swing.JList<String> leftMenu;
+    private javax.swing.JPanel leftMenuPanel;
+    private javax.swing.JScrollPane leftMenuScroll;
+    private javax.swing.JPopupMenu libFileRightClickMenu;
+    private javax.swing.JPopupMenu libRightClickMenu;
+    private javax.swing.JMenu mediaMenu;
+    private javax.swing.JMenuBar topBarMenu;
     // End of variables declaration//GEN-END:variables
 }
