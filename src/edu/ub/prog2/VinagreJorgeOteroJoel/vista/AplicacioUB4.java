@@ -86,9 +86,9 @@ public class AplicacioUB4 extends javax.swing.JFrame {
         // Load new rows
         for (FitxerReproduible fr : controlador.getBibliotecaFiles()) {
             if (fr instanceof Video) { 
-                model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Video", fr.getUltimaModificacio()});
+                model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Video ( " + fr.getExtensio() + " )" , fr.getUltimaModificacio()});
             } else {
-                model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Audio", fr.getUltimaModificacio()});
+                model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Audio ( " + fr.getExtensio() + " )", fr.getUltimaModificacio()});
             }
         }
     }
@@ -109,9 +109,9 @@ public class AplicacioUB4 extends javax.swing.JFrame {
         try {
             for (FitxerReproduible fr : controlador.mostrarAlbumFitxers(selection)) {
                 if (fr instanceof Video) { 
-                    model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Video", fr.getUltimaModificacio()});
+                    model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Video ( " + fr.getExtensio() + " )", fr.getUltimaModificacio()});
                 } else {
-                    model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Audio", fr.getUltimaModificacio()});
+                    model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Audio ( " + fr.getExtensio() + " )", fr.getUltimaModificacio()});
                 }
             }  
         } catch (AplicacioException ex) {
