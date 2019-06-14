@@ -23,10 +23,12 @@ public class IniciadorAplicacioUB {
     public static void main(String [] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            AplicacioUB4 aplicacio = new AplicacioUB4();
-            aplicacio.setVisible(true);
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            // if there's an error setting the gui look and feel we will show this exception trought the console logger
             Logger.getLogger(IniciadorAplicacioUB.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        AplicacioUB4 aplicacio = new AplicacioUB4();
+        aplicacio.setVisible(true);
     }
 }

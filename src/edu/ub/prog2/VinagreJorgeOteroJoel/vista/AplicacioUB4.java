@@ -86,9 +86,9 @@ public class AplicacioUB4 extends javax.swing.JFrame {
         // Load new rows
         for (FitxerReproduible fr : controlador.getBibliotecaFiles()) {
             if (fr instanceof Video) { 
-                model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Video", fr.getDurada(), fr.getUltimaModificacio()});
+                model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Video ( " + fr.getExtensio() + " )" , fr.getUltimaModificacio()});
             } else {
-                model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Audio", fr.getDurada(), fr.getUltimaModificacio()});
+                model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Audio ( " + fr.getExtensio() + " )", fr.getUltimaModificacio()});
             }
         }
     }
@@ -109,9 +109,9 @@ public class AplicacioUB4 extends javax.swing.JFrame {
         try {
             for (FitxerReproduible fr : controlador.mostrarAlbumFitxers(selection)) {
                 if (fr instanceof Video) { 
-                    model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Video", fr.getDurada(), fr.getUltimaModificacio()});
+                    model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Video ( " + fr.getExtensio() + " )", fr.getUltimaModificacio()});
                 } else {
-                    model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Audio", fr.getDurada(), fr.getUltimaModificacio()});
+                    model.addRow(new Object[]{fr.getDescripcio(), fr.getCamiAbsolut(), "Audio ( " + fr.getExtensio() + " )", fr.getUltimaModificacio()});
                 }
             }  
         } catch (AplicacioException ex) {
@@ -422,14 +422,14 @@ public class AplicacioUB4 extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nom", "Path", "Codec", "Duracio", "Afegit"
+                "Nom", "Path", "Codec", "Afegit"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -465,7 +465,6 @@ public class AplicacioUB4 extends javax.swing.JFrame {
             fileDisplayTable.getColumnModel().getColumn(1).setResizable(false);
             fileDisplayTable.getColumnModel().getColumn(2).setResizable(false);
             fileDisplayTable.getColumnModel().getColumn(3).setResizable(false);
-            fileDisplayTable.getColumnModel().getColumn(4).setResizable(false);
         }
 
         fileDisplayTablePanel.add(fileDisplayTableScroll);
@@ -534,7 +533,6 @@ public class AplicacioUB4 extends javax.swing.JFrame {
      * @param evt ActionEvent
      */
     private void btnCrearAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearAlbumActionPerformed
-        // TODO add your handling code here:
         String input = JOptionPane.showInputDialog("Nom del album:");
         try {
             controlador.afegirAlbum(input);

@@ -174,6 +174,8 @@ public class Dades implements Serializable {
      * @throws AplicacioException Internal app exception
      */
     public void afegirAlbum(String titol) throws AplicacioException {
+        if (titol.equals("")) throw new AplicacioException("Album's name can't be null");
+        
         AlbumFitxersMultimedia afm = new AlbumFitxersMultimedia(titol);
         AlbumFitxersMultimedia next_afm;
         boolean same_titol_existing = false;
