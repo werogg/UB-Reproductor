@@ -1,4 +1,5 @@
 # UB-Reproductor
 P2 masca2
 
-image:https://gitlab.com/werogg/BetterCasino/badges/master/pipeline.svg[link="https://gitlab.com/werogg/BetterCasino/commits/master",title="pipeline status"]
+
+<a href="https://gitlab.com/werogg/BetterCasino/commits/master"><img alt="pipeline status" src="https://gitlab.com/werogg/BetterCasino/badges/master/pipeline.svg" /></a>
